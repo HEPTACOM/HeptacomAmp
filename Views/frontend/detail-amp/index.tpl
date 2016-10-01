@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-{* TODO: get lang from shopware *}
+{*
+    TODO: get lang from shopware
+    {s name='IndexXmlLang'}{/s} is the way it is done in the index/index.tpl but we have no XmlLang.
+*}
 <html ⚡ lang="de">
 
     {include file="frontend/detail-amp/header.tpl"}
