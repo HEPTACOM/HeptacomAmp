@@ -10,16 +10,16 @@
     <body>
 
         <header class="header-main">
-            {block name='frontend_index_header_navigation'}
+            {block name='frontend_detail-amp_header_navigation'}
                 <div class="container header--navigation">
                     {* Logo container *}
-                    {block name='frontend_index_logo_container'}
-                        {include file="frontend/index/logo-container.tpl"}
+                    {block name='frontend_detail-amp_logo_container'}
+                        {include file="frontend/detail-amp/logo-container.tpl"}
                     {/block}
 
                     {* Shop navigation *}
-                    {block name='frontend_index_shop_navigation'}
-                        {include file="frontend/index/shop-navigation.tpl"}
+                    {block name='frontend_detail-amp_shop_navigation'}
+                        {include file="frontend/detail-amp/shop-navigation.tpl"}
                     {/block}
                 </div>
             {/block}
