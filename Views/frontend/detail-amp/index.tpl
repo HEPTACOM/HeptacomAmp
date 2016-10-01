@@ -15,6 +15,9 @@
             {/block}
         </header>
         {include file="frontend/detail-amp/offcanvas-navigation.tpl"}
+        <h1>
+            {$sArticle.articleName}
+        </h1>
         {include file="frontend/detail-amp/article-image.tpl"}
         {include file="frontend/detail-amp/description.tpl"}
         {include file="frontend/detail-amp/cross-selling.tpl"}
