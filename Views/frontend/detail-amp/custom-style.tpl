@@ -407,12 +407,25 @@
 
 		.sw-product--price
 		{
-			
+			float: left;
+			margin: 0;			
+			max-width: 50%;
+			padding: 0;
+			width: 50%;
 		}
 
 		.sw-product--supplier
 		{
-			
+			float: right;
+			margin: 0;			
+			max-width: 50%;
+			padding: 0;
+			width: 50%;
+		}
+
+		.sw-product--supplier:after
+		{
+			clear: both;
 		}
 
 		.sw-product--supplier-link
