@@ -422,7 +422,9 @@
 
 		.sw-product--tax
 		{
-			
+			font-size: 12px;
+			font-size: .75rem;
+			margin: 0;
 		}
 
 		.sw-sidebar--navigation
