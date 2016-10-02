@@ -19,6 +19,7 @@
 			{$sArticle.articleName}
 		</h1>
 		{include file="frontend/detail-amp/article-image.tpl"}
+		{include file="frontend/detail-amp/data.tpl"}
 		{include file="frontend/detail-amp/buybox.tpl"}
 		{include file="frontend/detail-amp/description.tpl"}
 		{include file="frontend/detail-amp/cross-selling.tpl"}
