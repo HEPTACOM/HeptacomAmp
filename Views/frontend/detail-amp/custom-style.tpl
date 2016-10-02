@@ -71,6 +71,17 @@
 			width: 16px;
 		}
 
+		.icon--shopware
+		{
+			background: #f0f;
+			color: #009fe3;
+			display: inline-block;
+			font-size: 28px;
+			font-size: 1.75rem;
+			height: 16px;
+			width: 16px;
+		}
+
 		.sw-quantity--select
 		{
 			
