@@ -39,6 +39,12 @@
 			padding: 0;
 		}
 
+		ul
+		{
+			margin: 0;
+			padding: 0;
+		}
+
 		.icon--arrow-right
 		{
 			background: #f0f;
