@@ -19,6 +19,24 @@
 				<input type="hidden" name="sActionIdentifier" value="{$sUniqueRand}"/>
 				<input type="hidden" name="sAddAccessories" id="sAddAccessories" value=""/>
 				<input type="hidden" name="sAdd" value="{$sArticle.ordernumber}"/>
+
+				{block name="frontend_detail-amp_index_buybox"}
+					{if (!isset($sArticle.active) || $sArticle.active)}
+						{if $sArticle.isAvailable}
+							{block name="frontend_detail-amp_buy_button_container"}
+								<div class="sw-buybox--button-container sw-block-group{if $NotifyHideBasket && $sArticle.notification && $sArticle.instock <= 0} sw-is--hidden{/if}">
+									{* "Buy now" button *}
+									{block name="frontend_detail-amp_buy_button"}
+										<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center is--large" name="{s name="DetailBuyActionAdd"}{/s}">
+											{* TODO fix output of the following to echo "In den Warenkorb" *}
+											{* s name="DetailBuyActionAdd"}{/s *} <i class="icon--arrow-right"></i>
+										</button>
+									{/block}
+								</div>
+							{/block}
+						{/if}
+					{/if}
+				{/block}
 			</form>
 		{/block}
 	</div>
