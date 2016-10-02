@@ -100,6 +100,13 @@
 			</div>
 		{/block}
 
+		{* Tax information *}
+		{block name="frontend_detail-amp_data_tax"}
+			<p class="sw-product--tax">
+				{s name="DetailDataPriceInfo"}{/s}
+			</p>
+		{/block}
+
 		{block name="frontend_detail-amp_buy_laststock"}
 			{if !$sArticle.isAvailable && ($sArticle.isSelectionSpecified || !$sArticle.sConfigurator)}
 				{include file="frontend/_includes/messages.tpl" type="error" content="{s name='DetailBuyInfoNotAvailable' namespace='frontend/detail/buy'}{/s}"}
