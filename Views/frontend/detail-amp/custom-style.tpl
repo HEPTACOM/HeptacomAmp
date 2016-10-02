@@ -2,17 +2,34 @@
 	{literal}
 		.icon--arrow-right
 		{
+			background: #f0f;
+			display: inline-block;
+			height: 16px;
+			width: 16px;
+		}
 
+		.icon--menu
+		{
+			background: #f0f;
+			display: inline-block;
+			height: 16px;
+			width: 16px;
 		}
 
 		.icon--percent2
 		{
-			
+			background: #f0f;
+			display: inline-block;
+			height: 16px;
+			width: 16px;
 		}
 
 		.icon--search
 		{
-			
+			background: #f0f;
+			display: inline-block;
+			height: 16px;
+			width: 16px;
 		}
 
 		.sw-quantity--select

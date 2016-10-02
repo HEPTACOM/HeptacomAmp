@@ -2,10 +2,12 @@
 	<div class="sw-header--navigation">
 		{block name="frontend_detail-amp_shop_navigation_menu_button"}
 			<button on="tap:offcanvas-menu.open">
+				{block name="frontend_detail-amp_shop_navigation_menu_button_icon"}
+					<i class="icon--menu"></i>
+				{/block}
 				{block name="frontend_detail-amp_shop_navigation_menu_button_text"}
 					<span>Menü</span>
 				{/block}
-				{* TODO Add icon--menu *}
 			</button>
 		{/block}
 		{block name='frontend_detail-amp_shop_navigation_search_form'}
@@ -17,10 +19,9 @@
 				{block name='frontend_detail-amp_shop_navigation_search_form_submit'}
 					<button type="submit">
 						Suche
-						{* TODO implement icons }
-						{block name='frontend_detail-amp_shop_navigation_search_form_submit_icon'}
+						{block name="frontend_detail-amp_shop_navigation_search_form_submit_icon"}
 							<i class="icon--search"></i>
-						{/block*}
+						{/block}
 					</button>
 				{/block}
 			</form>
