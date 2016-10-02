@@ -7,13 +7,33 @@
 					<div class="sw-product--price">
 						{* Default price *}
 						{block name="frontend_detail-amp_box_article_price_default"}
-							<span class="sw-price--default sw-is--nowrap">
+							<span class="sw-price--default sw-is--nowrap{if $sArticle.has_pseudoprice} sw-is--discount{/if}">
 								{if $sArticle.priceStartingFrom && !$sArticle.liveshoppingData}
 									{s name='ListingBoxArticleStartsAt'}{/s}
 								{/if}
 								{$sArticle.price|currency}
 								{s name="Star"}{/s}
 							</span>
+						{/block}
+
+						{* Discount price *}
+						{block name="frontend_detail-amp_box_article_price_discount"}
+							{if $sArticle.has_pseudoprice}
+								<span class="price--pseudo">
+									{block name="frontend_detail-amp_box_article_price_discount_before"}
+										{s name="priceDiscountLabel" namespace="frontend/detail/data"}{/s}
+									{/block}
+
+									<span class="sw-price--discount sw-is--nowrap">
+										{$sArticle.pseudoprice|currency}
+										{s name="Star"}{/s}
+									</span>	
+
+									{block name="frontend_detail-amp_box_article_price_discount_after"}
+										{s name="priceDiscountInfo" namespace="frontend/detail/data"}{/s}
+									{/block}
+								</span>
+							{/if}
 						{/block}
 					</div>
 				{/block}
