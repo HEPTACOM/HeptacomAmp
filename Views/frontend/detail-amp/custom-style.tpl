@@ -39,6 +39,17 @@
 			padding: 0;
 		}
 
+		/* TODO The paragraph style seems to override the footer style */
+		p
+		{
+			font-size: 14px;
+			font-size: .875rem;
+			line-height: 24px;
+			line-height: 1.5rem;
+			margin: 0px 0px 20px 0px;
+			margin: 0rem 0rem 1.25rem 0rem;
+		}
+
 		ul
 		{
 			margin: 0;
