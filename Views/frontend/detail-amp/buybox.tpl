@@ -1,5 +1,32 @@
 {block name="frontend_detail-amp_buybox"}
 	<div class="sw-product--buybox">
+		{* Small product badges on the left *}
+		{block name="frontend_detail-amp_box_article_badges"}
+			<div class="sw-product--badges">
+
+				{* Discount badge *}
+				{if $sArticle.has_pseudoprice}
+					<i class="icon--percent2"></i>
+				{/if}
+
+				{* Highlight badge *}
+				{if $sArticle.highlight}
+					{s name="ListingBoxTip"}{/s}
+				{/if}
+
+				{* Newcomer badge *}
+				{if $sArticle.newArticle}
+					{s name="ListingBoxNew"}{/s}
+				{/if}
+
+				{* ESD product badge *}
+				{if $sArticle.esd}
+					<i class="icon--download"></i>
+				{/if}
+			</div>
+		{/block}
+
+		{* Pricing information *}
 		{block name="frontend_detail-amp_box_article_price_info"}
 			<div class="sw-product--price-info">
 				{* Product price - Unit price *}
