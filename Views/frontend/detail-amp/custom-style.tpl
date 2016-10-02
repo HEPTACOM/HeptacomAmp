@@ -351,7 +351,13 @@
 
 		.sw-price--content
 		{
-			
+			color: #3f4c58;
+			display: inline-block;
+			font-size: 28px;
+			font-size: 1.75rem;
+			font-weight: bold;
+			line-height: 1;
+			white-space: nowrap;
 		}
 
 		.sw-price--default
