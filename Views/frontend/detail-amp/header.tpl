@@ -19,6 +19,7 @@
     <meta name="description" content="{block name='frontend_index_header_meta_description'}{if $sArticle.description}{$sArticle.description|escapeHtml}{else}{$sArticle.description_long|strip_tags|escapeHtml}{/if}{/block}" />
 
     {* Meta opengraph tags *}
+    {* TODO Add schema.org meta tags *}
     {block name='frontend_detail-amp_header_meta_tags_opengraph'}
         <meta property="og:type" content="product" />
         <meta property="og:site_name" content="{{config name=sShopname}|escapeHtml}" />
