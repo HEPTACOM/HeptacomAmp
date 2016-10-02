@@ -1,7 +1,5 @@
 {block name="frontend_detail-amp_minimal_footer"}
 	<div class="sw-footer">
-		{include file="frontend/detail-amp/footer-navigation.tpl"}
-
 		{if !$hideCopyrightNotice}
 			{block name='frontend_detail-amp_footer_vat_info'}
 				<div class="sw-footer--vat-info">
@@ -14,6 +12,8 @@
 					</p>
 				</div>
 			{/block}
+
+			{include file="frontend/detail-amp/footer-navigation.tpl"}
 
 			{block name="frontend_detail-amp_footer_copyright"}
 				<div class="sw-footer--copyright">
