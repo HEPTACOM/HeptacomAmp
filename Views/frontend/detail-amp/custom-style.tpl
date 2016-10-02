@@ -422,6 +422,11 @@
 			padding: 0;
 			width: 50%;
 		}
+		
+		.sw-product--supplier img
+		{
+			object-fit: contain;
+		}
 
 		.sw-product--supplier:after
 		{
