@@ -20,6 +20,8 @@
 				<input type="hidden" name="sAddAccessories" id="sAddAccessories" value=""/>
 				<input type="hidden" name="sAdd" value="{$sArticle.ordernumber}"/>
 
+				{* TODO is frontend_detail_buy_accessories needed for this? *}
+
 				{block name="frontend_detail-amp_index_buybox"}
 					{if (!isset($sArticle.active) || $sArticle.active)}
 						{if $sArticle.isAvailable}
