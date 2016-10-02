@@ -13,6 +13,18 @@
 			-webkit-font-smoothing: antialised;
 		}
 
+		h1
+		{
+			color: #3f4c58;
+			font-size: 21px;
+			font-size: 1.3125rem;
+			font-weight: bold;
+			line-height: 28px;
+			line-height: 1.75rem;
+			margin: 0;
+			padding: 0;
+		}
+
 		.icon--arrow-right
 		{
 			background: #f0f;
