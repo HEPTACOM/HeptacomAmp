@@ -1,5 +1,25 @@
 {block name="frontend_detail-amp_buybox"}
 	<div class="sw-product--buybox">
+		{block name="frontend_detail-amp_box_article_price_info"}
+			<div class="sw-product--price-info">
+				{* Product price - Default and discount price *}
+				{block name="frontend_detail-amp_box_article_price"}
+					<div class="sw-product--price">
+						{* Default price *}
+						{block name="frontend_detail-amp_box_article_price_default"}
+							<span class="sw-price--default sw-is--nowrap">
+								{if $sArticle.priceStartingFrom && !$sArticle.liveshoppingData}
+									{s name='ListingBoxArticleStartsAt'}{/s}
+								{/if}
+								{$sArticle.price|currency}
+								{s name="Star"}{/s}
+							</span>
+						{/block}
+					</div>
+				{/block}
+			</div>
+		{/block}
+
 		{block name="frontend_detail-amp_buy_laststock"}
 			{if !$sArticle.isAvailable && ($sArticle.isSelectionSpecified || !$sArticle.sConfigurator)}
 				{include file="frontend/_includes/messages.tpl" type="error" content="{s name='DetailBuyInfoNotAvailable' namespace='frontend/detail/buy'}{/s}"}
