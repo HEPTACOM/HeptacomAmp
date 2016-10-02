@@ -197,7 +197,14 @@
 
 		.sw-cross-selling-header
 		{
-			
+			border-bottom: 1px solid #dadae5;
+			color: #3f4c58;
+			display: block;
+			font-size: 16px;
+			font-size: 1rem;
+			font-weight: bold;
+			padding: 10px 0px;
+			padding: .625rem 0rem;
 		}
 
 		.sw-discount
