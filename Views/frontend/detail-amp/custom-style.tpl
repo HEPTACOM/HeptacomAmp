@@ -1,5 +1,18 @@
 <style amp-custom>
 	{literal}
+		body
+		{
+			background: #e9e9f0;
+			color: #5f7285;
+			font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			font-size: 14px;
+			font-size: 0.875rem;
+			font-weight: 500;
+			padding: 0px 10px;
+			text-rendering: optimizeLegibility;
+			-webkit-font-smoothing: antialised;
+		}
+
 		.icon--arrow-right
 		{
 			background: #f0f;
