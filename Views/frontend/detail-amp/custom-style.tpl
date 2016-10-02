@@ -1,5 +1,19 @@
 <style amp-custom>
 	{literal}
+		a
+		{
+			background-color: transparent;
+			color: #d9400b;
+			text-decoration: none;
+		}
+
+		a:hover,
+		a:focus,
+		a:active
+		{
+			outline: 0;
+		}
+
 		body
 		{
 			background: #fff;
