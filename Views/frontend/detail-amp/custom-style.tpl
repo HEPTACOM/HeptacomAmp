@@ -8,7 +8,7 @@
 			font-size: 14px;
 			font-size: 0.875rem;
 			font-weight: 500;
-			padding: 0px 10px;
+			padding: 0px 10px 10px 10px;
 			text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: antialised;
 		}
