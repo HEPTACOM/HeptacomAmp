@@ -112,6 +112,19 @@
 		{/foreach}
 	{/if}
 
+	{* Product - Supplier information *}
+	{block name="frontend_detail-amp_supplier_info"}
+		{if $sArticle.supplierImg}
+			<div class="sw-product--supplier">
+				<a href="{url controller='listing' action='manufacturer' sSupplier=$sArticle.supplierID}"
+				   title="{"{s name="DetailDescriptionLinkInformation" namespace="frontend/detail/description"}{/s}"|escape}"
+				   class="sw-product--supplier-link">
+					<img src="{$sArticle.supplierImg}" alt="{$sArticle.supplierName|escape}">
+				</a>
+			</div>
+		{/if}
+	{/block}
+
 	{block name="frontend_detail-amp_data_delivery"}
 		{* Delivery informations *}
 		{if ($sArticle.sConfiguratorSettings.type != 1 && $sArticle.sConfiguratorSettings.type != 2) || $activeConfiguratorSelection == true}
