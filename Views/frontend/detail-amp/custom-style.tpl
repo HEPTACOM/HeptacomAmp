@@ -152,7 +152,10 @@
 
 		.sw-header-main
 		{
-			
+			border-bottom: 1px solid #d9400b;
+			margin: 0px -10px;
+			padding: 10px;
+			padding: .625rem;
 		}
 
 		.sw-header--navigation
