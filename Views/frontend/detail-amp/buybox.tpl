@@ -36,7 +36,7 @@
 											{/if}
 
 											{block name="frontend_detail-amp_buy_quantity_select"}
-												<select id="sQuantity" name="sQuantity" class="quantity--select">
+												<select id="sQuantity" name="sQuantity" class="sw-quantity--select">
 													{section name="i" start=$sArticle.minpurchase loop=$maxQuantity step=$sArticle.purchasesteps}
 														<option value="{$smarty.section.i.index}">{$smarty.section.i.index}{if $sArticle.packunit} {$sArticle.packunit}{/if}</option>
 													{/section}
@@ -53,7 +53,7 @@
 												{* s name="DetailBuyActionAdd"}{/s *} <i class="icon--arrow-right"></i>
 											</button>
 										{else}
-											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center is--large" name="{s name="DetailBuyActionAdd"}{/s}">
+											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large" name="{s name="DetailBuyActionAdd"}{/s}">
 												{* TODO fix output of the following to echo "In den Warenkorb" *}
 												{* s name="DetailBuyActionAdd"}{/s *} <i class="icon--arrow-right"></i>
 											</button>

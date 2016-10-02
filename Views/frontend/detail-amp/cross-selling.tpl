@@ -1,6 +1,6 @@
 {if !$sArticle.crossbundlelook}{strip}
 	{if $sArticle.sSimilarArticles}
-		<span class="cross-selling-header">
+		<span class="sw-cross-selling-header">
 			{block name="frontend_detail-amp_cross-selling_title"}
 				Ähnliche Artikel
 			{/block}
@@ -8,7 +8,7 @@
         {include file="frontend/detail-amp/article-carousel.tpl" articles=$sArticle.sSimilarArticles}
 	{/if}
 	{if $sArticle.sRelatedArticles}
-		<span class="cross-selling-header">
+		<span class="sw-cross-selling-header">
 			{block name="frontend_detail-amp_cross-selling_title"}
 				Zubehör
 			{/block}
