@@ -119,9 +119,35 @@
 			
 		}
 
+		button,
+		input[type=submit],
+		input[type=button],
+		select,
 		.sw-btn
 		{
-			
+			appearance: none;
+			background-clip: padding-box;
+			background-color: #fff;
+			background-image: -ms-linear-gradient(top, #fff, #f8f8fa);
+			background-image: linear-gradient(to bottom, #fff 0%, #f8f8fa 100%);
+			border: 1px solid #dadae5;
+			border-radius: 3px;
+			color: #5f7285;
+			cursor: pointer;
+			display: inline-block;
+			font-size: 14px;
+			font-size: .875rem;
+			font-weight: bold;
+			line-height: 32px;
+			line-height: 2rem;
+			padding: 2px 10px;
+			padding: .125rem .625rem;
+			position: relative;
+			text-decoration: none;
+			text-align: left;
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			-webkit-font-smoothing: inherit;
 		}
 
 		.sw-buybox--button
