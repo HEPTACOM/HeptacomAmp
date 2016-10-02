@@ -144,7 +144,9 @@
 
 		.sw-footer--copyright
 		{
-			
+			font-size: 13px;
+			font-size: .8125rem;
+			text-align: center;
 		}
 
 		.sw-footer--service-menu
@@ -154,7 +156,11 @@
 
 		.sw-footer--vat-info
 		{
-			
+			font-size: 12px;
+			font-size: .75rem;
+			margin-bottom: 10px;
+			margin-bottom: .625rem;
+			text-align: center;
 		}
 
 		.sw-has--sub-categories
