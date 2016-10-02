@@ -176,7 +176,35 @@
 
 		.sw-footer--service-menu
 		{
-			
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+
+		.sw-footer--service-menu li.service--entry
+		{
+			display: inline-block;
+			padding: 0px 2px;
+			padding: .5rem .125rem;
+		}
+
+		.sw-footer--service-menu li.service--entry:after
+		{
+			border-left: 1px solid #bcbcd0;
+			content: '';
+			display: inline-block;
+			height: 10px;
+			height: .625rem;
+			margin: 0px 5px;
+			margin: 0rem .3125rem;
+			width: 1px;
+			width: .0625rem;
+		}
+
+		.sw-footer--service-menu li.service--entry:last-child:after
+		{
+			display: none;
 		}
 
 		.sw-footer--vat-info
