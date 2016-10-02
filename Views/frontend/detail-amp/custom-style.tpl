@@ -2,7 +2,7 @@
 	{literal}
 		body
 		{
-			background: #e9e9f0;
+			background: #fff;
 			color: #5f7285;
 			font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 			font-size: 14px;
