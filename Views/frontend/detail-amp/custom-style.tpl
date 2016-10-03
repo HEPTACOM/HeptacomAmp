@@ -1,4 +1,5 @@
 <style amp-custom>
+	{include file="frontend/detail-amp/custom-style-icons.tpl"}
 	{literal}
 		@font-face
 		{
@@ -105,47 +106,12 @@
 			padding: 0;
 		}
 
-		.icon--arrow-right
-		{
-			background: #f0f;
-			display: inline-block;
-			height: 16px;
-			width: 16px;
-		}
-
-		.icon--menu
-		{
-			background: #f0f;
-			display: inline-block;
-			height: 16px;
-			width: 16px;
-		}
-
-		.icon--percent2
-		{
-			background: #f0f;
-			display: inline-block;
-			height: 16px;
-			width: 16px;
-		}
-
-		.icon--search
-		{
-			background: #f0f;
-			display: inline-block;
-			height: 16px;
-			width: 16px;
-		}
-
 		.icon--shopware
 		{
 			background: #f0f;
 			color: #009fe3;
-			display: inline-block;
 			font-size: 28px;
 			font-size: 1.75rem;
-			height: 16px;
-			width: 16px;
 		}
 
 		.sw-quantity--select
