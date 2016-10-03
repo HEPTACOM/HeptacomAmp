@@ -744,6 +744,21 @@
 			width: 1.875rem;
 		}
 
+		.amp-carousel-button.amp-carousel-button-next,
+		.amp-carousel-button.amp-carousel-button-prev
+		{
+			-ms-animation: none;
+			-moz-animation: none;
+			-webkit-animation: none;
+			-o-animation: none;
+			animation: none;
+			-ms-transition: none;
+			-moz-transition: none;
+			-webkit-transition: none;
+			-o-transition: none;
+			transition: none;
+		}
+
 		.amp-carousel-button:active,
 		.amp-carousel-button:focus,
 		.amp-carousel-button:hover
