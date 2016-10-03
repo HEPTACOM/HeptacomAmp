@@ -44,7 +44,7 @@
 							{block name="frontend_detail-amp_data_pseudo_price_discount_content"}
 								<span class="sw-content--discount">
 									{block name="frontend_detail-amp_data_pseudo_price_discount_before"}
-										{s name="priceDiscountLabel"}{/s}
+										{s name="priceDiscountLabel" namespace="frontend/detail/data"}{/s}
 									{/block}
 
 									<span class="sw-price--line-through">
@@ -52,13 +52,13 @@
 									</span>
 
 									{block name="frontend_detail-amp_data_pseudo_price_discount_after"}
-										{s name="priceDiscountInfo"}{/s}
+										{s name="priceDiscountInfo" namespace="frontend/detail/data"}{/s}
 									{/block}
 
 									{* Percentage discount *}
 									{block name="frontend_detail-amp_data_pseudo_price_discount_content_percentage"}
 										{if $sArticle.pseudopricePercent.float}
-											<span class="sw-price--discount-percentage">({$sArticle.pseudopricePercent.float|number}% {s name="DetailDataInfoSavePercent"}{/s})</span>
+											<span class="sw-price--discount-percentage">({$sArticle.pseudopricePercent.float|number}% {s name="DetailDataInfoSavePercent" namespace="frontend/detail/data"}{/s})</span>
 										{/if}
 									{/block}
 								</span>
@@ -76,7 +76,7 @@
 						{* Unit price label *}
 						{block name="frontend_detail-amp_data_price_unit_label"}
 							<span class="sw-price--label sw-label--purchase-unit">
-								{s name="DetailDataInfoContent"}{/s}
+								{s name="DetailDataInfoContent" namespace="frontend/detail/data"}{/s}
 							</span>
 						{/block}
 
@@ -100,7 +100,7 @@
 			{* Tax information *}
 			{block name="frontend_detail-amp_data_tax"}
 				<p class="sw-product--tax">
-					{s name="DetailDataPriceInfo"}{/s}
+					{s name="DetailDataPriceInfo" namespace="frontend/detail/data"}{/s}
 				</p>
 			{/block}
 		{/if}

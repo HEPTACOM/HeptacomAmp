@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-{*
-	TODO: get lang from shopware
-	{s name='IndexXmlLang'}{/s} is the way it is done in the index/index.tpl but we have no XmlLang.
-*}
-<html ⚡ lang="de">
+<html ⚡ lang="{s name='IndexXmlLang' namespace='frontend/index/index'}de{/s}">
 	{include file="frontend/detail-amp/header.tpl"}
 	<body>
 		<header class="sw-header-main">
