@@ -481,5 +481,58 @@
 		{
 			
 		}
+
+		.amp-carousel-button
+		{
+			color: #5f7285;
+			background: rgba(255,255,255,0.8);
+			border: 1px solid #dadae5;
+			font-family: 'shopware';
+			font-size: 12px;
+			font-size: .75rem;
+			height: 60px;
+			height: 3.75rem;
+			line-height: 60px;
+			line-height: 3.75rem;
+			opacity: 1;
+			text-align: center;
+			visibility: visible;
+			width: 30px;
+			width: 1.875rem;
+		}
+
+		.amp-carousel-button:active,
+		.amp-carousel-button:focus,
+		.amp-carousel-button:hover
+		{
+			border: 1px solid #d9400b;
+			color: #d9400b;
+		}
+
+		.amp-carousel-button-prev
+		{
+			border-radius: 0px;
+			border-bottom-right-radius: 3px;
+			border-top-right-radius: 3px;
+			left: 0px;
+		}
+
+		.amp-carousel-button-prev:before
+		{
+			content: "\e611";
+		}
+
+		.amp-carousel-button-next
+		{
+			border-radius: 0px;
+			border-bottom-left-radius: 3px;
+			border-top-left-radius: 3px;
+			right: 0px;
+		}
+
+		.amp-carousel-button-next:before
+		{
+			content: "\e60f";
+		}
 	{/literal}
 </style>
