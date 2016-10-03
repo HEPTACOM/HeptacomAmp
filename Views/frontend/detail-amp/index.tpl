@@ -9,7 +9,7 @@
 			{/block}
 		</header>
 		{include file="frontend/detail-amp/offcanvas-navigation.tpl"}
-		<h1>
+		<h1 class="sw-product--title">
 			{$sArticle.articleName}
 		</h1>
 		{include file="frontend/detail-amp/article-image.tpl"}
