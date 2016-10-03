@@ -19,13 +19,6 @@
 				{block name='frontend_detail-amp_shop_navigation_search_form_search-field'}
 					<input type="search" placeholder="Suchbegriff..." maxlength="30" />
 				{/block}
-				{block name='frontend_detail-amp_shop_navigation_search_form_submit'}
-					<button class="sw-btn" type="submit">
-						{block name="frontend_detail-amp_shop_navigation_search_form_submit_icon"}
-							<i class="icon--search"></i>
-						{/block}
-					</button>
-				{/block}
 			</form>
 		{/block}
 	</div>
