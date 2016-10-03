@@ -4,9 +4,10 @@
 		@font-face
 		{
 			font-family: 'Open Sans';
-			/* TODO determine right base URL */
-			src: url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Light/OpenSans-Light.woff?___REVISION___') format('woff'),
-			     url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Light/OpenSans-Light.ttf?___REVISION___') format('truetype');
+			{/literal}
+			src: url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Light/OpenSans-Light.woff"}) format('woff'),
+			     url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Light/OpenSans-Light.ttf"}) format('truetype');
+			{literal}
 			font-weight: 300;
 			font-style: normal
 		}
@@ -14,9 +15,10 @@
 		@font-face
 		{
 			font-family: 'Open Sans';
-			/* TODO determine right base URL */
-			src: url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Regular/OpenSans-Regular.woff?___REVISION___') format('woff'),
-			     url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Regular/OpenSans-Regular.ttf?___REVISION___') format('truetype');
+			{/literal}
+			src: url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Regular/OpenSans-Regular.woff"}) format('woff'),
+			     url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Regular/OpenSans-Regular.ttf"}) format('truetype');
+			{literal}
 			font-weight: normal;
 			font-style: normal
 		}
@@ -24,9 +26,10 @@
 		@font-face
 		{
 			font-family: 'Open Sans';
-			/* TODO determine right base URL */
-			src: url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Semibold/OpenSans-Semibold.woff?___REVISION___') format('woff'),
-			     url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Semibold/OpenSans-Semibold.ttf?___REVISION___') format('truetype');
+			{/literal}
+			src: url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Semibold/OpenSans-Semibold.woff"}) format('woff'),
+			     url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Semibold/OpenSans-Semibold.ttf"}) format('truetype');
+			{literal}
 			font-weight: 600;
 			font-style: normal
 		}
@@ -34,9 +37,10 @@
 		@font-face 
 		{
 			font-family: 'Open Sans';
-			/* TODO determine right base URL */
-			src: url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Bold/OpenSans-Bold.woff?___REVISION___') format('woff'),
-			     url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/Bold/OpenSans-Bold.ttf?___REVISION___') format('truetype');
+			{/literal}
+			src: url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Bold/OpenSans-Bold.woff"}) format('woff'),
+			     url({link file="frontend/_public/vendors/fonts/open-sans-fontface/Bold/OpenSans-Bold.ttf"}) format('truetype');
+			{literal}
 			font-weight: bold;
 			font-style: normal
 		}
@@ -44,9 +48,10 @@
 		@font-face
 		{
 			font-family: 'Open Sans';
-			/* TODO determine right base URL */
-			src: url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/ExtraBold/OpenSans-ExtraBold.woff?___REVISION___') format('woff'),
-			     url('/shopware/themes/Frontend/Responsive/frontend/_public/vendors/fonts/open-sans-fontface/ExtraBold/OpenSans-ExtraBold.ttf?___REVISION___') format('truetype');
+			{/literal}
+			src: url({link file="frontend/_public/vendors/fonts/open-sans-fontface/ExtraBold/OpenSans-ExtraBold.woff"}) format('woff'),
+			     url({link file="frontend/_public/vendors/fonts/open-sans-fontface/ExtraBold/OpenSans-ExtraBold.ttf"}) format('truetype');
+			{literal}
 			font-weight: 800;
 			font-style: normal
 		}

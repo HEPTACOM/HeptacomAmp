@@ -2,12 +2,13 @@
 	@font-face
 	{
 		font-family: 'shopware';
-		/* TODO determine right base URL */
-		src: url('/shopware/themes/Frontend/Responsive/frontend/_public/src/fonts/shopware.eot?___REVISION___');
-		src: url('/shopware/themes/Frontend/Responsive/frontend/_public/src/fonts/shopware.eot?#___REVISION___') format('embedded-opentype'),
-		     url('/shopware/themes/Frontend/Responsive/frontend/_public/src/fonts/shopware.woff?___REVISION___') format('woff'),
-		     url('/shopware/themes/Frontend/Responsive/frontend/_public/src/fonts/shopware.ttf?___REVISION___') format('truetype'),
-		     url('/shopware/themes/Frontend/Responsive/frontend/_public/src/fonts/shopware.svg?___REVISION___') format('svg');
+		{/literal}
+		src: url({link file="frontend/_public/src/fonts/shopware.eot?"});
+		src: url({link file="frontend/_public/src/fonts/shopware.eot?"}) format('embedded-opentype'),
+		     url({link file="frontend/_public/src/fonts/shopware.woff"}) format('woff'),
+		     url({link file="frontend/_public/src/fonts/shopware.ttf"}) format('truetype'),
+		     url({link file="frontend/_public/src/fonts/shopware.svg"}) format('svg');
+		{literal}
 		font-weight: normal;
 		font-style: normal
 	}
