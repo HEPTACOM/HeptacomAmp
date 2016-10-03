@@ -100,7 +100,9 @@
 			{* Tax information *}
 			{block name="frontend_detail-amp_data_tax"}
 				<p class="sw-product--tax">
-					{s name="DetailDataPriceInfo" namespace="frontend/detail/data"}{/s}
+					{s name="DetailDataPriceInfo" namespace="frontend/detail-amp/data"}
+{if $sOutputNet}zzgl.{else}inkl.{/if} MwSt. <a title="Versandkosten" href="/versand-und-zahlung">zzgl. Versandkosten</a>
+					{/s}
 				</p>
 			{/block}
 		{/if}
