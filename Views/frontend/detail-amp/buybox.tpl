@@ -7,7 +7,7 @@
 		{/block}
 
 		{block name="frontend_detail-amp_buy"}
-			<form method="POST" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
+			<form method="POST" action="{url controller=ampCheckout action=addArticle}" class="sw-buybox--form">
 				{block name="frontend_detail-amp_buy_configurator_inputs"}
 					{if $sArticle.sConfigurator && $sArticle.sConfiguratorSettings.type == 3}
 						{foreach $sArticle.sConfigurator as $group}
