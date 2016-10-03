@@ -69,13 +69,17 @@
 		{
 			background: #fff;
 			color: #5f7285;
-			font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 			font-size: 14px;
 			font-size: 0.875rem;
 			font-weight: 500;
 			padding: 0px 10px 10px 10px;
 			text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: antialiased;
+		}
+
+		body, button, input, p, div, span, li
+		{
+			font-family: {/literal}{$theme["font-base-stack"]}{literal};
 		}
 
 		h1
