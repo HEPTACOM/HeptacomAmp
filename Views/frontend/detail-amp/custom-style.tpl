@@ -542,19 +542,67 @@
 			width: 100%;
 		}
 
+		#offcanvas-menu
+		{
+			border-right: 2px solid #dadae5;
+			min-width: 260px;
+			width: 260px;
+		}
+
+		.sw-navigation--entry.sw-entry--close-off-canvas
+		{
+			background-color: #5f7285;
+			background-image: -ms-linear-gradient(top, #5f7285, #3f4c58);
+			background-image: linear-gradient(to bottom, #5f7285 0%, #3f4c58 100%);			
+			border: none;
+			border-radius: 0px;
+			color: #f8f8fa;
+			font-size: 14px;
+			font-size: .875rem;
+			font-weight: bold;
+			padding: 2px 10px 2px 10px;
+			padding: .125rem .625rem .125rem .625rem;
+		}
+
 		.sw-navigation--entry
 		{
-			
+			border-bottom: 1px solid #dadae5;
+			display: block;
+			font-size: 14px;
+			font-size: .875rem;
+			font-weight: bold;	
+			line-height: 38px;
+			line-height: 2.375rem;
+			position: relative;
 		}
 
 		.sw-navigation--link
 		{
-			
+			color: #5f7285;
+			height: 100%;
+			overflow: hidden;
+			padding: 2px 10px 2px 10px;
+			padding: .125rem .625rem .125rem .625rem;
+			text-overflow: ellipsis;
+			width: 100%;
 		}
 
 		.sw-navigation--list
 		{
-			
+			background: #fff;
+			border-top: 1px solid #dadae5;
+		    box-sizing: border-box;
+		}
+
+		.sw-navigation--entry > .sw-navigation--list
+		{
+			border-left: 1px solid #dadae5;
+			margin-left: 10px;
+		}
+
+		.sw-navigation--entry > .sw-navigation--list > .sw-navigation--entry:last-child
+		{
+			border-bottom: none;
 		}
 
 		.sw-price

@@ -23,7 +23,12 @@
 {/function}
 
 <amp-sidebar id="offcanvas-menu" layout="nodisplay">
-	<button on="tap:offcanvas-menu.close">{s name="OffcanvasCloseMenu" namespace="frontend/detail/description"}{/s}</button>
+	<a class="sw-navigation--entry sw-entry--close-off-canvas sw-btn sw-is--icon-right"
+		on="tap:offcanvas-menu.close"
+		href="#">
+		{s name="OffcanvasCloseMenu" namespace="frontend/detail/description"}{/s}
+		<i class="icon--cross"></i>
+	</a>
 	{if $sCategories}
 		{call name="categories" categories=$sCategories}
 	{else}
