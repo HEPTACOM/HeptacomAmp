@@ -165,8 +165,7 @@
 
 		.amp-carousel.sw-article-images
 		{
-			margin-left: -10px;
-			margin-right: -10px;
+			margin: 0 -10px 20px;
 		}
 
 		.amp-carousel.sw-article-images .slide
@@ -460,8 +459,6 @@
 			display: table;
 			font-size: 20px;
 			font-size: 1.25rem;
-			margin-left: -10px;
-			margin-right: -10px;
 		}
 
 		.sw-header--navigation-item
@@ -472,9 +469,10 @@
 			width: 100%;
 		}
 
-		.sw-btn.sw-header--navigation-item,
+		.sw-header--navigation-item.sw-header--navigation-item--btn
 		{
 			width: auto;
+			padding-right: 10px;
 		}
 
 		.sw-is--active
@@ -715,6 +713,11 @@
 		.product--delivery .delivery--text-not-available
 		{
 			color: #e74c3c
+		}
+
+		.sw-product--title
+		{
+			padding: 10px 0;
 		}
 
 		.sw-product--details
