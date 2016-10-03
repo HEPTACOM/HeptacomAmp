@@ -89,7 +89,6 @@
 			padding: 0;
 		}
 
-		/* TODO The paragraph style seems to override the footer style */
 		p
 		{
 			font-size: 14px;
@@ -285,6 +284,8 @@
 		.sw-footer--service-menu li.service--entry
 		{
 			display: inline-block;
+			font-size: 13px;
+			font-size: .8125rem;
 			padding: 0px 2px;
 			padding: .5rem .125rem;
 		}
@@ -307,7 +308,8 @@
 			display: none;
 		}
 
-		.sw-footer--vat-info
+		.sw-footer--vat-info,
+		.sw-vat-info--text
 		{
 			font-size: 12px;
 			font-size: .75rem;
@@ -510,11 +512,6 @@
 		}
 
 		.sw-sidebar--navigation
-		{
-			
-		}
-
-		.sw-vat-info--text
 		{
 			
 		}
