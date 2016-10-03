@@ -457,8 +457,24 @@
 		/* TODO this does not affect the menu buttons!? */
 		.sw-header--navigation
 		{
+			display: table;
 			font-size: 20px;
 			font-size: 1.25rem;
+			margin-left: -10px;
+			margin-right: -10px;
+		}
+
+		.sw-header--navigation-item
+		{
+			box-sizing: border-box;
+			display: table-cell;
+			white-space: nowrap;
+			width: 100%;
+		}
+
+		.sw-btn.sw-header--navigation-item,
+		{
+			width: auto;
 		}
 
 		.sw-is--active
@@ -512,7 +528,6 @@
 		.sw-main-search-form
 		{
 			border-bottom: 0 none;
-			display: inline-block;
 			padding: 0;
 		}
 
