@@ -48,14 +48,12 @@
 									{* "Buy now" button *}
 									{block name="frontend_detail-amp_buy_button"}
 										{if $sArticle.sConfigurator && !$activeConfiguratorSelection}
-											<button class="sw-buybox--button sw-btn sw-is--disabled sw-is--icon-right sw-is--large" disabled="disabled" aria-disabled="true" name="{s name="DetailBuyActionAdd"}{/s}">
-												{* TODO fix output of the following to echo "In den Warenkorb" *}
-												{* s name="DetailBuyActionAdd"}{/s *} In den Warenkorb <i class="icon--arrow-right"></i>
+											<button class="sw-buybox--button sw-btn sw-is--disabled sw-is--icon-right sw-is--large" disabled="disabled" aria-disabled="true" name="{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s}">
+												{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s} <i class="icon--arrow-right"></i>
 											</button>
 										{else}
-											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large" name="{s name="DetailBuyActionAdd"}{/s}">
-												{* TODO fix output of the following to echo "In den Warenkorb" *}
-												{* s name="DetailBuyActionAdd"}{/s *} In den Warenkorb <i class="icon--arrow-right"></i>
+											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large" name="{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s}">
+												{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s} <i class="icon--arrow-right"></i>
 											</button>
 										{/if}
 									{/block}

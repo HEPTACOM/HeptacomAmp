@@ -24,7 +24,7 @@
 {/function}
 
 <amp-sidebar id="offcanvas-menu" layout="nodisplay">
-	<button on="tap:offcanvas-menu.close">Schließen</button>
+	<button on="tap:offcanvas-menu.close">{s name="OffcanvasCloseMenu" namespace="frontend/detail/description"}</button>
 	{if $sCategories}
 		{call name="categories" categories=$sCategories}
 	{else}
