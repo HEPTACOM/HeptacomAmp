@@ -560,6 +560,62 @@
 			
 		}
 
+		.product--delivery .delivery--status-icon
+		{
+			background-clip: padding-box;
+			border-radius: .5625rem;
+			display: inline-block;
+			height: 9px;
+			height: .5625rem;
+			line-height: 10px;
+			line-height: .625rem;
+			margin: 0px 5px 0px 0px;
+			margin: 0rem .3125rem 0rem 0rem;
+			position: relative;
+			width: 9px;
+			width: .5625rem;
+		}
+
+		.product--delivery .delivery--status-shipping-free
+		{
+			background: #4aa3df
+		}
+
+		.product--delivery .delivery--text-shipping-free
+		{
+			color: #4aa3df
+		}
+
+		.product--delivery .delivery--status-available
+		{
+			background: #2ecc71
+		}
+
+		.product--delivery .delivery--text-available
+		{
+			color: #2ecc71
+		}
+
+		.product--delivery .delivery--status-more-is-coming
+		{
+			background: #f1c40f
+		}
+
+		.product--delivery .delivery--text-more-is-coming
+		{
+			color: #f1c40f
+		}
+
+		.product--delivery .delivery--status-not-available
+		{
+			background: #e74c3c
+		}
+
+		.product--delivery .delivery--text-not-available
+		{
+			color: #e74c3c
+		}
+
 		.sw-product--details
 		{
 			
