@@ -163,6 +163,18 @@
 			
 		}
 
+		.amp-carousel.sw-article-images
+		{
+			margin-left: -10px;
+			margin-right: -10px;
+		}
+
+		.amp-carousel.sw-article-images .slide
+		{
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+
 		.sw-block-group
 		{
 			

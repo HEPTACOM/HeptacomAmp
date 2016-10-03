@@ -8,7 +8,7 @@
 
 {if $pictures}{strip}
 	{block name="frontend_detail-amp_image"}
-		<amp-carousel layout="fixed-height" type="slides" height="400">
+		<amp-carousel class="amp-carousel sw-article-images" layout="fixed-height" type="slides" height="400">
 			{foreach $pictures as $image}
 				{if $image.thumbnails}
 					{block name='frontend_detail-amp_images'}

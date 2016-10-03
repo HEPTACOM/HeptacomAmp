@@ -25,7 +25,7 @@
 			{$imageWidth = intval(320)}
 		{/if}
 		<amp-carousel
-			class="sw-cross-selling"
+			class="sw-cross-selling amp-carousel"
 			layout="responsive"
 			type="slides"
 			height="{$imageHeight + $textHeight}"
