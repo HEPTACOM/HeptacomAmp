@@ -1,9 +1,14 @@
-{if $sArticle.images}{strip}
+{$pictures = []}
+{if $sArticle.image}
+	{$pictures[] = $sArticle.image}
+{/if}
+{if $sArticle.images}
+	{$pictures = array_merge($pictures, $sArticle.images)}
+{/if}
+
+{if $pictures}{strip}
 	{block name="frontend_detail-amp_image"}
 		<amp-carousel layout="fixed-height" type="slides" height="400">
-			{$pictures = $sArticle.images}
-			{* TODO find better way to suppress echo of the array_unshift result *}
-			{$_ = $pictures|array_unshift:$sArticle.image}
 			{foreach $pictures as $image}
 				{if $image.thumbnails}
 					{block name='frontend_detail-amp_images'}
