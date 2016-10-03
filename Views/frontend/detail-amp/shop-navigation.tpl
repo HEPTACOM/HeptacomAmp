@@ -12,13 +12,12 @@
 		{/block}
 		{block name='frontend_detail-amp_shop_navigation_search_form'}
 			{* TODO always generate https url *}
-			<form method="GET" action="{url controller='search' fullPath=true}">
+			<form method="GET" action="{url controller='search' fullPath=true}" class="sw-main-search-form">
 				{block name='frontend_detail-amp_shop_navigation_search_form_search-field'}
-					<input type="search" maxlength="30" />
+					<input type="search" placeholder="Suchbegriff..." maxlength="30" />
 				{/block}
 				{block name='frontend_detail-amp_shop_navigation_search_form_submit'}
 					<button class="sw-btn" type="submit">
-						Suche
 						{block name="frontend_detail-amp_shop_navigation_search_form_submit_icon"}
 							<i class="icon--search"></i>
 						{/block}

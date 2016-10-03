@@ -437,9 +437,11 @@
 			padding: .625rem;
 		}
 
+		/* TODO this does not affect the menu buttons!? */
 		.sw-header--navigation
 		{
-			
+			font-size: 20px;
+			font-size: 1.25rem;
 		}
 
 		.sw-is--active
@@ -487,6 +489,56 @@
 		{
 			object-fit: contain;
 			object-position: 0% 50%;
+		}
+
+		.sw-main-search-form
+		{
+			border-bottom: 0 none;
+			display: inline-block;
+			padding: 0;
+		}
+
+		.sw-main-search-form input[type="search"]
+		{
+			height: 40px;
+			height: 2.5rem;
+			padding: 9px 38px 9px 9px;
+			padding: .5625rem 2.375rem .5625rem .5625rem;
+			position: relative;			
+			vertical-align: middle;
+			width: 100%;
+		}
+
+		.sw-main-search-form [type="submit"]
+		{
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background: transparent;
+			border: 0 none;
+			bottom: 0px;
+			bottom: 0rem;
+			color: #5f7285;
+			font-size: 20px;
+			font-size: 1.25rem;
+			height: 40px;
+			line-height: 1;
+			outline: none;
+			padding: 0px 10px 0px 10px;
+			padding: 0rem .625rem 0rem .625rem;
+			position: absolute;
+			right: 0px;
+			right: 0rem;
+			top: 0px;
+			top: 0rem;
+			z-index: 2;
+		}
+
+		.sw-main-search-form .icon--search
+		{
+			font-size: 22px;
+			font-size: 1.375rem;
+			vertical-align: middle;
 		}
 
 		.sw-navigation--entry
