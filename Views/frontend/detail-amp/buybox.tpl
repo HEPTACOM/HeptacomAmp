@@ -48,9 +48,10 @@
 									{* "Buy now" button *}
 									{block name="frontend_detail-amp_buy_button"}
 										{if $sArticle.sConfigurator && !$activeConfiguratorSelection}
-											<button class="sw-buybox--button sw-btn sw-is--disabled sw-is--icon-right sw-is--large" disabled="disabled" aria-disabled="true" name="{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s}">
-												{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s} <i class="icon--arrow-right"></i>
-											</button>
+											<a class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large"
+												href="{url sArticle=$sArticle.articleID title=$sArticle.articleName}">
+												{s name="OpenCanonicalConfigurator" namespace="frontend/detail-amp/buy"}Zur Konfiguration{/s} <i class="icon--arrow-right"></i>
+											</a>
 										{else}
 											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large" name="{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s}">
 												{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s} <i class="icon--arrow-right"></i>
