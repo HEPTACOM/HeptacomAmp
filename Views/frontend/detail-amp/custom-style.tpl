@@ -110,6 +110,36 @@
 			padding: 0;
 		}
 
+		/*textarea, not supported*/
+		input[type="text"],
+		input[type="search"],
+		/*input[type="password"], not supported*/
+		input[type="number"],
+		input[type="email"],
+		input[type="tel"]
+		{
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background: #f8f8fa;
+			background-clip: padding-box;
+			border: 1px solid #dadae5;
+			border-radius: 3px;
+			border-top-color: #cbcbdb;
+			box-shadow: inset 0 1px 1px #dadae5;
+			box-sizing: border-box;
+			color: #8798a9;
+			font-size: 14px;
+			font-size: .875rem;
+			line-height: 19px;
+			line-height: 1.1875rem;
+			padding: 10px 10px 9px 10px;
+			padding: .625rem .625rem .5625rem .625rem;
+			text-align: left;
+			width: 290px;
+			width: 18.125rem;
+		}
+
 		.icon--shopware
 		{
 			background: #f0f;
