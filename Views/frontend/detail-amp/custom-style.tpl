@@ -379,6 +379,19 @@
 			
 		}
 
+		.sw-logo-container
+		{
+			display: flex;
+			height: 40px;
+			width: 100%;
+		}
+
+		.sw-logo-container img
+		{
+			object-fit: contain;
+			object-position: 0% 50%;
+		}
+
 		.sw-navigation--entry
 		{
 			
@@ -476,6 +489,7 @@
 		.sw-product--supplier img
 		{
 			object-fit: contain;
+			object-position: 100% 50%;
 		}
 
 		.sw-product--supplier:after

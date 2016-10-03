@@ -122,9 +122,8 @@
 					   class="sw-product--supplier-link"
 					   target="_blank">
 						<amp-img
-							layout="responsive"
-							width="100{* TODO get image size *}"
-							height="50{* TODO get image size *}"
+							layout="fixed-height"
+							height="100{* TODO get image size *}"
 							src="{$sArticle.supplierImg}"
 							alt="{$sArticle.supplierName|escape}">
 						</amp-img>
