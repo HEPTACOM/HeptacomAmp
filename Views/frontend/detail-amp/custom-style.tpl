@@ -465,7 +465,8 @@
 
 		.sw-is--hidden
 		{
-			
+			opacity: 0;
+			visibility: hidden;
 		}
 
 		.sw-is--level0
