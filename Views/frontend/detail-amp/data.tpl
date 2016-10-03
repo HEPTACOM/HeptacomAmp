@@ -119,8 +119,7 @@
 				<div class="sw-product--supplier">
 					<a href="{url controller='listing' action='manufacturer' sSupplier=$sArticle.supplierID}"
 					   title="{"{s name="DetailDescriptionLinkInformation" namespace="frontend/detail/description"}{/s}"|escape}"
-					   class="sw-product--supplier-link"
-					   target="_blank">
+					   class="sw-product--supplier-link">
 						<amp-img
 							layout="fixed-height"
 							height="100{* TODO get image size *}"

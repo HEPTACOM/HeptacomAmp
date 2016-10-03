@@ -6,8 +6,7 @@
 				{block name="frontend_detail-amp_categories_left_entry"}
 					<li class="sw-navigation--entry{if $category.flag} sw-is--active{/if}{if $category.subcategories} sw-has--sub-categories{/if}">
 						<a class="sw-navigation--link{if $category.flag} sw-is--active{/if}{if $category.subcategories} sw-has--sub-categories{/if}"
-							href="{$category.link}"
-							target="_blank">
+							href="{$category.link}">
 							{$category.description}
 						</a>
 						{block name="frontend_detail-amp_categories_left_entry_subcategories"}

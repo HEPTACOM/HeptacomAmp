@@ -1,5 +1,5 @@
 {block name="frontend_detail-amp_article-carousel-item"}
-	<a href="{$article.linkDetails|rewrite:$article.articleName}" target="_blank">
+	<a href="{$article.linkDetails|rewrite:$article.articleName}">
 		{block name="frontend_detail-amp_article-carousel-item_image"}
 			<amp-img layout="responsive" height="{$article.image.height}" width="{$article.image.width}" src="{$article.image.thumbnails[1].source}"></amp-img>
 		{/block}
