@@ -36,7 +36,7 @@
 											{/if}
 
 											{block name="frontend_detail-amp_buy_quantity_select"}
-												<select id="sQuantity" name="sQuantity" class="sw-quantity--select">
+												<select id="sQuantity" name="sQuantity" class="sw-quantity--select sw-btn">
 													{section name="i" start=$sArticle.minpurchase loop=$maxQuantity step=$sArticle.purchasesteps}
 														<option value="{$smarty.section.i.index}">{$smarty.section.i.index}{if $sArticle.packunit} {$sArticle.packunit}{/if}</option>
 													{/section}

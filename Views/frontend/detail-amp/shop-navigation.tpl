@@ -1,7 +1,7 @@
 {block name='frontend_detail-amp_shop_navigation'}
 	<div class="sw-header--navigation">
 		{block name="frontend_detail-amp_shop_navigation_menu_button"}
-			<button on="tap:offcanvas-menu.open">
+			<button class="sw-btn" on="tap:offcanvas-menu.open">
 				{block name="frontend_detail-amp_shop_navigation_menu_button_icon"}
 					<i class="icon--menu"></i>
 				{/block}
@@ -17,7 +17,7 @@
 					<input type="search" maxlength="30" />
 				{/block}
 				{block name='frontend_detail-amp_shop_navigation_search_form_submit'}
-					<button type="submit">
+					<button class="sw-btn" type="submit">
 						Suche
 						{block name="frontend_detail-amp_shop_navigation_search_form_submit_icon"}
 							<i class="icon--search"></i>
