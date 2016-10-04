@@ -6,6 +6,42 @@
 			{/if}
 		{/block}
 
+		{* Configurator drop down menu's *}
+		{if (!isset($sArticle.active) || $sArticle.active) && $sArticle.isAvailable && $sArticle.sConfigurator}
+			{block name="frontend_detail-amp_index_configurator"}
+				{if $sArticle.sConfiguratorSettings.type == 0
+				 or $sArticle.sConfiguratorSettings.type == 2}
+					<div class="sw-product--configurator">
+						{foreach $sArticle.sConfigurator as $configurator}
+							{block name="frontend_detail-amp_configurator_variant"}
+								<div class="sw-product--configurator-variant-group">
+									{block name="frontend_detail-amp_configurator_variant_name"}
+										<p class="sw-product--configurator-variant-name">{$configurator.groupname}</p>
+									{/block}
+									
+									{block name="frontend_detail-amp_configurator_variant_options"}
+										<div>
+											{foreach $configurator.values as $option}
+												<form method="POST"
+													{* TODO Generate right url to bypass CSRF *}
+													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+													<input type="hidden" name="group[{$option.groupID}]" value="{$option.optionID}" />
+													<input type="submit"
+														class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}"
+														value="{$option.optionname}" />
+													</input>
+												</form>
+											{/foreach}
+										</div>
+									{/block}
+								</div>
+							{/block}
+						{/foreach}
+					</div>
+				{/if}
+			{/block}
+		{/if}
+
 		{block name="frontend_detail-amp_buy"}
 			<form method="POST" action="{url controller=ampCheckout action=addArticle}" class="sw-buybox--form">
 				{block name="frontend_detail-amp_buy_configurator_inputs"}

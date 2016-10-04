@@ -659,6 +659,30 @@
 			
 		}
 
+		.sw-product--configurator-variant-group form
+		{
+			box-sizing: border-box;
+			display: inline-block;
+			margin-right: 2%;
+			margin-bottom: 10px;
+			margin-bottom: .625rem;
+			overflow: hidden;
+			width: 22%;
+		}
+
+		.sw-product--configurator-variant-group form input[type=submit]
+		{
+			width: 100%;
+		}
+
+		.sw-product--configurator-variant-name
+		{
+			clear: both;
+			font-weight: bold;
+			margin: 0px 0px 5px 0px;
+			margin: 0rem 0rem .3125rem 0rem;
+		}
+
 		.product--delivery .delivery--status-icon
 		{
 			background-clip: padding-box;
