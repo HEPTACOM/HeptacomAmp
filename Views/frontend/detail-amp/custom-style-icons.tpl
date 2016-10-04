@@ -23,7 +23,7 @@
 		line-height: 1;
 		speak: none;
 		text-transform: none;
-		-moz-osx-font-smoothing: grayscale
+		-moz-osx-font-smoothing: grayscale;
 		-webkit-font-smoothing: antialiased;
 	}
 
