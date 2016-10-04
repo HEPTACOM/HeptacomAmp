@@ -10,7 +10,8 @@ class Detail implements SubscriberInterface
     {
         return array(
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_AmpCheckout' => 'onGetControllerPathFrontend',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_AmpCheckout' => 'onGetControllerPathFrontendCheckout',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_AmpDetail' => 'onGetControllerPathFrontendDetail',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_AmpCheckout' => 'onFrontendAmpCheckoutPostDispatch',
         );
     }
@@ -29,9 +30,14 @@ class Detail implements SubscriberInterface
         }
     }
 
-    public function onGetControllerPathFrontend(\Enlight_Event_EventArgs $args)
+    public function onGetControllerPathFrontendCheckout(\Enlight_Event_EventArgs $args)
     {
         return __DIR__ . '/../Controllers/Frontend/AmpCheckout.php';
+    }
+
+    public function onGetControllerPathFrontendDetail(\Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '/../Controllers/Frontend/AmpDetail.php';
     }
 
     public function onFrontendAmpCheckoutPostDispatch(\Enlight_Event_EventArgs $args)
