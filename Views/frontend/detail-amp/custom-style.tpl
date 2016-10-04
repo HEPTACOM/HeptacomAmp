@@ -325,6 +325,13 @@
 			width: 63%;
 		}
 
+		.sw-buybox--button-configure
+		{
+			box-sizing: border-box;
+			height: auto;
+			width: 100%;
+		}
+
 		.sw-buybox--quantity
 		{
 			display: inline-block;

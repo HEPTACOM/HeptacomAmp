@@ -65,9 +65,9 @@
 									{* "Buy now" button *}
 									{block name="frontend_detail-amp_buy_button"}
 										{if $sArticle.sConfigurator && !$activeConfiguratorSelection}
-											<a class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large"
+											<a class="sw-buybox--button sw-buybox--button-configure sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large"
 												href="{url sArticle=$sArticle.articleID title=$sArticle.articleName}">
-												{s name="OpenCanonicalConfigurator" namespace="frontend/detail-amp/buy"}Zur Konfiguration{/s} <i class="icon--arrow-right"></i>
+												{s name="OpenCanonicalConfigurator" namespace="frontend/detail-amp/buy"}Jetzt konfigurieren{/s} <i class="icon--arrow-right"></i>
 											</a>
 										{else}
 											{* Quantity selection *}
