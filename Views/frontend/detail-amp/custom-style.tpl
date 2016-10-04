@@ -362,9 +362,9 @@
 			
 		}
 
-		.sw-cross-selling
+		.sw-cross-selling img
 		{
-			
+			object-fit: contain;
 		}
 
 		.sw-cross-selling-header
