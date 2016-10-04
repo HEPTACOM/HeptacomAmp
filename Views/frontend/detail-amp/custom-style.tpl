@@ -782,6 +782,12 @@
 			
 		}
 
+		.alert--icon,
+		.alert--content
+		{
+			display: inline-block;
+		}
+
 		.sw-product--tax
 		{
 			font-size: 12px;
