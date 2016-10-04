@@ -184,8 +184,6 @@
 			appearance: none;
 			background-clip: padding-box;
 			background-color: {/literal}{$theme["btn-default-top-bg"]}{literal};
-			background-image: -ms-linear-gradient(top, {/literal}{$theme["btn-default-top-bg"]}{literal}, {/literal}{$theme["gray"]}{literal});
-			background-image: linear-gradient(to bottom, {/literal}{$theme["btn-default-top-bg"]}{literal} 0%, {/literal}{$theme["gray"]}{literal} 100%);
 			border: 1px solid #dadae5;
 			border-radius: 3px;
 			color: {/literal}{$theme["brand-secondary"]}{literal};
@@ -267,8 +265,6 @@
 		.sw-btn.sw-is--disabled,
 		.sw-btn.sw-is--disabled:hover
 		{
-			background-image: -ms-linear-gradient(top, #fff, #f8f8fa);
-			background-image: linear-gradient(to bottom, #fff 0%, #f8f8fa 100%);
 			border: 1px solid #dadae5;
 		}
 
@@ -292,8 +288,6 @@
 		.sw-btn.sw-is--primary
 		{
 			background-color: {/literal}{$theme["brand-primary"]}{literal};
-			background-image: -ms-linear-gradient(top, {/literal}{$theme["brand-primary"]}{literal}, {/literal}{$theme["brand-secondary"]}{literal});
-			background-image: linear-gradient(to bottom, {/literal}{$theme["brand-primary"]}{literal} 0%, {/literal}{$theme["brand-secondary"]}{literal} 100%);
 			border: 0 none;
 			color: {/literal}{$theme["btn-primary-text-color"]}{literal};
 			line-height: 34px;
@@ -557,8 +551,6 @@
 		.sw-navigation--entry.sw-entry--close-off-canvas
 		{
 			background-color: {/literal}{$theme["brand-secondary"]}{literal};
-			background-image: -ms-linear-gradient(top, {/literal}{$theme["brand-secondary"]}{literal}, #3f4c58);
-			background-image: linear-gradient(to bottom, {/literal}{$theme["brand-secondary"]}{literal} 0%, #3f4c58 100%);			
 			border: none;
 			border-radius: 0px;
 			color: #f8f8fa;
