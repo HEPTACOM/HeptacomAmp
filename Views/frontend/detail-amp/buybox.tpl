@@ -43,6 +43,14 @@
 
 		{block name="frontend_detail-amp_buy"}
 			<form method="GET" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
+				{if $sArticle.sBlockPrices && (!$sArticle.sConfigurator || $sArticle.pricegroupActive)}
+					{foreach $sArticle.sBlockPrices as $blockPrice}
+						{if $blockPrice.from == 1}
+							<input id="price_{$sArticle.ordernumber}" type="hidden" value="{$blockPrice.price|replace:",":"."}" />
+						{/if}
+					{/foreach}
+				{/if}
+
 				{block name="frontend_detail-amp_buy_configurator_inputs"}
 					{if $sArticle.sConfigurator && $sArticle.sConfiguratorSettings.type == 3}
 						{foreach $sArticle.sConfigurator as $group}
