@@ -354,7 +354,12 @@
 
 		.sw-content--discount
 		{
-			
+			display: inline-block;
+			font-size: 14px;
+			font-size: .875rem;
+			padding: 4px 0px 4px 0px;
+			padding: .25rem 0rem .25rem 0rem;
+			white-space: nowrap;
 		}
 
 		.sw-content--starting-from
@@ -609,7 +614,7 @@
 
 		.sw-price--content
 		{
-			color: {/literal}{$theme["brand-primary"]}{literal};
+			color: #3f4c58;
 			display: inline-block;
 			font-size: 28px;
 			font-size: 1.75rem;
@@ -623,14 +628,28 @@
 			
 		}
 
-		.sw-price--discount
+		.sw-price--discount .sw-price--content
 		{
-			
+			color: #e74c3c;
 		}
 
 		.sw-price--discount-icon
 		{
-			
+			background: #e74c3c;
+			border-radius: 3px;
+			border-radius: .1875rem;
+			color: #fff;
+			display: inline-block;
+			font-size: 13px;
+			font-size: .8125rem;
+			font-weight: bold;
+			margin: 0px 5px 0px 5px;
+			margin: 0rem .3125rem 0rem .3125rem;
+			padding: 6px 7px 6px 7px;
+			padding: .375rem .4375rem .375rem .4375rem;
+			position: relative;
+			text-align: center;
+			vertical-align: top;
 		}
 
 		.sw-price--discount-percentage
@@ -645,7 +664,7 @@
 
 		.sw-price--line-through
 		{
-			
+			text-decoration: line-through;
 		}
 
 		.sw-price--unit
