@@ -63,24 +63,6 @@
 						{if $sArticle.isAvailable}
 							{block name="frontend_detail-amp_buy_button_container"}
 								<div class="sw-buybox--button-container sw-block-group{if $NotifyHideBasket && $sArticle.notification && $sArticle.instock <= 0} sw-is--hidden{/if}">
-									{* Quantity selection *}
-									{block name="frontend_detail-amp_buy_quantity"}
-										<div class="sw-buybox--quantity">
-											{$maxQuantity=$sArticle.maxpurchase + 1}
-											{if $sArticle.laststock && $sArticle.instock < $sArticle.maxpurchase}
-												{$maxQuantity=$sArticle.instock + 1}
-											{/if}
-
-											{block name="frontend_detail-amp_buy_quantity_select"}
-												<select id="sQuantity" name="sQuantity" class="sw-quantity--select sw-btn">
-													{section name="i" start=$sArticle.minpurchase loop=$maxQuantity step=$sArticle.purchasesteps}
-														<option value="{$smarty.section.i.index}">{$smarty.section.i.index}{if $sArticle.packunit} {$sArticle.packunit}{/if}</option>
-													{/section}
-												</select>
-											{/block}
-										</div>
-									{/block}
-
 									{* "Buy now" button *}
 									{block name="frontend_detail-amp_buy_button"}
 										{if $sArticle.sConfigurator && !$activeConfiguratorSelection}
@@ -89,6 +71,24 @@
 												{s name="OpenCanonicalConfigurator" namespace="frontend/detail-amp/buy"}Zur Konfiguration{/s} <i class="icon--arrow-right"></i>
 											</a>
 										{else}
+											{* Quantity selection *}
+											{block name="frontend_detail-amp_buy_quantity"}
+												<div class="sw-buybox--quantity">
+													{$maxQuantity=$sArticle.maxpurchase + 1}
+													{if $sArticle.laststock && $sArticle.instock < $sArticle.maxpurchase}
+														{$maxQuantity=$sArticle.instock + 1}
+													{/if}
+
+													{block name="frontend_detail-amp_buy_quantity_select"}
+														<select id="sQuantity" name="sQuantity" class="sw-quantity--select sw-btn">
+															{section name="i" start=$sArticle.minpurchase loop=$maxQuantity step=$sArticle.purchasesteps}
+																<option value="{$smarty.section.i.index}">{$smarty.section.i.index}{if $sArticle.packunit} {$sArticle.packunit}{/if}</option>
+															{/section}
+														</select>
+													{/block}
+												</div>
+											{/block}
+
 											<button class="sw-buybox--button sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large" name="{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s}">
 												{s name="DetailBuyActionAdd" namespace="frontend/detail/buy"}{/s} <i class="icon--arrow-right"></i>
 											</button>
