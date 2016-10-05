@@ -16,6 +16,20 @@ class Shopware_Plugins_Frontend_HeptaDetailAmp_Bootstrap extends Shopware_Compon
         return 'AMP Detailseite';
     }
 
+    public function getInfo()
+    {
+        $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
+
+        return array(
+            'version' => $this->getVersion(),
+            'label' => $this->getLabel(),
+            'supplier' => $info['author'],
+            'author' => $info['author'],
+            'description' => $info['description']['de'],
+            'link' => 'https://www.heptacom.de'
+        );
+    }
+
     public function uninstall()
     {
         return true;

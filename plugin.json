@@ -2,6 +2,9 @@
     "label": {
         "de": "AMP Detailseite"
     },
+    "description": {
+        "de": "Durch das AMP (Accelerated Mobile Pages) Shopware Plugin haben Sie nun die Möglichkeit, Ihre Website für mobile Geräte zu optimieren. Momentan dauert das Laden einer Website auf mobilen Geräten wesentlich länger als auf einem Computer und verbraucht viele mobile Daten. AMP ist eine Technologie von Google, wodurch auch der Google Cache genutzt wird. Dadurch wird der Verbrauch der mobilen Daten gesenkt und die Website wird in der Google Suche hervorgehoben."
+    },
     "copyright": "(c) by HEPTACOM GbR",
     "license": "proprietary",
     "link": "https://www.heptacom.de/",
@@ -16,7 +19,6 @@
     },
 
     "compatibility": {
-        "minimumVersion": "4.3.0",
         "minimumVersion": "5.0.0",
         "maximumVersion": null,
         "blacklist": [
