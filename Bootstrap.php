@@ -36,6 +36,14 @@ class Shopware_Plugins_Frontend_HeptaDetailAmp_Bootstrap extends Shopware_Compon
         return true;
     }
 
+    public function enable()
+    {
+       return [
+           'success' => true,
+           'invalidateCache' => ['template', 'theme']
+       ];
+    }
+
     /**
      * This callback function is triggered at the very beginning of the dispatch process and allows
      * us to register additional events on the fly. This way you won't ever need to reinstall you
