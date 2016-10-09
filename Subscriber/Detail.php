@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopware\HeptaDetailAmp\Subscriber;
+namespace Shopware\HEPTACOMAMP\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 
