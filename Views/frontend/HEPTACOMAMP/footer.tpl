@@ -13,7 +13,7 @@
 				</div>
 			{/block}
 
-			{include file="frontend/detail-amp/footer-navigation.tpl"}
+			{include file="frontend/HEPTACOMAMP/footer-navigation.tpl"}
 
 			{block name="frontend_HEPTACOMAMP_footer_copyright"}
 				<div class="sw-footer--copyright">

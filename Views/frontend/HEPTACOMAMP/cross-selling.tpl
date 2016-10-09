@@ -5,7 +5,7 @@
 				Ähnliche Artikel
 			{/block}
 		</span>
-        {include file="frontend/detail-amp/article-carousel.tpl" articles=$sArticle.sSimilarArticles}
+        {include file="frontend/HEPTACOMAMP/article-carousel.tpl" articles=$sArticle.sSimilarArticles}
 	{/if}
 	{if $sArticle.sRelatedArticles}
 		<span class="sw-cross-selling-header">
@@ -13,6 +13,6 @@
 				Zubehör
 			{/block}
 		</span>
-        {include file="frontend/detail-amp/article-carousel.tpl" articles=$sArticle.sRelatedArticles}
+        {include file="frontend/HEPTACOMAMP/article-carousel.tpl" articles=$sArticle.sRelatedArticles}
 	{/if}
 {/strip}{/if}

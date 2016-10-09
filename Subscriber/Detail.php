@@ -23,7 +23,7 @@ class Detail implements SubscriberInterface
         $view->addTemplateDir(__DIR__ . '/../Views');
 
         if ($request->getParam('amp') == 1) {
-            $template = $view->createTemplate('frontend/detail-amp/index.tpl');
+            $template = $view->createTemplate('frontend/HEPTACOMAMP/index.tpl');
             $view->setTemplate($template);
         }
     }

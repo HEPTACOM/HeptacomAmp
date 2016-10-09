@@ -16,10 +16,10 @@
 				<span>
 					{block name="frontend_HEPTACOMAMP_article-carousel-item_price"}
 						{if $article.has_pseudoprice}
-							{include file="frontend/detail-amp/price.tpl" price=$article.price class="sw-discount"}
-							{include file="frontend/detail-amp/price.tpl" price=$article.pseudoprice}
+							{include file="frontend/HEPTACOMAMP/price.tpl" price=$article.price class="sw-discount"}
+							{include file="frontend/HEPTACOMAMP/price.tpl" price=$article.pseudoprice}
 						{else}
-							{include file="frontend/detail-amp/price.tpl" price=$article.price}
+							{include file="frontend/HEPTACOMAMP/price.tpl" price=$article.price}
 						{/if}
 					{/block}
 				</span>

@@ -7,7 +7,7 @@
 			height="400">
 			{foreach $articles as $article}
 				<div class="slide">
-					{include file="frontend/detail-amp/article-carousel-item.tpl" article=$article}
+					{include file="frontend/HEPTACOMAMP/article-carousel-item.tpl" article=$article}
 				</div>
 			{/foreach}
 		</amp-carousel>
