@@ -1,6 +1,6 @@
 <?php
 
-class Shopware_Plugins_Frontend_HEPTACOMAMP_Bootstrap extends Shopware_Components_Plugin_Bootstrap
+class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
     public function getVersion() {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
@@ -68,7 +68,7 @@ class Shopware_Plugins_Frontend_HEPTACOMAMP_Bootstrap extends Shopware_Component
         $this->registerMyComponents();
 
         $subscribers = array(
-            new \Shopware\HEPTACOMAMP\Subscriber\Detail()
+            new \Shopware\HeptacomAmp\Subscriber\Detail()
         );
 
         foreach ($subscribers as $subscriber) {
@@ -79,7 +79,7 @@ class Shopware_Plugins_Frontend_HEPTACOMAMP_Bootstrap extends Shopware_Component
     public function registerMyComponents()
     {
         $this->Application()->Loader()->registerNamespace(
-            'Shopware\HEPTACOMAMP',
+            'Shopware\HeptacomAmp',
             $this->Path()
         );
     }

@@ -1,7 +1,7 @@
-{block name="frontend_HEPTACOMAMP_minimal_footer"}
+{block name="frontend_heptacom_amp_minimal_footer"}
 	<div class="sw-footer">
 		{if !$hideCopyrightNotice}
-			{block name='frontend_HEPTACOMAMP_footer_vat_info'}
+			{block name='frontend_heptacom_amp_footer_vat_info'}
 				<div class="sw-footer--vat-info">
 					<p class="sw-vat-info--text">
 						{if $sOutputNet}
@@ -13,9 +13,9 @@
 				</div>
 			{/block}
 
-			{include file="frontend/HEPTACOMAMP/footer-navigation.tpl"}
+			{include file="frontend/heptacom_amp/footer_navigation.tpl"}
 
-			{block name="frontend_HEPTACOMAMP_footer_copyright"}
+			{block name="frontend_heptacom_amp_footer_copyright"}
 				<div class="sw-footer--copyright">
 					{s name="IndexCopyright" namespace="frontend/index/footer"}{/s}
 				</div>

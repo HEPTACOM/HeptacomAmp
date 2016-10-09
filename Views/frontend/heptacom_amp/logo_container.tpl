@@ -1,4 +1,4 @@
-{block name="frontend_HEPTACOMAMP_logo_container"}
+{block name="frontend_heptacom_amp_logo_container"}
 	<div class="sw-logo-container">
 		<amp-img
 			layout="flex-item"
