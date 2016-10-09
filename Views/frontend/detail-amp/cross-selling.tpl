@@ -1,7 +1,7 @@
 {if !$sArticle.crossbundlelook}{strip}
 	{if $sArticle.sSimilarArticles}
 		<span class="sw-cross-selling-header">
-			{block name="frontend_detail-amp_cross-selling_title"}
+			{block name="frontend_HEPTACOMAMP_cross-selling_title"}
 				Ähnliche Artikel
 			{/block}
 		</span>
@@ -9,7 +9,7 @@
 	{/if}
 	{if $sArticle.sRelatedArticles}
 		<span class="sw-cross-selling-header">
-			{block name="frontend_detail-amp_cross-selling_title"}
+			{block name="frontend_HEPTACOMAMP_cross-selling_title"}
 				Zubehör
 			{/block}
 		</span>

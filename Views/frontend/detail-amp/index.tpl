@@ -3,9 +3,9 @@
 	{include file="frontend/detail-amp/header.tpl"}
 	<body>
 		<header class="sw-header-main">
-			{block name='frontend_detail-amp_header_navigation'}
 				{include file="frontend/detail-amp/logo-container.tpl"}
 				{include file="frontend/detail-amp/shop-navigation.tpl"}
+			{block name='frontend_HEPTACOMAMP_header_navigation'}
 			{/block}
 		</header>
 		{include file="frontend/detail-amp/offcanvas-navigation.tpl"}

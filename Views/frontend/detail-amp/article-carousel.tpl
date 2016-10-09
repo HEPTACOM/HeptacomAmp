@@ -1,5 +1,5 @@
 {if $articles}
-	{block name="frontend_detail-amp_article-carousel"}
+	{block name="frontend_HEPTACOMAMP_article-carousel"}
 		<amp-carousel
 			class="sw-cross-selling amp-carousel"
 			layout="fixed-height"

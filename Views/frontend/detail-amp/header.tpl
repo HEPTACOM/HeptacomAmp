@@ -20,7 +20,7 @@
 
     {* Meta opengraph tags *}
     {* TODO Add schema.org meta tags *}
-    {block name='frontend_detail-amp_header_meta_tags_opengraph'}
+    {block name="frontend_HEPTACOMAMP_header_meta_tags_opengraph"}
         <meta property="og:type" content="product" />
         <meta property="og:site_name" content="{{config name=sShopname}|escapeHtml}" />
         <meta property="og:url" content="{url sArticle=$sArticle.articleID title=$sArticle.articleName}" />
@@ -40,9 +40,9 @@
     {/block}
 
     {* Meta title *}
-    <title>{block name="frontend_detail-amp_header_title"}{if $sArticle.metaTitle}{$sArticle.metaTitle|escapeHtml}{else}{$sArticle.articleName}{/if} | {{config name=sShopname}|escapeHtml}{/block}</title>
+    <title>{block name="frontend_HEPTACOMAMP_header_title"}{if $sArticle.metaTitle}{$sArticle.metaTitle|escapeHtml}{else}{$sArticle.articleName}{/if} | {{config name=sShopname}|escapeHtml}{/block}</title>
 
-    {block name="frontend_detail-amp_header_amp"}
+    {block name="frontend_HEPTACOMAMP_header_amp"}
         {literal}
             <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
         {/literal}
@@ -51,7 +51,7 @@
 
         <script async src="https://cdn.ampproject.org/v0.js"></script>
 
-        {block name="frontend_detail-amp_header_amp_extensions"}
+        {block name="frontend_HEPTACOMAMP_header_amp_extensions"}
             <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-latest.js"></script>
             <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-latest.js"></script>
             <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-latest.js"></script>

@@ -1,12 +1,12 @@
-{block name="frontend_detail-amp_article-carousel-item"}
+{block name="frontend_HEPTACOMAMP_article-carousel-item"}
 	<a href="{$article.linkDetails|rewrite:$article.articleName}">
-		{block name="frontend_detail-amp_article-carousel-item_image"}
+		{block name="frontend_HEPTACOMAMP_article-carousel-item_image"}
 			<amp-img layout="fixed-height" height="350" src="{$article.image.thumbnails[1].source}"></amp-img>
 		{/block}
-		{block name="frontend_detail-amp_article-carousel-item_text"}
+		{block name="frontend_HEPTACOMAMP_article-carousel-item_text"}
 			<amp-fit-text layout="fixed-height" height="50">
 				<span>
-					{block name="frontend_detail-amp_article-carousel-item_name"}
+					{block name="frontend_HEPTACOMAMP_article-carousel-item_name"}
 						<span class="sw-article-name">
 							{$article.articleName|truncate:50|escapeHtml}
 						</span>
@@ -14,7 +14,7 @@
 				</span>
 				<br/>
 				<span>
-					{block name="frontend_detail-amp_article-carousel-item_price"}
+					{block name="frontend_HEPTACOMAMP_article-carousel-item_price"}
 						{if $article.has_pseudoprice}
 							{include file="frontend/detail-amp/price.tpl" price=$article.price class="sw-discount"}
 							{include file="frontend/detail-amp/price.tpl" price=$article.pseudoprice}
