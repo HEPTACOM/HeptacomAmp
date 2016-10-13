@@ -18,11 +18,12 @@
 									{block name="frontend_heptacom_amp_configurator_variant_name"}
 										<p class="sw-product--configurator-variant-name">{$configurator.groupname}</p>
 									{/block}
-									
+
 									{block name="frontend_heptacom_amp_configurator_variant_options"}
 										<div>
 											{foreach $configurator.values as $option}
 												<form method="GET"
+													target="_top"
 													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
 													<input type="hidden" name="group[{$option.groupID}]" value="{$option.optionID}" />
 													<input type="submit"
@@ -57,6 +58,7 @@
 										<div>
 											{foreach from=$configurator.values item=option key=optionID}
 												<form method="GET"
+													target="_top"
 													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
 													<input type="hidden" name="group[{$configurator.groupID}]" value="{$option.optionID}" />
 													<input type="submit"
@@ -78,7 +80,7 @@
 		{/if}
 
 		{block name="frontend_heptacom_amp_buy"}
-			<form method="GET" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
+			<form method="GET" target="_top" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
 				{if $sArticle.sBlockPrices && (!$sArticle.sConfigurator || $sArticle.pricegroupActive)}
 					{foreach $sArticle.sBlockPrices as $blockPrice}
 						{if $blockPrice.from == 1}

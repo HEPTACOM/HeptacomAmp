@@ -16,6 +16,7 @@
 		{block name="frontend_heptacom_amp_shop_navigation_search_form"}
 			{* TODO always generate https url *}
 			<form method="GET"
+				target="_top"
 				action="{url controller='search' fullPath=true}"
 				class="sw-main-search-form sw-header--navigation-item">
 				{block name="frontend_heptacom_amp_shop_navigation_search_form_search-field"}
