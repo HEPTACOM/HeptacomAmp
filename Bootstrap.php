@@ -17,7 +17,7 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
                 return false;
             }
         }
-     
+
         try {
             static $r, $module = 'HeptacomAmp';
             if(!isset($r)) {
@@ -42,7 +42,8 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         }
     }
 
-    public function getVersion() {
+    public function getVersion()
+    {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
         if ($info) {
             return $info['currentVersion'];
