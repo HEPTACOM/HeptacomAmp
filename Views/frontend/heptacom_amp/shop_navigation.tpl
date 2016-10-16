@@ -20,7 +20,7 @@
 				action="{url controller='search' fullPath=true}"
 				class="sw-main-search-form sw-header--navigation-item">
 				{block name="frontend_heptacom_amp_shop_navigation_search_form_search-field"}
-					<input type="search" placeholder="Suchbegriff..." maxlength="30" />
+					<input type="search" name="sSearch" placeholder="Suchbegriff..." maxlength="30" />
 				{/block}
 			</form>
 		{/block}
