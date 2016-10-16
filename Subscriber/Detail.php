@@ -10,6 +10,7 @@ class Detail implements SubscriberInterface
     {
         return array(
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontend',
         );
     }
 
@@ -20,10 +21,10 @@ class Detail implements SubscriberInterface
         $view = $controller->View();
 
         $view->addTemplateDir(__DIR__ . '/../Views');
+    }
 
-        if ($request->getParam('amp') == 1) {
-            $template = $view->createTemplate('frontend/heptacom_amp/index.tpl');
-            $view->setTemplate($template);
-        }
+    public function onGetControllerPathFrontend(\Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '/../Controllers/Frontend/HeptacomAmpDetail.php';
     }
 }
