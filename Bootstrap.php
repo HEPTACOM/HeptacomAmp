@@ -78,7 +78,10 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
 
     public function update($oldVersion)
     {
-        return true;
+        return [
+            'success' => true,
+            'invalidateCache' => ['template', 'theme']
+        ];
     }
 
     public function install()
@@ -93,10 +96,10 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
 
     public function enable()
     {
-       return [
-           'success' => true,
-           'invalidateCache' => ['template', 'theme']
-       ];
+        return [
+            'success' => true,
+            'invalidateCache' => ['template', 'theme']
+        ];
     }
 
     /**
