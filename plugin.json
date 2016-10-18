@@ -10,12 +10,13 @@
     "link": "https://www.heptacom.de/",
     "author": "HEPTACOM GbR",
 
-    "currentVersion": "1.0.1",
+    "currentVersion": "1.0.2",
 
     "changelog": {
         "de": {
             "1.0.0": "Erstveröffentlichung",
-            "1.0.1": "Konflikte mit anderen Plugins behoben. Außerdem kleinere Bugfixes."
+            "1.0.1": "Konflikte mit anderen Plugins behoben. Außerdem kleinere Bugfixes.",
+            "1.0.2": "Template-Konflikte behoben."
         }
     },
 
