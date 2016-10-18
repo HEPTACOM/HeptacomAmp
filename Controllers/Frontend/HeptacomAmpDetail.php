@@ -9,6 +9,8 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     {
         parent::indexAction();
 
+        $this->View()->Engine()->template_class = 'Shopware\\HeptacomAmp\\Template\\HeptacomAmp';
+
         $this->View()->setTemplateDir(
             array(
                 Shopware()->DocPath() . '/themes/Frontend/Bare',
@@ -16,7 +18,6 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
                 __DIR__ . '/../../Views'
             )
         );
-        $template = $this->View()->createTemplate('frontend/heptacom_amp/index.tpl');
-        $this->View()->setTemplate($template);
+        $this->View()->loadTemplate('frontend/heptacom_amp/index.tpl');
     }
 }
