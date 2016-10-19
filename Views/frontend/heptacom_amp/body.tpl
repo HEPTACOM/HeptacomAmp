@@ -1,12 +1,6 @@
 <body>
 	{block name="frontend_heptacom_amp_body"}
-		<header class="sw-header-main">
-			{block name='frontend_heptacom_amp_header_navigation'}
-				{include file="frontend/heptacom_amp/logo_container.tpl"}
-				{include file="frontend/heptacom_amp/shop_navigation.tpl"}
-			{/block}
-		</header>
-		{include file="frontend/heptacom_amp/offcanvas_navigation.tpl"}
+		{include file="frontend/heptacom_amp/body/header.tpl"}
 		<h1 class="sw-product--title">
 			{$sArticle.articleName}
 		</h1>
