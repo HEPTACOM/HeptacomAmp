@@ -24,9 +24,6 @@
     <title>{block name="frontend_heptacom_amp_header_title"}{if $sArticle.metaTitle}{$sArticle.metaTitle|escapeHtml}{else}{$sArticle.articleName}{/if} | {{config name=sShopname}|escapeHtml}{/block}</title>
 
     {block name="frontend_heptacom_amp_header_amp"}
-        {literal}
-            <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
-        {/literal}
 
         {include file="frontend/heptacom_amp/custom_style.tpl"}
 
