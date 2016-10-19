@@ -18,7 +18,7 @@
 						{foreach from=$configurator.values item=option key=optionID}
 							<form method="GET"
 								target="_top"
-								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID controller=index}">
 								<input type="hidden" name="group[{$configurator.groupID}]" value="{$option.optionID}" />
 								<input type="submit"
 									class="sw-product--configurator-variant-option sw-btn{if (!$option.selectable) or ($groupID gt 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected))} sw-is--disabled{/if}{if $option.selected && $configurator.user_selected} sw-is--primary{/if}"

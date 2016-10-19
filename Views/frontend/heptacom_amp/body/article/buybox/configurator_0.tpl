@@ -11,7 +11,7 @@
 						{foreach $configurator.values as $option}
 							<form method="GET"
 								target="_top"
-								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID controller=index}">
 								<input type="hidden" name="group[{$option.groupID}]" value="{$option.optionID}" />
 								<input type="submit"
 									class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}"
