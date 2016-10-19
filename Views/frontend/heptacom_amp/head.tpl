@@ -25,12 +25,6 @@
         <meta property="product:brand" content="{$sArticle.supplierName|escapeHtml}" />
         <meta property="product:price" content="{$sArticle.price}" />
         <meta property="product:product_link" content="{url sArticle=$sArticle.articleID title=$sArticle.articleName}" />
-
-        <meta name="twitter:card" content="product" />
-        <meta name="twitter:site" content="{{config name=sShopname}|escapeHtml}" />
-        <meta name="twitter:title" content="{$sArticle.articleName|escapeHtml}" />
-        <meta name="twitter:description" content="{$sArticle.description_long|strip_tags|truncate:240|escapeHtml}" />
-        <meta name="twitter:image" content="{$sArticle.image.source}" />
     {/block}
 
     {* Meta title *}
