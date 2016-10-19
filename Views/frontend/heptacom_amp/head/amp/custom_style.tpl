@@ -1,5 +1,5 @@
 <style amp-custom>
-	{include file="frontend/heptacom_amp/custom_style_icons.tpl"}
+	{include file="frontend/heptacom_amp/head/amp/custom_style_icons.tpl"}
 	{literal}
 		@font-face
 		{

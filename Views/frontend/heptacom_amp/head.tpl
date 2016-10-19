@@ -23,9 +23,5 @@
     {* Meta title *}
     <title>{block name="frontend_heptacom_amp_header_title"}{if $sArticle.metaTitle}{$sArticle.metaTitle|escapeHtml}{else}{$sArticle.articleName}{/if} | {{config name=sShopname}|escapeHtml}{/block}</title>
 
-    {block name="frontend_heptacom_amp_header_amp"}
-        {include file="frontend/heptacom_amp/custom_style.tpl"}
-
-        {include file="frontend/heptacom_amp/head/amp.tpl"}
-    {/block}
+    {include file="frontend/heptacom_amp/head/amp.tpl"}
 </head>
