@@ -15,6 +15,6 @@
 		{include file="frontend/heptacom_amp/buybox.tpl"}
 		{include file="frontend/heptacom_amp/description.tpl"}
 		{include file="frontend/heptacom_amp/cross_selling.tpl"}
-		{include file="frontend/heptacom_amp/footer.tpl"}
+		{include file="frontend/heptacom_amp/body/footer.tpl"}
 	{/block}
 </body>
