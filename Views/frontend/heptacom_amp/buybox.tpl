@@ -24,7 +24,7 @@
 											{foreach $configurator.values as $option}
 												<form method="GET"
 													target="_top"
-													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID controller='index'}">
 													<input type="hidden" name="group[{$option.groupID}]" value="{$option.optionID}" />
 													<input type="submit"
 														class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}"
@@ -59,7 +59,7 @@
 											{foreach from=$configurator.values item=option key=optionID}
 												<form method="GET"
 													target="_top"
-													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+													action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID controller='index'}">
 													<input type="hidden" name="group[{$configurator.groupID}]" value="{$option.optionID}" />
 													<input type="submit"
 														class="sw-product--configurator-variant-option sw-btn{if (!$option.selectable) or ($groupID gt 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected))} sw-is--disabled{/if}{if $option.selected && $configurator.user_selected} sw-is--primary{/if}"
@@ -80,7 +80,7 @@
 		{/if}
 
 		{block name="frontend_heptacom_amp_buy"}
-			<form method="GET" target="_top" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
+			<form method="GET" target="_top" action="{url controller=checkout action=addArticle controller='index'}" class="sw-buybox--form">
 				{if $sArticle.sBlockPrices && (!$sArticle.sConfigurator || $sArticle.pricegroupActive)}
 					{foreach $sArticle.sBlockPrices as $blockPrice}
 						{if $blockPrice.from == 1}
@@ -112,7 +112,7 @@
 									{block name="frontend_heptacom_amp_buy_button"}
 										{if $sArticle.sConfigurator && !$activeConfiguratorSelection}
 											<a class="sw-buybox--button sw-buybox--button-configure sw-btn sw-is--primary sw-is--icon-right sw-is--center sw-is--large"
-												href="{url sArticle=$sArticle.articleID title=$sArticle.articleName}">
+												href="{url sArticle=$sArticle.articleID title=$sArticle.articleName controller='index'}">
 												{s name="OpenCanonicalConfigurator" namespace="frontend/heptacom_amp/buy"}Jetzt konfigurieren{/s} <i class="icon--arrow-right"></i>
 											</a>
 										{else}
