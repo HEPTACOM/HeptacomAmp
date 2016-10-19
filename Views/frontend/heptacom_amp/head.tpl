@@ -1,9 +1,6 @@
 <head>
     <meta charset="utf-8">
 
-    {* Canonical link *}
-    <link rel="canonical" href="{url sArticle=$sArticle.articleID title=$sArticle.articleName}">
-
     {include file="frontend/heptacom_amp/head/meta_tags.tpl"}
 
     {* Keywords *}
