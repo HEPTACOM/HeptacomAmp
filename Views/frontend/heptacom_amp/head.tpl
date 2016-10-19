@@ -4,13 +4,7 @@
     {* Canonical link *}
     <link rel="canonical" href="{url sArticle=$sArticle.articleID title=$sArticle.articleName}">
 
-    {block name='frontend_index_header_meta_tags_mobile'}
-        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-title" content="{if $theme.appleWebAppTitle != ""}{$theme.appleWebAppTitle|escapeHtml}{else}{{config name=sShopname}|escapeHtml}{/if}">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    {/block}
+    {include file="frontend/heptacom_amp/head/meta_tags.tpl"}
 
     {* Keywords *}
     <meta name="keywords" content="{block name="frontend_index_header_meta_keywords"}{if $sArticle.keywords}{$sArticle.keywords|escapeHtml}{elseif $sArticle.sDescriptionKeywords}{$sArticle.sDescriptionKeywords|escapeHtml}{/if}{/block}" />
