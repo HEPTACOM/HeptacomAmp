@@ -34,7 +34,7 @@
 			font-style: normal
 		}
 
-		@font-face 
+		@font-face
 		{
 			font-family: 'Open Sans';
 			{/literal}
@@ -155,12 +155,12 @@
 
 		.slide
 		{
-			
+
 		}
 
 		.sw-article-name
 		{
-			
+
 		}
 
 		.amp-carousel.sw-article-images
@@ -176,7 +176,7 @@
 
 		.sw-block-group
 		{
-			
+
 		}
 
 		.sw-btn
@@ -334,22 +334,22 @@
 
 		.sw-buybox--button-container
 		{
-			
+
 		}
 
 		.sw-buybox--form
 		{
-			
+
 		}
 
 		.sw-categories--navigation
 		{
-			
+
 		}
 
 		.sw-content--default
 		{
-			
+
 		}
 
 		.sw-content--discount
@@ -364,7 +364,7 @@
 
 		.sw-content--starting-from
 		{
-			
+
 		}
 
 		.sw-cross-selling img
@@ -386,12 +386,12 @@
 
 		.sw-discount
 		{
-			
+
 		}
 
 		.sw-footer
 		{
-			
+
 		}
 
 		.sw-footer--copyright
@@ -448,7 +448,7 @@
 
 		.sw-has--sub-categories
 		{
-			
+
 		}
 
 		.sw-header-main
@@ -483,7 +483,7 @@
 
 		.sw-is--active
 		{
-			
+
 		}
 
 		.sw-is--center
@@ -508,12 +508,12 @@
 
 		.sw-is--level0
 		{
-			
+
 		}
 
 		.sw-label--purchase-unit
 		{
-			
+
 		}
 
 		.sw-logo-container
@@ -541,7 +541,7 @@
 			height: 2.5rem;
 			padding: 9px 38px 9px 9px;
 			padding: .5625rem 2.375rem .5625rem .5625rem;
-			position: relative;			
+			position: relative;
 			vertical-align: middle;
 			width: 100%;
 		}
@@ -572,7 +572,7 @@
 			display: block;
 			font-size: {/literal}{$theme["panel-header-font-size"]}{literal}px;
 			font-size: {/literal}{intval($theme["panel-header-font-size"])/16.0}{literal}rem;
-			font-weight: bold;	
+			font-weight: bold;
 			line-height: 38px;
 			line-height: 2.375rem;
 			position: relative;
@@ -609,7 +609,7 @@
 
 		.sw-price
 		{
-			
+
 		}
 
 		.sw-price--content
@@ -625,7 +625,7 @@
 
 		.sw-price--default
 		{
-			
+
 		}
 
 		.sw-price--discount .sw-price--content
@@ -654,12 +654,12 @@
 
 		.sw-price--discount-percentage
 		{
-			
+
 		}
 
 		.sw-price--label
 		{
-			
+
 		}
 
 		.sw-price--line-through
@@ -669,15 +669,15 @@
 
 		.sw-price--unit
 		{
-			
+
 		}
 
 		.sw-product--buybox
 		{
-			
+
 		}
 
-		.sw-product--configurator-variant-group form
+		.sw-product--configurator-variant-group button
 		{
 			box-sizing: border-box;
 			display: inline-block;
@@ -686,11 +686,6 @@
 			margin-bottom: .625rem;
 			overflow: hidden;
 			width: 22%;
-		}
-
-		.sw-product--configurator-variant-group form input[type=submit]
-		{
-			width: 100%;
 		}
 
 		.sw-product--configurator-variant-name
@@ -764,13 +759,13 @@
 
 		.sw-product--details
 		{
-			
+
 		}
 
 		.sw-product--price
 		{
 			float: left;
-			margin: 0;			
+			margin: 0;
 			max-width: 50%;
 			padding: 0;
 			width: 50%;
@@ -779,12 +774,12 @@
 		.sw-product--supplier
 		{
 			float: right;
-			margin: 0;			
+			margin: 0;
 			max-width: 50%;
 			padding: 0;
 			width: 50%;
 		}
-		
+
 		.sw-product--supplier img
 		{
 			object-fit: contain;
@@ -798,7 +793,7 @@
 
 		.sw-product--supplier-link
 		{
-			
+
 		}
 
 		.alert--icon,
@@ -816,7 +811,7 @@
 
 		.sw-sidebar--navigation
 		{
-			
+
 		}
 
 		.amp-carousel-button

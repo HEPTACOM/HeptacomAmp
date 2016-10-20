@@ -4,7 +4,7 @@
 		{include file="frontend/heptacom_amp/body/article/buybox/configurators.tpl"}
 
 		{block name="frontend_heptacom_amp_body_article_buybox_formular"}
-			<form method="GET" target="_top" action="{url controller=checkout action=addArticle}" class="sw-buybox--form">
+			<form method="GET" target="_top" action="{url controller='checkout' action='addArticle'}" class="sw-buybox--form">
 				{include file="frontend/heptacom_amp/body/article/buybox/hidden_values.tpl"}
 
 				{if (!isset($sArticle.active) || $sArticle.active)}

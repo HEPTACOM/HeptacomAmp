@@ -14,7 +14,7 @@
     {block name="frontend_heptacom_amp_header_meta_tags_opengraph"}
         <meta property="product:brand" content="{$sArticle.supplierName|escapeHtml}" />
         <meta property="product:price" content="{$sArticle.price}" />
-        <meta property="product:product_link" content="{url sArticle=$sArticle.articleID title=$sArticle.articleName controller=index}" />
+        <meta property="product:product_link" content="{url sArticle=$sArticle.articleID title=$sArticle.articleName controller='detail'}" />
     {/block}
 
     {* Meta title *}

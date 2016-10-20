@@ -8,17 +8,17 @@
 
 				{block name="frontend_heptacom_amp_body_article_buybox_configurator_variant_options"}
 					<div>
-						{foreach $configurator.values as $option}
-							<form method="GET"
-								target="_top"
-								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID controller=index}">
-								<input type="hidden" name="group[{$option.groupID}]" value="{$option.optionID}" />
-								<input type="submit"
-									class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}"
-									value="{$option.optionname}" />
-								</input>
-							</form>
-						{/foreach}
+						<form method="GET"
+							target="_top"
+							action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
+							{foreach $configurator.values as $option}
+								<button name="group[{$option.groupID}]"
+									value="{$option.optionID}"
+									class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}">
+									{$option.optionname}
+								</button>
+							{/foreach}
+						</form>
 					</div>
 				{/block}
 			</div>
