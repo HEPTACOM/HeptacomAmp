@@ -1,4 +1,4 @@
-{block name="frontend_heptacom_amp_logo_container"}
+{block name="frontend_heptacom_amp_body_header_logo"}
 	<a href="{url controller='index'}" class="sw-logo-container">
 		<amp-img
 			layout="flex-item"
