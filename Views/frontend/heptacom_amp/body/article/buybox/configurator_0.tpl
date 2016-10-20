@@ -13,7 +13,7 @@
 							action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
 							{foreach $configurator.values as $option}
 								<button name="group[{$option.groupID}]"
-									value="{$option.optionID}"
+									value="{$option.optionID}"{if !$option.selectable} disabled="disabled"{/if}
 									class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}">
 									{$option.optionname}
 								</button>
