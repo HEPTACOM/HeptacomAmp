@@ -37,7 +37,6 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
         try
         {
-            // TODO number ist null und selection ist []. Damit bekomme ich keinen Artikel
             return Shopware()->Modules()->Articles()->sGetArticleById($id, $categoryId, $number, $selection);
         }
         catch (RuntimeException $e)
