@@ -152,8 +152,9 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         
         $result['productID'] = $sArticle['ordernumber'];
         $result['name'] = $sArticle['articleName'];
-        $result['url'] = ''; // TODO AMP Controller URL zu diesem Artikel
-        $result['sameAs'] = ''; // TODO Shopware Detail Controller URL zu diesem Artikel
+
+        $result['url'] = Shopware()->Front()->Router()->assemble(['controller' => 'heptacomAmpDetail', 'action' => 'index', 'sArticle' => $sArticle['articleID']]);
+        $result['sameAs'] = Shopware()->Front()->Router()->assemble(['controller' => 'detail', 'action' => 'index', 'sArticle' => $sArticle['articleID']]);
 
         if (array_key_exists('description_long', $sArticle))
         {
