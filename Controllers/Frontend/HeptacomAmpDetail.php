@@ -20,17 +20,17 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         );
         $this->View()->loadTemplate('frontend/heptacom_amp/index.tpl');
         // TODO Variablennamen verbesse
-        $this->View()->assign('ampSchemaOrgProduct', self::_sArticleToSchemaOrgProduct($this->_getSArticle()));
+        $this->View()->assign('ampSchemaOrgProduct', self::sArticleToSchemaOrgProduct($this->getSArticle()));
     }
 
-    private function _getSArticle()
+    private function getSArticle()
     {
         $id = (int)$this->Request()->sArticle;
         $number = $this->Request()->getParam('number', null);
         $selection = $this->Request()->getParam('group', array());
         $categoryId = $this->Request()->get('sCategory');
         
-        if (!self::_isValidCategory($categoryId))
+        if (!self::isValidCategory($categoryId))
         {
             $categoryId = 0;
         }
@@ -51,7 +51,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
      * @param int $categoryId
      * @return bool
      */
-    private static function _isValidCategory($categoryId)
+    private static function isValidCategory($categoryId)
     {
         $defaultShopCategoryId = Shopware()->Shop()->getCategory()->getId();
         $repository = Shopware()->Models()->getRepository('Shopware\Models\Category\Category');
@@ -69,7 +69,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return true;
     }
 
-    private static function _sImageToSchemaOrgImage($sImage)
+    private static function sImageToSchemaOrgImage($sImage)
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Image'];
 
@@ -124,7 +124,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
-    private static function _schemaOrgBrandFromSArticle($sArticle)
+    private static function schemaOrgBrandFromSArticle($sArticle)
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Brand'];
 
@@ -146,7 +146,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
-    private static function _sArticleToSchemaOrgProduct($sArticle)
+    private static function sArticleToSchemaOrgProduct($sArticle)
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Product'];
         
@@ -167,7 +167,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
         if (array_key_exists('image', $sArticle))
         {
-            $image = self::_sImageToSchemaOrgImage($sArticle['image']);
+            $image = self::sImageToSchemaOrgImage($sArticle['image']);
 
             if (!empty($image))
             {
@@ -175,7 +175,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
             }
         }
 
-        $brand = self::_schemaOrgBrandFromSArticle($sArticle);
+        $brand = self::schemaOrgBrandFromSArticle($sArticle);
 
         if (!empty($brand))
         {
