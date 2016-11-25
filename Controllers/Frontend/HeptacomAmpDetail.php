@@ -185,8 +185,8 @@ TODO
                     'offers' => ['type' => '@Offer'
                         'price' => $sArticle.price_nummeric,
                         'availability' => 'TODO CHECK IMPLEMENTATION'
-                        'priceCurrency' => 'TODO FROM SHOP'
-                    ],
+                        'priceCurrency' => Shopware()->Shop()->getCurrency()->getCurrency()
+                    ]
 */
     }
 }
