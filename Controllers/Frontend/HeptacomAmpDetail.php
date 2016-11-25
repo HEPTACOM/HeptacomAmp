@@ -75,43 +75,43 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
         if (!empty($sImage))
         {
-            if (!empty($sImage->source))
+            if (array_key_exists('source', $sImage))
             {
-                $result['url'] = $result['contentUrl'] = $sImage->source;
+                $result['url'] = $result['contentUrl'] = $sImage['source'];
             }
 
-            if (!empty($sImage->width))
+            if (array_key_exists('width', $sImage))
             {
-                $result['width'] = $sImage->width;
+                $result['width'] = $sImage['width'];
             }
 
-            if (!empty($sImage->height))
+            if (array_key_exists('height', $sImage))
             {
-                $result['height'] = $sImage->height;
+                $result['height'] = $sImage['height'];
             }
 
-            if (!empty($sImage->description))
+            if (array_key_exists('description', $sImage))
             {
-                $result['description'] = $sImage->description;
+                $result['description'] = $sImage['description'];
             }
 
-            if (!empty($sImage->thumbnails))
+            if (array_key_exists('thumbnails', $sImage) && is_array($sImage['thumbnails']) && !empty($sImage['thumbnails']))
             {
                 $thumbnail = ['@context' => 'http://schema.org', '@type' => 'Image'];
 
-                if (!empty($sImage->thumbnails[0]->source))
+                if (array_key_exists('source', $sImage['thumbnails'][0]))
                 {
-                    $thumbnail['url'] = $thumbnail['contentUrl'] = $sImage->thumbnails[0]->source;
+                    $thumbnail['url'] = $thumbnail['contentUrl'] = $sImage['thumbnails'][0]['source'];
+                }
+                
+                if (array_key_exists('maxWidth', $sImage['thumbnails'][0]))
+                {
+                    $thumbnail['width'] = $sImage['thumbnails'][0]['maxWidth'];
                 }
 
-                if (!empty($sImage->thumbnails[0]->maxWidth))
+                if (array_key_exists('maxHeight', $sImage['thumbnails'][0]))
                 {
-                    $thumbnail['width'] = $sImage->thumbnails[0]->maxWidth;
-                }
-
-                if (!empty($sImage->thumbnails[0]->maxHeight))
-                {
-                    $thumbnail['height'] = $sImage->thumbnails[0]->maxHeight;
+                    $thumbnail['height'] = $sImage['thumbnails'][0]['maxHeight'];
                 }
 
                 if (count($thumbnail) > 2)
