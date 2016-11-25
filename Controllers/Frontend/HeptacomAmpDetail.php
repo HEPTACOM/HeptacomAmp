@@ -150,26 +150,29 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Product'];
         
-        $result['productID'] = $sArticle->ordernumber;
-        $result['name'] = $sArticle->articleName;
+        $result['productID'] = $sArticle['ordernumber'];
+        $result['name'] = $sArticle['articleName'];
         $result['url'] = ''; // TODO AMP Controller URL zu diesem Artikel
         $result['sameAs'] = ''; // TODO Shopware Detail Controller URL zu diesem Artikel
 
-        if (!empty($sArticle->description_long))
+        if (array_key_exists('description_long', $sArticle))
         {
-            $result['description'] = $sArticle->description_long;
+            $result['description'] = strip_tags($sArticle['description_long']);
         }
 
-        if (!empty($sArticle->description))
+        if (array_key_exists('description', $sArticle))
         {
-            $result['disambiguatingDescription'] = $sArticle->description;
+            $result['disambiguatingDescription'] = $sArticle['description'];
         }
 
-        $image = self::_sImageToSchemaOrgImage($sArticle->image);
-
-        if (!empty($image))
+        if (array_key_exists('image', $sArticle))
         {
-            $result['image'] = $image;
+            $image = self::_sImageToSchemaOrgImage($sArticle['image']);
+
+            if (!empty($image))
+            {
+                $result['image'] = $image;
+            }
         }
 
         $brand = self::_schemaOrgBrandFromSArticle($sArticle);
