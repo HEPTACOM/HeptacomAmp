@@ -128,19 +128,19 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Brand'];
 
-        if (!empty($sArticle->supplierName))
+        if (array_key_exists('supplierName', $sArticle))
         {
-            $result['name'] = $sArticle->supplierName;
+            $result['name'] = $sArticle['supplierName'];
         }
 
-        if (!empty($sArticle->supplierImg))
+        if (array_key_exists('supplierImg', $sArticle))
         {
-            $result['image'] = $sArticle->supplierImg;
+            $result['image'] = $sArticle['supplierImg'];
         }
 
-        if (!empty($sArticle->supplierDescription))
+        if (array_key_exists('supplierDescription', $sArticle))
         {
-            $result['description'] = $sArticle->supplierDescription;
+            $result['description'] = $sArticle['supplierDescription'];
         }
 
         return count($result) == 2 ? [] : $result;
