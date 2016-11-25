@@ -187,8 +187,6 @@ TODO
                         'availability' => 'TODO CHECK IMPLEMENTATION'
                         'priceCurrency' => 'TODO FROM SHOP'
                     ],
-                    'isRelatedTo' => '$sArticle.sRelatedArticles',
-                    'isSimilarTo' => '$sArticle.sSimilarArticles']}
 */
     }
 }
