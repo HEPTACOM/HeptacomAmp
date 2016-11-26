@@ -71,7 +71,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
     private static function sImageToSchemaOrgImage($sImage)
     {
-        $result = ['@context' => 'http://schema.org', '@type' => 'Image'];
+        $result = ['@context' => 'http://schema.org', '@type' => 'ImageObject'];
 
         if (!empty($sImage))
         {
@@ -97,7 +97,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
             if (array_key_exists('thumbnails', $sImage) && is_array($sImage['thumbnails']) && !empty($sImage['thumbnails']))
             {
-                $thumbnail = ['@context' => 'http://schema.org', '@type' => 'Image'];
+                $thumbnail = ['@context' => 'http://schema.org', '@type' => 'ImageObject'];
 
                 if (array_key_exists('source', $sImage['thumbnails'][0]))
                 {
