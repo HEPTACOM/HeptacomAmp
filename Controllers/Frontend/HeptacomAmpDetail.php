@@ -146,6 +146,19 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
+    private static function schemaOrgOfferFromSArticle($sArticle)
+    {
+        $result = ['@context' => 'http://schema.org', '@type' => 'Offer'];
+
+        if (array_key_exists('price_numeric', $sArticle))
+        {
+            $result['price'] = $sArticle['price_numeric'];
+            $result['priceCurrency'] = Shopware()->Shop()->getCurrency()->getCurrency();
+        }
+
+        return count($result) == 2 ? [] : $result;
+    }
+
     private static function sArticleToSchemaOrgProduct($sArticle)
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'Product'];
@@ -183,14 +196,13 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
             $result['brand'] = $brand;
         }
 
+        $offer = self::schemaOrgOfferFromSArticle($sArticle);
+
+        if (!empty($offer))
+        {
+            $result['offers'] = $offer;
+        }
+
         return $result;
-/*
-TODO
-                    'offers' => ['type' => '@Offer'
-                        'price' => $sArticle.price_nummeric,
-                        'availability' => 'TODO CHECK IMPLEMENTATION'
-                        'priceCurrency' => Shopware()->Shop()->getCurrency()->getCurrency()
-                    ]
-*/
     }
 }
