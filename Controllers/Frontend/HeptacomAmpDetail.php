@@ -30,7 +30,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         $selection = $this->Request()->getParam('group', array());
         $categoryId = $this->Request()->get('sCategory');
         
-        if (!self::isValidCategory($categoryId))
+        if (!self::isCategoryValid($categoryId))
         {
             $categoryId = 0;
         }
@@ -51,7 +51,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
      * @param int $categoryId
      * @return bool
      */
-    private static function isValidCategory($categoryId)
+    private static function isCategoryValid($categoryId)
     {
         $defaultShopCategoryId = Shopware()->Shop()->getCategory()->getId();
         $repository = Shopware()->Models()->getRepository('Shopware\Models\Category\Category');
