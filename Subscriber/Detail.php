@@ -22,10 +22,25 @@ class Detail implements SubscriberInterface
      */
     public function onFrontendDetailPostDispatch(\Enlight_Event_EventArgs $args)
     {
+        $request = $args->getRequest();
         $controller = $args->getSubject();
         $view = $controller->View();
 
         $view->addTemplateDir(__DIR__ . '/../Views');
+
+        if ($request->getParam('amp') == 1) {
+            $sArticle = (int) $request->get('sArticle');
+
+            $location = Shopware()->Front()->Router()->assemble([
+                'controller' => 'heptacomAmpDetail',
+                'action' => 'index',
+                'sArticle' => $sArticle,
+            ]);
+            
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location:' . $location);
+            die;
+        }
     }
 
     /**
