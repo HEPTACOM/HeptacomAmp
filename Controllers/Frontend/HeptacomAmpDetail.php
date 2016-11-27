@@ -28,47 +28,11 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         $id = (int)$this->Request()->sArticle;
         $number = $this->Request()->getParam('number', null);
         $selection = $this->Request()->getParam('group', array());
-        $categoryId = $this->Request()->get('sCategory');
-        
-        if (!self::isCategoryValid($categoryId))
-        {
-            $categoryId = 0;
-        }
 
-        try
-        {
-            return Shopware()->Modules()->Articles()->sGetArticleById($id, $categoryId, $number, $selection);
-        }
-        catch (RuntimeException $e)
-        {
-            return null;
-        }
     }
 
     /**
-     * Checks if the provided $categoryId is in the current shop's category tree
-     *
-     * @param int $categoryId
-     * @return bool
      */
-    private static function isCategoryValid($categoryId)
-    {
-        $defaultShopCategoryId = Shopware()->Shop()->getCategory()->getId();
-        $repository = Shopware()->Models()->getRepository('Shopware\Models\Category\Category');
-        $categoryPath = $repository->getPathById($categoryId);
-        
-        if (!$categoryPath)
-        {
-            return true;
-        }
-        
-        if (!array_key_exists($defaultShopCategoryId, $categoryPath))
-        {
-            return false;
-        }
-        return true;
-    }
-
     private static function sImageToSchemaOrgImage($sImage)
     {
         $result = ['@context' => 'http://schema.org', '@type' => 'ImageObject'];
