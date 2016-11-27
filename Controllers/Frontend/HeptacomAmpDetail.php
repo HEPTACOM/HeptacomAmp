@@ -22,6 +22,9 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
     }
 
+    /**
+     * @return array
+     */
     private function getSArticle()
     {
         $id = (int) $this->Request()->get('sArticle');
@@ -32,6 +35,8 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     }
 
     /**
+     * @param $sImage
+     * @return array
      */
     private static function sImageToSchemaOrgImage($sImage)
     {
@@ -87,6 +92,10 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
+    /**
+     * @param $sArticle
+     * @return array
+     */
     private static function schemaOrgBrandFromSArticle($sArticle)
     {
         $result = [
@@ -109,6 +118,10 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
+    /**
+     * @param $sArticle
+     * @return array
+     */
     private static function schemaOrgOfferFromSArticle($sArticle)
     {
         $result = [
@@ -124,6 +137,10 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         return count($result) == 2 ? [] : $result;
     }
 
+    /**
+     * @param $sArticle
+     * @return array
+     */
     private static function sArticleToSchemaOrgProduct($sArticle)
     {
         $result = [

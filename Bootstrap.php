@@ -42,6 +42,10 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         }
     }
 
+    /**
+     * @return mixed
+     * @throws Exception
+     */
     public function getVersion()
     {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
@@ -52,11 +56,17 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         }
     }
 
+    /**
+     * @return string
+     */
     public function getLabel()
     {
         return 'AMP Detailseite';
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
@@ -71,11 +81,18 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         );
     }
 
+    /**
+     * @return bool
+     */
     public function uninstall()
     {
         return true;
     }
 
+    /**
+     * @param string $oldVersion
+     * @return array
+     */
     public function update($oldVersion)
     {
         return [
@@ -84,6 +101,9 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function install()
     {
         $this->subscribeEvent(
@@ -94,6 +114,9 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function enable()
     {
         return [
@@ -103,9 +126,7 @@ class Shopware_Plugins_Frontend_HeptacomAmp_Bootstrap extends Shopware_Component
     }
 
     /**
-     * This callback function is triggered at the very beginning of the dispatch process and allows
-     * us to register additional events on the fly. This way you won't ever need to reinstall you
-     * plugin for new events - any event and hook can simply be registerend in the event subscribers
+     * @param Enlight_Event_EventArgs $args
      */
     public function onStartDispatch(Enlight_Event_EventArgs $args)
     {
