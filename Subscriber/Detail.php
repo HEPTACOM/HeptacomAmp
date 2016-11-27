@@ -16,7 +16,6 @@ class Detail implements SubscriberInterface
 
     public function onFrontendDetailPostDispatch(\Enlight_Event_EventArgs $args)
     {
-        $request = $args->getRequest();
         $controller = $args->getSubject();
         $view = $controller->View();
 
