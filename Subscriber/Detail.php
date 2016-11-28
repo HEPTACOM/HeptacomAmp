@@ -31,15 +31,11 @@ class Detail implements SubscriberInterface
         if ($request->getParam('amp') == 1) {
             $sArticle = (int) $request->get('sArticle');
 
-            $location = Shopware()->Front()->Router()->assemble([
+            $controller->redirect([
                 'controller' => 'heptacomAmpDetail',
                 'action' => 'index',
                 'sArticle' => $sArticle,
             ]);
-            
-            header('HTTP/1.1 301 Moved Permanently');
-            header('Location:' . $location);
-            die;
         }
     }
 
