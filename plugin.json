@@ -10,7 +10,7 @@
     "link": "https://www.heptacom.de/",
     "author": "HEPTACOM GbR",
 
-    "currentVersion": "1.0.4",
+    "currentVersion": "1.0.5",
 
     "changelog": {
         "de": {
@@ -18,7 +18,8 @@
             "1.0.1": "Konflikte mit anderen Plugins behoben. Außerdem kleinere Bugfixes.",
             "1.0.2": "Template-Konflikte behoben.",
             "1.0.3": "Neue Template-Struktur. Außerdem einige Links korrigiert.",
-            "1.0.4": "Strukturierte Daten hinzugefügt."
+            "1.0.4": "Strukturierte Daten hinzugefügt.",
+            "1.0.5": "Template-Überladung ermöglicht. Dazu ein Theme mit dem Namen \"HeptacomAmp\" anlegen und darin im Ordner \"frontend/heptacom_amp/\" das Template überladen."
         }
     },
 
