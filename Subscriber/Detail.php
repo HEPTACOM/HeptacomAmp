@@ -3,6 +3,9 @@
 namespace Shopware\HeptacomAmp\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
+use Enlight_Controller_Request_Request;
+use Enlight_Event_EventArgs;
+use Shopware_Controllers_Frontend_Detail;
 
 class Detail implements SubscriberInterface
 {
@@ -18,12 +21,14 @@ class Detail implements SubscriberInterface
     }
 
     /**
-     * @param \Enlight_Event_EventArgs $args
+     * @param Enlight_Event_EventArgs $args
      */
-    public function onFrontendDetailPostDispatch(\Enlight_Event_EventArgs $args)
+    public function onFrontendDetailPostDispatch(Enlight_Event_EventArgs $args)
     {
-        $request = $args->getRequest();
-        $controller = $args->getSubject();
+        /** @var Enlight_Controller_Request_Request $request */
+        $request = $args->get('request');
+        /** @var Shopware_Controllers_Frontend_Detail $controller */
+        $controller = $args->get('subject');
         $view = $controller->View();
 
         $view->addTemplateDir(__DIR__ . '/../Views');
@@ -40,10 +45,10 @@ class Detail implements SubscriberInterface
     }
 
     /**
-     * @param \Enlight_Event_EventArgs $args
+     * @param Enlight_Event_EventArgs $args
      * @return string
      */
-    public function onGetControllerPathFrontend(\Enlight_Event_EventArgs $args)
+    public function onGetControllerPathFrontend(Enlight_Event_EventArgs $args)
     {
         return __DIR__ . '/../Controllers/Frontend/HeptacomAmpDetail.php';
     }
