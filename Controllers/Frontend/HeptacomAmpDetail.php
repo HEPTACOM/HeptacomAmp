@@ -18,6 +18,9 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
                 __DIR__ . '/../../Views'
             )
         );
+        if (file_exists(Shopware()->DocPath() . '/themes/Frontend/HeptacomAmp')) {
+            $this->View()->addTemplateDir(Shopware()->DocPath() . '/themes/Frontend/HeptacomAmp');
+        }
         $this->View()->loadTemplate('frontend/heptacom_amp/index.tpl');
         $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
     }
