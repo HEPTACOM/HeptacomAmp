@@ -14,21 +14,22 @@
 
 				{$pregroupID=$groupID-1}
 				{block name="frontend_heptacom_amp_body_article_buybox_configurator_variant_options"}
-					<div>
+					<form method="GET"
+						  target="_top"
+						  action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
 						{foreach from=$configurator.values item=option key=optionID}
-							<form method="GET"
-								target="_top"
-								action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
-								<input type="hidden" name="group[{$configurator.groupID}]" value="{$option.optionID}" />
-								<input type="submit"
-									class="sw-product--configurator-variant-option sw-btn{if (!$option.selectable) or ($groupID gt 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected))} sw-is--disabled{/if}{if $option.selected && $configurator.user_selected} sw-is--primary{/if}"
-									{if ($groupID gt 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected)) or !$option.selectable}
+							<button
+									type="submit"
+									name="group[{$configurator.groupID}]"
+									value="{$option.optionID}"
+									class="sw-product--configurator-variant-option sw-btn{if (!$option.selectable) || ($groupID > 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected))} sw-is--disabled{/if}{if $option.selected && $configurator.user_selected} sw-is--primary{/if}"
+									{if ($groupID > 0 && empty($sArticle.sConfigurator[$pregroupID].user_selected)) || !$option.selectable}
 										disabled="disabled"
-									{/if}
-									value="{$option.optionname}{if !$option.selectable}{s name='DetailConfigValueNotAvailable'}{/s}{/if}" />
-							</form>
+									{/if}>
+								{$option.optionname}{if !$option.selectable}{s name='DetailConfigValueNotAvailable'}{/s}{/if}
+							</button>
 						{/foreach}
-					</div>
+					</form>
 				{/block}
 			</div>
 		{/block}
