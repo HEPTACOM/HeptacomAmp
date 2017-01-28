@@ -1,11 +1,10 @@
 <?php
 
-namespace Shopware\HeptacomAmp\Subscriber;
+namespace HeptacomAmp\Subscriber;
 
-use Enlight\Event\SubscriberInterface;
-use Enlight_Controller_Request_Request;
+use Enlight_Controller_Action;
 use Enlight_Event_EventArgs;
-use Shopware_Controllers_Frontend_Detail;
+use Enlight\Event\SubscriberInterface;
 
 class Detail implements SubscriberInterface
 {
@@ -14,10 +13,10 @@ class Detail implements SubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontend',
-        );
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontendDetail',
+        ];
     }
 
     /**
@@ -25,15 +24,14 @@ class Detail implements SubscriberInterface
      */
     public function onFrontendDetailPostDispatch(Enlight_Event_EventArgs $args)
     {
-        /** @var Enlight_Controller_Request_Request $request */
-        $request = $args->get('request');
-        /** @var Shopware_Controllers_Frontend_Detail $controller */
+        /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
+        $request = $controller->Request();
         $view = $controller->View();
 
-        $view->addTemplateDir(__DIR__ . '/../Views');
+        $view->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
 
-        if ($request->getParam('amp') == 1) {
+        if ($request->get('amp') == 1) {
             $sArticle = (int) $request->get('sArticle');
 
             $controller->redirect([
@@ -48,8 +46,8 @@ class Detail implements SubscriberInterface
      * @param Enlight_Event_EventArgs $args
      * @return string
      */
-    public function onGetControllerPathFrontend(Enlight_Event_EventArgs $args)
+    public function onGetControllerPathFrontendDetail(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '/../Controllers/Frontend/HeptacomAmpDetail.php';
+        return implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Frontend', 'HeptacomAmpDetail.php']);
     }
 }
