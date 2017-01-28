@@ -3,6 +3,7 @@
 namespace HeptacomAmp\Subscriber;
 
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use Enlight_Controller_Action;
 use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
@@ -50,6 +51,46 @@ class Detail implements SubscriberInterface
         }
 
         return static::$filterTagBlacklist;
+    }
+
+    /**
+     * @var array
+     */
+    private static $filterAttributeWhitelist;
+
+    /**
+     * @return array
+     */
+    private static function getFilterAttributeWhitelist() {
+        if (empty(static::$filterAttributeWhitelist)) {
+            static::$filterAttributeWhitelist = [
+                function (DOMNode $node) {
+                    return false;
+                }
+            ];
+        }
+
+        return static::$filterAttributeWhitelist;
+    }
+
+    /**
+     * @var array
+     */
+    private static $filterAttributeBlacklist;
+
+    /**
+     * @return array
+     */
+    private static function getFilterAttributeBlacklist() {
+        if (empty(static::$filterAttributeBlacklist)) {
+            static::$filterAttributeBlacklist = [
+                function (DOMNode $node) {
+                    return false;
+                }
+            ];
+        }
+
+        return static::$filterAttributeBlacklist;
     }
 
     /**
@@ -173,6 +214,60 @@ class Detail implements SubscriberInterface
         return $document;
     }
 
+
+    /**
+     * @param DOMDocument $document
+     * @return DOMDocument
+     */
+    private function removeAttributesByRules(DOMDocument $document)
+    {
+        $removeTags = function (DOMNode $node)
+        {
+            foreach (static::getFilterAttributeWhitelist() as $white) {
+                if ($white($node)) {
+                    return false;
+                }
+            }
+            foreach (static::getFilterAttributeBlacklist() as $black) {
+                if ($black($node)) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        $filterAllNodes = function(){};
+        $filterAllNodes = function (DOMNode $node) use (&$filterAllNodes, $removeTags)
+        {
+            if ($node->hasAttributes() && $node instanceof DOMElement) {
+                $removables = [];
+
+                foreach ($node->attributes as $attribute) {
+                    if ($removeTags($attribute)) {
+                        $removables[] = $attribute->nodeName;
+                    }
+                }
+
+                foreach ($removables as $removable) {
+                    $node->removeAttribute($removable);
+                }
+            }
+
+            if ($node->hasChildNodes()) {
+                foreach ($node->childNodes as $childNode) {
+                    $filterAllNodes($childNode);
+                }
+            }
+
+            return true;
+        };
+
+        $filterAllNodes($document);
+
+        return $document;
+    }
+
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
@@ -193,6 +288,7 @@ class Detail implements SubscriberInterface
 
         $dom = $this->moveStyleAttributesToHead($dom);
         $dom = $this->removeTagsByRules($dom);
+        $dom = $this->removeAttributesByRules($dom);
 
         if (!$parsed = $dom->saveHTML()) {
             $this->pluginLogger->error('Could not save AMP HTML');
