@@ -3,6 +3,7 @@
 namespace HeptacomAmp\Subscriber;
 
 use DOMDocument;
+use DOMNode;
 use Enlight_Controller_Action;
 use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
@@ -41,6 +42,56 @@ class Detail implements SubscriberInterface
         $this->pluginLogger = $pluginLogger;
     }
 
+    /**
+     * @param DOMDocument $document
+     * @return DOMDocument
+     */
+    private function moveStyleAttributesToHead(DOMDocument $document)
+    {
+        $cssIndex = 0;
+        $css = [];
+
+        $styleExtractor = function(){};
+        $styleExtractor = function (DOMNode $node) use (&$styleExtractor, &$cssIndex, &$css)
+        {
+            if ($node->hasAttributes() && !is_null($styleAttr = $node->attributes->getNamedItem("style"))) {
+                $this->pluginLogger->trace('BINGO'.$styleAttr->nodeValue);
+                $key = 'heptacom-amp-inline-'.++$cssIndex;
+                $style = str_replace('!important', '', $styleAttr->nodeValue);
+                $css[$cssIndex] = ".$key{ $style}";
+
+                $node->removeAttribute("style");
+
+                if ($node instanceof \DOMElement) {
+                    $class = $node->getAttribute("class");
+                    if (empty($class)) {
+                        $node->setAttribute('class', $key);
+                    } else {
+                        $node->setAttribute('class', "$class $key");
+                    }
+                }
+            }
+
+            if ($node->hasChildNodes()) {
+                foreach ($node->childNodes as $childNode) {
+                    $styleExtractor($childNode);
+                }
+            }
+        };
+
+        $styleExtractor($document);
+
+        foreach ($document->getElementsByTagName('style') as $style) {
+            if (!is_null($style->attributes->getNamedItem('amp-custom'))) {
+                $style->textContent .= join('', $css);
+                $this->pluginLogger->trace('moved css');
+                break;
+            }
+        }
+
+        return $document;
+    }
+
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
@@ -58,11 +109,14 @@ class Detail implements SubscriberInterface
             $this->pluginLogger->error('Could not load AMP HTML');
             return;
         }
-        // INSERT VARIOUS FILTERS HERE
+
+        $dom = $this->moveStyleAttributesToHead($dom);
+
         if (!$parsed = $dom->saveHTML()) {
             $this->pluginLogger->error('Could not save AMP HTML');
             return;
         }
+
         $args->setReturn($parsed);
     }
 
