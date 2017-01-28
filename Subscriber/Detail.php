@@ -26,7 +26,7 @@ class Detail implements SubscriberInterface
         return $listeners;
     }
 
-    public function filterRenderedView(Enlight_Event_eventArgs $args)
+    public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
         $bootstrap = $args->get('subject');
