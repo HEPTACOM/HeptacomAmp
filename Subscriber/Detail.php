@@ -55,7 +55,6 @@ class Detail implements SubscriberInterface
         $styleExtractor = function (DOMNode $node) use (&$styleExtractor, &$cssIndex, &$css)
         {
             if ($node->hasAttributes() && !is_null($styleAttr = $node->attributes->getNamedItem("style"))) {
-                $this->pluginLogger->trace('BINGO'.$styleAttr->nodeValue);
                 $key = 'heptacom-amp-inline-'.++$cssIndex;
                 $style = str_replace('!important', '', $styleAttr->nodeValue);
                 $css[$cssIndex] = ".$key{ $style}";
@@ -84,7 +83,6 @@ class Detail implements SubscriberInterface
         foreach ($document->getElementsByTagName('style') as $style) {
             if (!is_null($style->attributes->getNamedItem('amp-custom'))) {
                 $style->textContent .= join('', $css);
-                $this->pluginLogger->trace('moved css');
                 break;
             }
         }
