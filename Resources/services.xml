@@ -8,6 +8,7 @@
         <service id="heptacom_amp.dom_document" class="DOMDocument" />
         <service id="heptacom_amp.subscriber.detail" class="HeptacomAmp\Subscriber\Detail">
             <tag name="shopware.event_subscriber" />
+            <argument type="service" id="PluginLogger" index="0" />
         </service>
     </services>
 </container>

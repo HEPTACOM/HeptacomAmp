@@ -7,6 +7,7 @@ use Enlight_Controller_Action;
 use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
+use Shopware\Components\Logger;
 
 class Detail implements SubscriberInterface
 {
@@ -26,6 +27,20 @@ class Detail implements SubscriberInterface
         return $listeners;
     }
 
+    /**
+     * @var Logger
+     */
+    private $pluginLogger;
+
+    /**
+     * Detail constructor.
+     * @param Logger $pluginLogger
+     */
+    public function __construct(Logger $pluginLogger)
+    {
+        $this->pluginLogger = $pluginLogger;
+    }
+
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
@@ -40,10 +55,12 @@ class Detail implements SubscriberInterface
         /** @var DOMDocument $dom */
         $dom = Shopware()->Container()->get('heptacom_amp.dom_document');
         if (!$dom->loadHTML($html)) {
+            $this->pluginLogger->error('Could not load AMP HTML');
             return;
         }
         // INSERT VARIOUS FILTERS HERE
         if (!$parsed = $dom->saveHTML()) {
+            $this->pluginLogger->error('Could not save AMP HTML');
             return;
         }
         $args->setReturn($parsed);
