@@ -13,6 +13,46 @@ use Shopware\Components\Logger;
 class Detail implements SubscriberInterface
 {
     /**
+     * @var array
+     */
+    private static $filterTagWhitelist;
+
+    /**
+     * @return array
+     */
+    private static function getFilterTagWhitelist() {
+        if (empty(static::$filterTagWhitelist)) {
+            static::$filterTagWhitelist = [
+                function (DOMNode $node) {
+                    return false;
+                }
+            ];
+        }
+
+        return static::$filterTagWhitelist;
+    }
+
+    /**
+     * @var array
+     */
+    private static $filterTagBlacklist;
+
+    /**
+     * @return array
+     */
+    private static function getFilterTagBlacklist() {
+        if (empty(static::$filterTagBlacklist)) {
+            static::$filterTagBlacklist = [
+                function (DOMNode $node) {
+                    return false;
+                }
+            ];
+        }
+
+        return static::$filterTagBlacklist;
+    }
+
+    /**
      * @return array
      */
     public static function getSubscribedEvents()
@@ -90,6 +130,49 @@ class Detail implements SubscriberInterface
         return $document;
     }
 
+    /**
+     * @param DOMDocument $document
+     * @return DOMDocument
+     */
+    private function removeTagsByRules(DOMDocument $document)
+    {
+        $filterAllNodes = function(){};
+        $filterAllNodes = function (DOMNode $node) use (&$filterAllNodes)
+        {
+            foreach (static::getFilterTagWhitelist() as $white) {
+                if ($white($node)) {
+                    return true;
+                }
+            }
+
+            foreach (static::getFilterTagBlacklist() as $black) {
+                if ($black($node)) {
+                    return false;
+                }
+            }
+
+            if ($node->hasChildNodes()) {
+                $removables = [];
+
+                foreach ($node->childNodes as $childNode) {
+                    if (!$filterAllNodes($childNode)) {
+                        $removables[] = $childNode;
+                    }
+                }
+
+                foreach ($removables as $childNode) {
+                    $node->removeChild($childNode);
+                }
+            }
+
+            return true;
+        };
+
+        $filterAllNodes($document);
+
+        return $document;
+    }
+
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
@@ -109,6 +192,7 @@ class Detail implements SubscriberInterface
         }
 
         $dom = $this->moveStyleAttributesToHead($dom);
+        $dom = $this->removeTagsByRules($dom);
 
         if (!$parsed = $dom->saveHTML()) {
             $this->pluginLogger->error('Could not save AMP HTML');
