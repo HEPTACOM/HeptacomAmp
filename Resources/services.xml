@@ -5,6 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="heptacom_amp.dom_document" class="DOMDocument" />
         <service id="heptacom_amp.subscriber.detail" class="HeptacomAmp\Subscriber\Detail">
             <tag name="shopware.event_subscriber" />
         </service>
