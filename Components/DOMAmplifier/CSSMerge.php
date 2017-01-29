@@ -29,7 +29,7 @@ class CSSMerge implements IAmplifyDOM
 
             if ($subnode instanceof DOMElement &&
                 $subnode->hasAttributes() &&
-                !is_null($styleAttr = $subnode->getAttribute('style'))) {
+                !empty($styleAttr = $subnode->getAttribute('style'))) {
                 $key = 'heptacom-amp-inline-'.++$cssIndex;
                 $css[$cssIndex] = ".$key{ $styleAttr }";
 
