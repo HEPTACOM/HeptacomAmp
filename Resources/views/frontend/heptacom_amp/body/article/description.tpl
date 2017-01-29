@@ -1,5 +1,5 @@
 {block name="frontend_heptacom_amp_body_article_description"}
-	<p>
+	<div>
 		{$sArticle.description_long}
-	</p>
+	</div>
 {/block}
