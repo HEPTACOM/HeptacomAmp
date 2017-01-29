@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 128 128">
+    <rect x="0"
+          y="0"
+          width="128"
+          height="128"
+          style="fill:#3084c0;" />
+    <path style="fill:#ffffff;"
+          d="m 85.42857,0 -47.85714,75 17.14286,0 -13.57143,54.64286 50.35714,-76.42857 -19.28571,0 z" />
+</svg>

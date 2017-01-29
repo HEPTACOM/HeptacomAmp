@@ -13,6 +13,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     public function getWhitelistedCSRFActions()
     {
         return [
+            'index',
         ];
     }
 
@@ -22,5 +23,18 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     public function preDispatch()
     {
         $this->get('template')->addTemplateDir(join(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources' , 'views']));
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverview/index
+     */
+    public function indexAction()
+    {
+        $this->indexActionTabSystem();
+    }
+
+    private function indexActionTabSystem()
+    {
+        $this->View()->assign('tabSystemDependencies', PluginDependencies::instance()->getDependencies());
     }
 }

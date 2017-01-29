@@ -12,5 +12,8 @@
             <tag name="shopware.event_subscriber" />
             <argument type="service" id="PluginLogger" index="0" />
         </service>
+        <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
+            <tag name="shopware.event_subscriber" />
+        </service>
     </services>
 </container>
