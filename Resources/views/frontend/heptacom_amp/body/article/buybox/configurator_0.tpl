@@ -1,27 +1,44 @@
 <div class="sw-product--configurator">
-	{foreach $sArticle.sConfigurator as $configurator}
-		{block name="frontend_heptacom_amp_body_article_buybox_configurator_variant"}
-			<div class="sw-product--configurator-variant-group">
-				{block name="frontend_heptacom_amp_body_article_buybox_configurator_variant_name"}
-					<p class="sw-product--configurator-variant-name">{$configurator.groupname}</p>
-				{/block}
+    <form method="get" target="_top" action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}" class="configurator--form upprice--form">
 
-				{block name="frontend_heptacom_amp_body_article_buybox_configurator_variant_options"}
-					<div>
-						<form method="GET"
-							target="_top"
-							action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}">
-							{foreach $configurator.values as $option}
-								<button name="group[{$option.groupID}]"
-									value="{$option.optionID}"{if !$option.selectable} disabled="disabled"{/if}
-									class="sw-product--configurator-variant-option sw-btn{if !$option.selectable} sw-is--disabled{/if}">
-									{$option.optionname}
-								</button>
-							{/foreach}
-						</form>
-					</div>
-				{/block}
-			</div>
-		{/block}
-	{/foreach}
+        {foreach $sArticle.sConfigurator as $sConfigurator}
+            <div class="sw-product--configurator-variant-group">
+
+                {* Group name *}
+                {block name='frontend_detail_group_name'}
+                    <p class="sw-product--configurator-variant-name">{$sConfigurator.groupname}:</p>
+                {/block}
+
+                {* Group description *}
+                {if $sConfigurator.groupdescription}
+                    {block name='frontend_detail_group_description'}
+                        <p class="sw-product--configurator-variant-description">{$sConfigurator.groupdescription}</p>
+                    {/block}
+                {/if}
+
+                {* Configurator drop down *}
+                {block name='frontend_detail_group_selection'}
+                    {foreach $sConfigurator.values as $configValue}
+                        {if !{config name=hideNoInStock} || ({config name=hideNoInStock} && $configValue.selectable)}
+                            {if $configValue.selected}
+                                <input type="hidden" name="group[{$sConfigurator.groupID}]" value="{$configValue.optionID}" />
+                            {/if}
+                        {/if}
+                    {/foreach}
+
+                    {foreach $sConfigurator.values as $configValue}
+                        {if !{config name=hideNoInStock} || ({config name=hideNoInStock} && $configValue.selectable)}
+                            <button
+                                type="submit"
+                                name="group[{$sConfigurator.groupID}]"
+                                value="{$configValue.optionID}"
+                                class="sw-product--configurator-variant-option sw-btn{if $configValue.selected} sw-is--primary{/if}">
+                                {$configValue.optionname}{if $configValue.upprice} {if $configValue.upprice > 0}{/if}{/if}
+                            </button>
+                        {/if}
+                    {/foreach}
+                {/block}
+            </div>
+        {/foreach}
+    </form>
 </div>

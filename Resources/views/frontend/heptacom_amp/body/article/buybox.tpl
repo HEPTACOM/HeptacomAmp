@@ -14,6 +14,8 @@
 								{include file="frontend/heptacom_amp/body/article/buybox/button.tpl"}
 							</div>
 						{/block}
+					{elseif $sArticle.sConfigurator && !$activeConfiguratorSelection}
+                        {include file="frontend/heptacom_amp/body/article/buybox/button_forward.tpl"}
 					{/if}
 				{/if}
 			</form>
