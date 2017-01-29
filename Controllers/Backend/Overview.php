@@ -15,6 +15,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     {
         return [
             'index',
+            'dependencies',
         ];
     }
 
