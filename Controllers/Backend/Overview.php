@@ -2,7 +2,6 @@
 
 use HeptacomAmp\Components\PluginDependencies;
 use Shopware\Components\CSRFWhitelistAware;
-use Shopware\Models\Article\Detail;
 
 class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
@@ -14,8 +13,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     public function getWhitelistedCSRFActions()
     {
         return [
-            'index',
             'dependencies',
+            'validator',
         ];
     }
 
@@ -28,29 +27,17 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     }
 
     /**
-     * @return Detail/Repository
+     * Callable via /backend/HeptacomAmpOverview/validator
      */
-    private function getArticleDetailsRepository()
+    public function validatorAction()
     {
-        return $this->container->get('models')->getRepository(Detail::class);
     }
 
     /**
-     * Callable via /backend/HeptacomAmpOverview/index
+     * Callable via /backend/HeptacomAmpOverview/dependencies
      */
-    public function indexAction()
+    public function dependenciesAction()
     {
-        $this->indexActionTabSystem();
-        $this->indexActionTabValidator();
-    }
-
-    private function indexActionTabSystem()
-    {
-        $this->View()->assign('tabSystemDependencies', PluginDependencies::instance()->getDependencies());
-    }
-
-    private function indexActionTabValidator()
-    {
-        $this->View()->assign('tabValidatorArticleDetails', $this->getArticleDetailsRepository()->findBy([]));
+        $this->View()->assign('dependencies', PluginDependencies::instance()->getDependencies());
     }
 }
