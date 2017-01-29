@@ -1,7 +1,9 @@
 {block name="frontend_heptacom_amp_body_article_buybox"}
 	<div class="sw-product--buybox">
 		{include file="frontend/heptacom_amp/body/article/buybox/laststock.tpl"}
-		{include file="frontend/heptacom_amp/body/article/buybox/configurators.tpl"}
+        {if !$sArticle.hasCustomProductsTemplate}
+		    {include file="frontend/heptacom_amp/body/article/buybox/configurators.tpl"}
+        {/if}
 
 		{block name="frontend_heptacom_amp_body_article_buybox_formular"}
 			<form method="GET" target="_top" action="{url controller='checkout' action='addArticle' forceSecure}" class="sw-buybox--form">
