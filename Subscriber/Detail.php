@@ -24,7 +24,76 @@ class Detail implements SubscriberInterface
     private static function getFilterTagWhitelist() {
         if (empty(static::$filterTagWhitelist)) {
             static::$filterTagWhitelist = [
+                /**
+                 * Allows all these tags.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is whitelisted by this rule, otherwise false.
+                 */
                 function (DOMNode $node) {
+                    return in_array(strtolower($node->nodeName), [
+                        'amp-img',
+                        'amp-video',
+                        'amp-audio',
+                        'amp-iframe',
+                        'amp-form',
+                        'svg'
+                    ]);
+                },
+
+                /**
+                 * Allows resource links for microformat schema rules.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is whitelisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->nodeName) == 'link' &&
+                        $node->hasAttributes() &&
+                        !is_null($attr = $node->getAttribute('href')) &&
+                        stripos($attr, 'microformats.org/') !== false;
+                },
+
+                /**
+                 * Allows resource links for fonts by various font providers.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is whitelisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    if (strtolower($node->nodeName) == 'link' &&
+                        $node->hasAttributes() &&
+                        $node->getAttribute('rel') === 'stylesheet') {
+
+                        return (stripos($node->getAttribute('href'), '//fonts.googleapis.com/css?') !== false) ||
+                               (stripos($node->getAttribute('href'), '//cloud.typography.com/') !== false) ||
+                               (stripos($node->getAttribute('href'), '//fast.fonts.net/') !== false) ||
+                               (stripos($node->getAttribute('href'), '//maxcdn.bootstrapcdn.com') !== false);
+                    }
+
+                    return false;
+                },
+
+                /**
+                 * Allows all scripts that are tagged with a references to a custom-element.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is whitelisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->nodeName) == 'script' &&
+                           $node->hasAttributes() &&
+                           stripos($node->getAttribute('src', '//cdn.ampproject.org/')) !== false;
+                },
+
+                /**
+                 * Allows all scripts that are either tagged with
+                 * amp-custom, amp-boilerplate or references to a custom-element.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is whitelisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    if (strtolower($node->nodeName) == 'style' && $node->hasAttributes()) {
+                        return !is_null($node->getAttributeNode('amp-boilerplate')) ||
+                               !is_null($node->getAttributeNode('amp-custom'));
+                    }
+
                     return false;
                 }
             ];
@@ -44,8 +113,71 @@ class Detail implements SubscriberInterface
     private static function getFilterTagBlacklist() {
         if (empty(static::$filterTagBlacklist)) {
             static::$filterTagBlacklist = [
+                /**
+                 * Forbids all these tags.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
                 function (DOMNode $node) {
-                    return false;
+                    return in_array(strtolower($node->nodeName), [
+                        'img',
+                        'video',
+                        'audio',
+                        'iframe',
+                        'script',
+                        'style',
+                        'base',
+                        'frame',
+                        'frameset',
+                        'object',
+                        'param',
+                        'applet',
+                        'embed'
+                    ]);
+                },
+
+                /**
+                 * Forbids style[amp-custom] with more than 50k bytes of content.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->nodeName) == 'style' &&
+                        $node->hasAttributes() &&
+                        !is_null($node->getAttributeNode('amp-custom')) &&
+                        strlen($node->textContent) > 50000;
+                },
+
+                /**
+                 * Forbids every input tag of type image, password, button or file.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->nodeName) == 'input' &&
+                        $node->hasAttributes() &&
+                        !is_null($attr = $node->getAttribute('type')) &&
+                        in_array(strtolower($attr), [
+                            'image',
+                            'password',
+                            'button',
+                            'file'
+                    ]);
+                },
+
+                /**
+                 * Forbids links with external stylesheets.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->nodeName) == 'link' && in_array(strtolower($node->getAttribute('rel')), [
+                        'stylesheet',
+                        'preconnect',
+                        'prefetch',
+                        'preload',
+                        'prerender'
+                    ]);
                 }
             ];
         }
@@ -64,9 +196,6 @@ class Detail implements SubscriberInterface
     private static function getFilterAttributeWhitelist() {
         if (empty(static::$filterAttributeWhitelist)) {
             static::$filterAttributeWhitelist = [
-                function (DOMNode $node) {
-                    return false;
-                }
             ];
         }
 
@@ -84,8 +213,48 @@ class Detail implements SubscriberInterface
     private static function getFilterAttributeBlacklist() {
         if (empty(static::$filterAttributeBlacklist)) {
             static::$filterAttributeBlacklist = [
+                /**
+                 * Forbids on-events (but not on itself), xml-stuff.
+                 * @param DOMNode $node The attribute to validate.
+                 * @return boolean True, if the attribute is blacklisted by this rule, otherwise false.
+                 */
                 function (DOMNode $node) {
+                    return (stripos($node->nodeName, 'on') === 0 && strlen($node->nodeName) > 2) || stripos($node->nodeName, 'xml') === 0;
+                },
+
+                /**
+                 * Forbids anchor javascript.
+                 * @param DOMNode $node The attribute to validate.
+                 * @return boolean True, if the attribute is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    if (strtolower($node->parentNode->nodeName) == 'a' && strtolower($node->nodeName) == 'href') {
+                        return stripos($node->textContent, 'javascript:') !== false;
+                    }
+
                     return false;
+                },
+
+                /**
+                 * Forbids anchor javascript.
+                 * @param DOMNode $node The attribute to validate.
+                 * @return boolean True, if the attribute is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    if (strtolower($node->parentNode->nodeName) == 'a' && strtolower($node->nodeName) == 'target') {
+                        return $node->textContent != '_blank';
+                    }
+
+                    return false;
+                },
+
+                /**
+                 * Forbids forwarding via meta[http-equiv].
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    return strtolower($node->parentNode->nodeName) == 'meta' && strtolower($node->nodeName) == 'http-equiv';
                 }
             ];
         }
