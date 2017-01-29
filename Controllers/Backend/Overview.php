@@ -2,6 +2,7 @@
 
 use HeptacomAmp\Components\PluginDependencies;
 use Shopware\Components\CSRFWhitelistAware;
+use Shopware\Models\Article\Detail;
 
 class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
@@ -26,15 +27,29 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     }
 
     /**
+     * @return Detail/Repository
+     */
+    private function getArticleDetailsRepository()
+    {
+        return $this->container->get('models')->getRepository(Detail::class);
+    }
+
+    /**
      * Callable via /backend/HeptacomAmpOverview/index
      */
     public function indexAction()
     {
         $this->indexActionTabSystem();
+        $this->indexActionTabValidator();
     }
 
     private function indexActionTabSystem()
     {
         $this->View()->assign('tabSystemDependencies', PluginDependencies::instance()->getDependencies());
+    }
+
+    private function indexActionTabValidator()
+    {
+        $this->View()->assign('tabValidatorArticleDetails', $this->getArticleDetailsRepository()->findBy([]));
     }
 }

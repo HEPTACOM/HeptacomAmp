@@ -22,11 +22,16 @@
                         Systemanforderungen
                     </a>
                 </li>
+                <li role="presentation">
+                    <a href="#tabvalidator" aria-controls="tabvalidator" role="tab" data-toggle="tab">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        Validator
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
 {/block}
-
 
 {block name="content/main/content"}
     <div class="tab-content">
@@ -62,7 +67,64 @@
                 {/foreach}
             </table>
         </div>
+        <div role="tabpanel" class="tabpane" id="tabvalidator">
+            <table class="table table-condensed table-bordered">
+                {foreach $tabValidatorArticleDetails as $detail}
+                    <tr data-ampurl="../heptacomAmpDetail/index/sArticle/{$detail->getArticle()->getId()}">
+                        <td class="col-xs-2">
+                            {$detail->getNumber()}
+                        </td>
+                        <td class="col-xs-3">
+                            {$detail->getArticle()->getName()}
+                        </td>
+                        <td class="col-xs-4 text-right">
+                            <span class="label label-success hidden">
+                                <i class="glyphicon glyphicon-ok-circle" style="color:#fff"></i>
+                            </span>
+                            <span class="label label-danger hidden">
+                                4
+                            </span>
+                            <div class="col-xs-12 collapsed"></div>
+                        </td>
+                        <td class="col-xs-3 text-right">
+                            <span class="btn-group">
+                                <button class="btn btn-link" onclick="heptacom.btnValidateRow(event)">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </button>
+                                <button class="btn btn-link">
+                                    <i class="glyphicon glyphicon-envelope"></i>
+                                </button>
+                                <a href="{url sArticle=$detail->getArticle()->getId() title=$detail->getArticle()->getName() controller='detail'}" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-th"></i>
+                                </a>
+                                <a href="{url sArticle=$detail->getArticle()->getId() title=$detail->getArticle()->getName() controller='heptacomAmpDetail' forceSecure}" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-th-large"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                {/foreach}
+            </table>
+        </div>
     </div>
+{/block}
+
+
+{block name="head" prepend}{literal}
+    <script id="validationResult" type="text/x-handlebars-template">
+        <dl>
+            {{#each errors}}
+                <dt>{{code}}</dt>
+                <dd>{{#each params}}<span>{{this}}</span>{{/each}}</dd>
+            {{/each}}
+        </dl>
+    </script>
+{/literal}{/block}
+
+{block name="content/javascript" append}
+    <script type="text/javascript" src="https://cdn.ampproject.org/v0/validator.js"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/HeptacomAmp/js/handlebars-v3.0.3.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/heptacom_amp_overview/index.js"}"></script>
 {/block}
 
 {block name="content/layout/javascript"}{literal}
