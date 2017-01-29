@@ -7,7 +7,6 @@ use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
-use HeptacomAmp\Components\DOMAmplifier\CSSMerge;
 use Shopware\Components\Logger;
 
 class Detail implements SubscriberInterface
@@ -49,6 +48,7 @@ class Detail implements SubscriberInterface
 
         $this->domAmplifier = new DOMAmplifier();
         $this->domAmplifier->useAmplifier(new DOMAmplifier\CSSMerge());
+        $this->domAmplifier->useAmplifier(new DOMAmplifier\ComponentInjection());
         $this->domAmplifier->useAmplifier(new DOMAmplifier\TagFilter());
         $this->domAmplifier->useAmplifier(new DOMAmplifier\AttributeFilter());
     }
@@ -66,7 +66,7 @@ class Detail implements SubscriberInterface
         try {
             $args->setReturn($this->domAmplifier->amplifyHTML($args->getReturn()));
         } catch (\Exception $ex) {
-            $this->pluginLogger->error('Error while amplifying output', $ex);
+            $this->pluginLogger->error('Error while amplifying output', [$ex]);
         }
     }
 

@@ -8,5 +8,4 @@
 
 	{* Javascript *}
 	<script async src="https://cdn.ampproject.org/v0.js"></script>
-	{include file="frontend/heptacom_amp/head/amp/extensions.tpl"}
 {/block}
