@@ -1,6 +1,6 @@
 {* "Buy now" button *}
 {block name="frontend_heptacom_amp_body_article_buybox_formular_buttongroup_buy"}
-    {if $sArticle.sConfigurator && !$activeConfiguratorSelection}
+    {if ($sArticle.sConfigurator && !$activeConfiguratorSelection) || $sArticle.hasCustomProductsTemplate}
 		{include file="frontend/heptacom_amp/body/article/buybox/button_forward.tpl"}
 	{else}
 		{include file="frontend/heptacom_amp/body/article/buybox/quantity.tpl"}
