@@ -115,7 +115,7 @@ class AttributeFilter implements IAmplifyDOM
                             'attribution',
                             'height',
                             'width'
-                        ], static::$ampDefaultAttributes);
+                        ], static::$ampDefaultAttributes));
                     }
 
                     return false;
