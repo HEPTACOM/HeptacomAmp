@@ -1,5 +1,5 @@
 <div class="sw-product--configurator">
-	<form method="get" target="_top" action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}" class="configurator--form selection--form">
+	<form method="get" target="_top" action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID forceSecure}" class="configurator--form selection--form">
         {foreach from=$sArticle.sConfigurator item=sConfigurator name=group key=groupID}
 			<div class="sw-product--configurator-variant-group">
 

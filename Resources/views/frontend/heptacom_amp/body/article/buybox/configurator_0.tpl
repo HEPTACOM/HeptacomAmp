@@ -1,5 +1,5 @@
 <div class="sw-product--configurator">
-    <form method="get" target="_top" action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID}" class="configurator--form upprice--form">
+    <form method="get" target="_top" action="{url sArticle=$sArticle.articleID sCategory=$sArticle.categoryID forceSecure}" class="configurator--form upprice--form">
 
         {foreach $sArticle.sConfigurator as $sConfigurator}
             <div class="sw-product--configurator-variant-group">

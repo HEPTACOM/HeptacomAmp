@@ -16,7 +16,7 @@
 		{block name="frontend_heptacom_amp_body_header_searchbar_form"}
 			<form method="GET"
 				target="_top"
-				action="{url controller='search' fullPath=true}"
+				action="{url controller='search' fullPath=true forceSecure}"
 				class="sw-main-search-form sw-header--navigation-item">
 				{block name="frontend_heptacom_amp_body_header_searchbar_form_search-field"}
 					<input type="search" name="sSearch" placeholder="Suchbegriff..." maxlength="30" />
