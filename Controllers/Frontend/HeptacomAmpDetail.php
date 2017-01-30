@@ -18,7 +18,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
                 implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp'])
             );
         }
-        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'heptacom_amp', 'index.tpl']));
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'heptacom_amp_detail', 'index.tpl']));
         $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
     }
 
