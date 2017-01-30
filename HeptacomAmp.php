@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp;
 
+use Enlight_Event_EventArgs;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
@@ -32,5 +33,23 @@ class HeptacomAmp extends Plugin
     public function update(UpdateContext $context)
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            'Enlight_Controller_Front_StartDispatch' => 'autoloadComposer',
+        ];
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function autoloadComposer(Enlight_Event_EventArgs $args)
+    {
+        require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'vendor', 'autoload.php']);
     }
 }
