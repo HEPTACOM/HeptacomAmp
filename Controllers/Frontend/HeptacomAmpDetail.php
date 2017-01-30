@@ -2,6 +2,13 @@
 
 class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controllers_Frontend_Detail
 {
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        $this->View()->Engine()->addPluginsDir(realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'views', 'frontend', '_private', 'smarty'])));
+    }
+
     public function indexAction()
     {
         parent::indexAction();
@@ -11,7 +18,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         $this->View()->setTemplateDir([
             implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Bare']),
             implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Responsive']),
-            implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'views']),
+            realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'views'])),
         ]);
         if (file_exists(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp']))) {
             $this->View()->addTemplateDir(

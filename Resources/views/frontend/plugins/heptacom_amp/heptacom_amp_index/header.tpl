@@ -85,7 +85,8 @@
         {$baseUrl = $Shopware->Front()->Request()->getBaseUrl()}
         <style amp-custom type="text/css">
             {foreach $lessFiles as $stylesheet}
-                {$Shopware->DocPath()|cat:'.'|cat:{$stylesheet|substr:{$baseUrl|strlen}}|file_get_contents}
+                {* {$Shopware->DocPath()|cat:'.'|cat:{$stylesheet|substr:{$baseUrl|strlen}}|file_get_contents} *}
+                {amplifyCss file=$stylesheet}
             {/foreach}
         </style>
 
