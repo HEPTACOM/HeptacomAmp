@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp\Components;
 
+use Sabberworm\CSS\CSSList\KeyFrame;
 use Sabberworm\CSS\Parser;
 use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\CSSList\Document;
@@ -50,15 +51,20 @@ class CssAmplifier
         $contents = $this->parser->getContents();
 
         foreach ($contents as $list) {
-            if (!($list instanceof AtRuleBlockList)) {
-                continue;
-            }
-            /** @var AtRuleBlockList $list */
-            if ($list->atRuleName() != 'media') {
-                continue;
-            }
-            if (strpos($list->atRuleArgs(), 'min-width') !== false) {
-                $this->parser->remove($list);
+            switch (true) {
+                case ($list instanceof KeyFrame):
+                    /** @var KeyFrame $list */
+                    $this->parser->remove($list);
+                    break;
+                case ($list instanceof AtRuleBlockList):
+                    /** @var AtRuleBlockList $list */
+                    if ($list->atRuleName() != 'media') {
+                        continue;
+                    }
+                    if (strpos($list->atRuleArgs(), 'min-width') !== false) {
+                        $this->parser->remove($list);
+                    }
+                    break;
             }
         }
     }
@@ -96,14 +102,15 @@ class CssAmplifier
             if (!($ruleSet instanceof DeclarationBlock)) {
                 continue;
             }
-            /** @var DeclarationBlock $ruleSet */
 
+            /** @var DeclarationBlock $ruleSet */
             /** @var Rule[] $rules */
             $rules = $ruleSet->getRules();
             foreach ($rules as $rule) {
                 $rule->setIsImportant(false);
 
                 /** @var Selector[] $selectors */
+                /*
                 $selectors = $ruleSet->getSelectors();
                 $regex = '/(?=(\*)(?!=))/';
                 foreach ($selectors as $selector) {
@@ -113,6 +120,7 @@ class CssAmplifier
                         $ruleSet->removeRule($rule);
                     }
                 }
+                */
             }
         }
     }
