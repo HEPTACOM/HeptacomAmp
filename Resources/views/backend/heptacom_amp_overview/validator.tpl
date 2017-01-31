@@ -8,6 +8,7 @@
 
 {block name="content/layout/javascript"}
     heptacom.setUrls({ldelim}
+        getArticleIds: '{url module='backend' controller='HeptacomAmpOverviewData' action='getArticleIds'}'
     {rdelim});
 {/block}
 

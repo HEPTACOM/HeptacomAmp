@@ -26,5 +26,18 @@ heptacom = {
         }
 
         return $.get({url: url});
+    },
+
+    overviewGetArticleIds: function(skip, take) {
+        return $.ajax({
+            type: 'post',
+            url: heptacom.url.getArticleIds,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {
+                skip: skip,
+                take: take
+            }
+        });
     }
 };
