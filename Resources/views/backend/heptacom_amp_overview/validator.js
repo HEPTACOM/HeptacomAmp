@@ -1,4 +1,10 @@
 heptacom = {
+    url: {},
+
+    setUrls: function(urls) {
+        heptacom.url = urls;
+    },
+
     btnValidateArticleDetails: function(event) {
 
     },

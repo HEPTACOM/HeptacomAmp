@@ -6,6 +6,11 @@
     <script type="text/javascript" src="{link file="backend/heptacom_amp_overview/validator.js"}"></script>
 {/block}
 
+{block name="content/layout/javascript"}
+    heptacom.setUrls({ldelim}
+    {rdelim});
+{/block}
+
 {block name="content/main/header"}
     <div class="container-fluid">
         <nav class="navbar" style="margin-bottom:0;">
