@@ -108,7 +108,7 @@ class CssAmplifier
                         $fontName = $rule->getValue();
                         if ($fontName != 'shopware') {
                             // this removes too much
-                            $this->parser->remove($ruleSet);
+                                // $this->parser->remove($ruleSet);
                         }
                     }
                     break;
@@ -122,7 +122,9 @@ class CssAmplifier
                 case ($value instanceof URL && $this->filter->isPaths()):
                     /** @var URL $value */
                     $origPath = trim($value->getURL(), '\"');
-                    $origPath = array_shift(explode('?', $origPath));
+                    $exploded = explode('?', $origPath);
+                    $origPath = array_shift($exploded);
+                    $params = empty($exploded) ? '' : '?' . array_shift($exploded);
 
                     $path = realpath(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'web', 'cache', $origPath]));
                     $path = implode(DIRECTORY_SEPARATOR, [
@@ -130,7 +132,7 @@ class CssAmplifier
                         substr($path, strlen(Shopware()->DocPath()))
                     ]);
                     if (strpos($path, implode(DIRECTORY_SEPARATOR, ['frontend', '_public', 'src', 'fonts', 'shopware'])) !== false) {
-                        $value->setURL(new CSSString($path));
+                        $value->setURL(new CSSString($path . $params));
                     }
                     break;
             }
