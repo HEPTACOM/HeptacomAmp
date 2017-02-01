@@ -6,6 +6,9 @@ use Google_Client;
 use Google_Service_Acceleratedmobilepageurl;
 use Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsRequest;
 use Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsResponse;
+use Shopware\Components\HttpClient\HttpClientInterface;
+use InvalidArgumentException;
+
 /**
  * Class GoogleAMP
  * @package HeptacomAmp\Components
@@ -18,6 +21,11 @@ class GoogleAMP
     private $client;
 
     /**
+     * @var HttpClientInterface
+     */
+    private $guzzle;
+
+    /**
      * GoogleAMP constructor.
      * @param string $googleApiKey The Google API key.
      */
@@ -26,6 +34,24 @@ class GoogleAMP
         $this->client = new Google_Client();
         $this->client->setDeveloperKey($googleApiKey);
         $this->client->setApplicationName('Shopware_HEPTACOM_AMP');
+        $this->guzzle = Shopware()->Container()->get('http_client');
+    }
+
+    /**
+     * Sends a request to Google to index the url.
+     * @param string $url The url to request an indexing.
+     */
+    public function indexUrl($url)
+    {
+        if (stripos($url, 'https://') === 0) {
+            $url = 'https://cdn.ampproject.org/c/s/'.substr($url, 0, 8);
+        } elseif (stripos($url, 'http://') === 0) {
+            $url = 'https://cdn.ampproject.org/c/'.substr($url, 0, 7);
+        } else {
+            throw new InvalidArgumentException();
+        }
+
+        $this->guzzle->get($url);
     }
 
     /**
