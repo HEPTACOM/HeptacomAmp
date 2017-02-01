@@ -7,6 +7,7 @@ use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
 use Shopware\Components\Logger;
+use Shopware\Components\Theme\LessDefinition;
 
 class AMP implements SubscriberInterface
 {
@@ -15,9 +16,13 @@ class AMP implements SubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return extension_loaded('dom') ?
-                ['Enlight_Plugins_ViewRenderer_FilterRender' => 'filterRenderedView']:
-                [];
+        $listeners = [
+            'Theme_Compiler_Collect_Plugin_Less' => 'addLessFiles',
+        ];
+        if (extension_loaded('dom')) {
+            $listeners['Enlight_Plugins_ViewRenderer_FilterRender'] = 'filterRenderedView';
+        }
+        return $listeners;
     }
 
     /**
@@ -45,6 +50,28 @@ class AMP implements SubscriberInterface
         $this->domAmplifier->useAmplifier(new DOMAmplifier\AttributeFilter());
     }
 
+    /**
+     * @param Enlight_Event_EventArgs $args
+     * @return LessDefinition
+     */
+    public function addLessFiles(Enlight_Event_EventArgs $args)
+    {
+        return new LessDefinition([], [implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            '..',
+            'Resources',
+            'views',
+            'frontend',
+            '_public',
+            'src',
+            'less',
+            'all.less'
+        ])]);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
