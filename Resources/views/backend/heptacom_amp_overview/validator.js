@@ -34,7 +34,7 @@ heptacom = {
 
     overviewGetArticleIds: function(skip, take) {
         return $.ajax({
-            type: 'post',
+            type: 'get',
             url: heptacom.url.getArticleIds,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',

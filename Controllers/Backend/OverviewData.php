@@ -2,6 +2,7 @@
 
 use Doctrine\ORM\EntityRepository;
 use Shopware\Components\CSRFWhitelistAware;
+use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
 
 /**
@@ -28,6 +29,14 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
+     * @return Router
+     */
+    private function getRouter()
+    {
+        return $this->container->get('router');
+    }
+
+    /**
      * Callable via /backend/HeptacomAmpOverviewData/getArticleIds
      */
     public function getArticleIdsAction()
@@ -35,15 +44,30 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $skip = $this->Request()->getParam('skip', 0);
         $take = $this->Request()->getParam('take', 50);
 
-        $mainArticleIds = $this->getArticleRepository()->
-                                 createQueryBuilder('articles')->
-                                 select('articles.mainDetailId')->
-                                 addOrderBy('articles.id', 'ASC')->
-                                 setFirstResult($skip)->
-                                 setMaxResults($take)->
-                                 getQuery()->
-                                 getArrayResult();
+        $articles = $this->getArticleRepository()->
+                           createQueryBuilder('articles')->
+                           select([
+                               'articles.id',
+                               'articles.name'
+                           ])->
+                           addOrderBy('articles.id', 'ASC')->
+                           setFirstResult($skip)->
+                           setMaxResults($take)->
+                           getQuery()->
+                           getArrayResult();
 
-        $this->View()->assign(['success' => true, 'data' => $mainArticleIds]);
+        $router = $this->getRouter();
+
+        foreach ($articles as &$article) {
+            $article['url'] = $router->assemble([
+                'module' => 'frontend',
+                'controller' => 'detail',
+                'action' => 'index',
+                'sArticle' => $article['id'],
+                'title' => $article['name'],
+            ]);
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $articles]);
     }
 }
