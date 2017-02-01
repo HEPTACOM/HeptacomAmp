@@ -15,6 +15,9 @@
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
         </service>
-        <service id="heptacom_amp.components.css_amplifier" class="HeptacomAmp\Components\CssAmplifier" />
+        <service id="heptacom_amp.components.css_amplifier.filter" class="HeptacomAmp\Components\CssAmplifier\Filter" />
+        <service id="heptacom_amp.components.css_amplifier" class="HeptacomAmp\Components\CssAmplifier">
+            <argument type="service" id="heptacom_amp.components.css_amplifier.filter" />
+        </service>
     </services>
 </container>
