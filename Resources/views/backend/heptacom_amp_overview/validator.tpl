@@ -2,7 +2,7 @@
 
 {block name="content/javascript" append}
     <script type="text/javascript" src="https://cdn.ampproject.org/v0/validator.js"></script>
-    <script type="text/javascript" src="{link file="backend/_resources/HeptacomAmp/js/handlebars-v3.0.3.js"}"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/HeptacomAmp/js/vue-2.1.10.min.js"}"></script>
     <script type="text/javascript" src="{link file="backend/heptacom_amp_overview/validator.js"}"></script>
 {/block}
 
