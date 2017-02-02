@@ -22,7 +22,7 @@ function smarty_function_amplifyCss(array $params, HeptacomAmp &$smarty)
 
         $rawCss = file_get_contents($path);
 
-        return $cssAmplifier->processCss($rawCss);
+        return $cssAmplifier->getAmpCss($rawCss);
     } catch (ServiceNotFoundException $exception) {
         /**@var Logger $pluginLogger */
         $pluginLogger = Shopware()->Container()->get('PluginLogger');

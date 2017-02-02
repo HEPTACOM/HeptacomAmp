@@ -31,13 +31,32 @@ class CssAmplifier
     protected $parser;
 
     /**
+     * @var FileCache
+     */
+    protected $cache;
+
+    /**
      * @var Filter
      */
     protected $filter;
 
-    public function __construct(Filter $filter)
+    /**
+     * CssAmplifier constructor.
+     * @param Filter $filter
+     */
+    public function __construct(Filter $filter, FileCache $cache)
     {
+        $this->cache = $cache;
         $this->filter = $filter;
+    }
+
+    /**
+     * @param $css
+     * @return mixed|string
+     */
+    public function getAmpCss($css)
+    {
+        return $this->cache->getCachedContents($css, 'css', [$this, 'processCss']);
     }
 
     /**
@@ -46,9 +65,7 @@ class CssAmplifier
      */
     public function processCss($css)
     {
-        $this->css = $css;
-        $parser = new Parser($this->css);
-        $this->parser = $parser->parse();
+        $this->parser = (new Parser($css))->parse();
 
         $this->filter
             ->setKeyframe(true)
@@ -61,6 +78,10 @@ class CssAmplifier
         return $this->parser->render(OutputFormat::createCompact());
     }
 
+    /**
+     * @param $c
+     * @return int
+     */
     protected static function ord_utf8($c)
     {
         $b0 = ord($c[0]);
