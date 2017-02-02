@@ -50,10 +50,11 @@ heptacom = {
 
     validate: function(url, success, error) {
         return $.ajax({
-            type: 'post',
+            type: 'get',
             url: url,
             success: function(data) {
-                (data.status == 'PASS' ? success : error)(amp.validator.validateString(data))
+                var validationResult = amp.validator.validateString(data);
+                (validationResult.status == 'PASS' ? success : error)(validationResult);
             }
         });
     },
