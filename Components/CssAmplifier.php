@@ -2,7 +2,6 @@
 
 namespace HeptacomAmp\Components;
 
-use HeptacomAmp\Components\CssAmplifier\Filter;
 use Sabberworm\CSS\CSSList\KeyFrame;
 use Sabberworm\CSS\Parser;
 use Sabberworm\CSS\OutputFormat;
@@ -37,18 +36,12 @@ class CssAmplifier
     protected $cache;
 
     /**
-     * @var Filter
-     */
-    protected $filter;
-
-    /**
      * CssAmplifier constructor.
-     * @param Filter $filter
+     * @param FileCache $cache
      */
-    public function __construct(Filter $filter, FileCache $cache)
+    public function __construct(FileCache $cache)
     {
         $this->cache = $cache;
-        $this->filter = $filter;
     }
 
     /**
@@ -67,12 +60,6 @@ class CssAmplifier
     public function processCss($css)
     {
         $this->parser = (new Parser($css))->parse();
-
-        $this->filter
-            ->setKeyframe(true)
-            ->setMedia(true)
-            ->setPaths(true)
-            ->setImportant(true);
 
         $this->applyFilters();
 
@@ -102,11 +89,11 @@ class CssAmplifier
         $contents = $this->parser->getContents();
         foreach ($contents as $list) {
             switch (true) {
-                case ($list instanceof KeyFrame && $this->filter->isKeyframe()):
+                case ($list instanceof KeyFrame):
                     /** @var KeyFrame $list */
                     $this->parser->remove($list);
                     break;
-                case ($list instanceof AtRuleBlockList && $this->filter->isMedia()):
+                case ($list instanceof AtRuleBlockList):
                     /** @var AtRuleBlockList $list */
                     if ($list->atRuleName() != 'media') {
                         continue;
@@ -139,9 +126,7 @@ class CssAmplifier
                     /** @var Rule[] $rules */
                     $rules = $ruleSet->getRules();
                     foreach ($rules as $rule) {
-                        if ($this->filter->isImportant()) {
-                            $rule->setIsImportant(false);
-                        }
+                        $rule->setIsImportant(false);
 
                         if ($rule->getRule() == 'content') {
                             $value = trim($rule->getValue(), '"');
@@ -192,7 +177,7 @@ class CssAmplifier
         $values = $this->parser->getAllValues();
         foreach ($values as $value) {
             switch (true) {
-                case ($value instanceof URL && $this->filter->isPaths()):
+                case ($value instanceof URL):
                     /** @var URL $value */
                     $origPath = trim($value->getURL(), '"');
                     $exploded = explode('?', $origPath);
