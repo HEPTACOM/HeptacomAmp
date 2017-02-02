@@ -14,6 +14,7 @@ use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\RuleSet\RuleSet;
 use Sabberworm\CSS\Value\CSSString;
+use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
 use Sabberworm\CSS\Value\Value;
 use Sabberworm\CSS\CSSList\AtRuleBlockList;
@@ -207,6 +208,14 @@ class CssAmplifier
                         $value->setURL(new CSSString($path . $params));
                     }
                     break;
+                case ($value instanceof Size):
+                    /** @var Size $value */
+                    if (!$value->isColorComponent()) {
+                        // echo PHP_EOL . $value->getSize();
+                        if ($value->getSize() == 0) {
+                            $value->setUnit(null);
+                        }
+                    }
             }
         }
     }
