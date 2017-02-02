@@ -2,7 +2,7 @@
 
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Shopware\Components\Logger;
-use HeptacomAmp\Components\CssAmplifier;
+use HeptacomAmp\Components\StyleAmplifier;
 use HeptacomAmp\Template\HeptacomAmp;
 
 function smarty_function_amplifyCss(array $params, HeptacomAmp &$smarty)
@@ -12,8 +12,8 @@ function smarty_function_amplifyCss(array $params, HeptacomAmp &$smarty)
             throw new Exception('No valid path to a css file given.');
         }
 
-        /** @var CssAmplifier $cssAmplifier */
-        $cssAmplifier = Shopware()->Container()->get('heptacom_amp.components.css_amplifier');
+        /** @var StyleAmplifier $cssAmplifier */
+        $cssAmplifier = Shopware()->Container()->get('heptacom_amp.components.style_amplifier');
 
         $path = realpath(implode(DIRECTORY_SEPARATOR, [
             Shopware()->DocPath(),

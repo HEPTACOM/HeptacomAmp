@@ -18,7 +18,7 @@ use Sabberworm\CSS\Value\URL;
 use Sabberworm\CSS\Value\Value;
 use Sabberworm\CSS\CSSList\AtRuleBlockList;
 
-class CssAmplifier
+class StyleAmplifier
 {
     /**
      * @var string
