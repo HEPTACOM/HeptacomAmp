@@ -1,7 +1,7 @@
 {extends file="parent:backend/_resources/HeptacomAmp/_forms/basic.tpl"}
 
 {block name="content/javascript" append}
-    <script type="text/javascript" src="https://cdn.ampproject.org/v0/validator.js"></script>
+    <script type="text/javascript" src="{link file="backend/_resources/HeptacomAmp/js/amp-validator-v0.min.js"}"></script>
     <script type="text/javascript" src="{link file="backend/_resources/HeptacomAmp/js/vue-2.1.10.min.js"}"></script>
     <script type="text/javascript" src="{link file="backend/heptacom_amp_overview/validator.js"}"></script>
 {/block}
