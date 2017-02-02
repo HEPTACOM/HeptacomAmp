@@ -167,7 +167,7 @@ class CssAmplifier
                     $ruleSet->removeRule('-ms-');
 
                     array_walk($duplicateRules, function ($items) use ($ruleSet) {
-                        array_shift($items);
+                        array_pop($items);
 
                         foreach ($items as $item) {
                             $ruleSet->removeRule($item);
