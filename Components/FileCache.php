@@ -2,6 +2,8 @@
 
 namespace HeptacomAmp\Components;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Shopware\Components\HttpCache\AppCache;
 use Shopware\Components\Logger;
 
@@ -55,5 +57,30 @@ class FileCache
         }
 
         return file_get_contents($fileName);
+    }
+
+    /**
+     * @param null $type
+     */
+    public function clearCache($type = null)
+    {
+        if ($type !== null) {
+            $dir = implode(DIRECTORY_SEPARATOR, [$this->cacheDir, $type]);
+        }
+        else {
+            $dir = $this->cacheDir;
+        }
+
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($files as $fileinfo) {
+            $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+            $todo($fileinfo->getRealPath());
+        }
+
+        rmdir($dir);
     }
 }
