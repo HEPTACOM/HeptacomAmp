@@ -30,13 +30,13 @@
             <ul class="nav nav-pills">
                 <li>
                     <a href="{url controller='HeptacomAmpOverview' module='backend' action='dependencies'}">
-                        <i class="glyphicon glyphicon-cog"></i>
+                        <i class="fa fa-cog"></i>
                         Systemanforderungen
                     </a>
                 </li>
                 <li class="active">
                     <a href="#">
-                        <i class="glyphicon glyphicon-ok"></i>
+                        <i class="fa fa-check"></i>
                         Validator
                     </a>
                 </li>
@@ -60,7 +60,6 @@
             <td class="text-right">
                 <span class="btn-group">
                     <button class="btn btn-link" onclick="heptacom.btnValidateArticleDetails(event)">
-                        <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </span>
             </td>

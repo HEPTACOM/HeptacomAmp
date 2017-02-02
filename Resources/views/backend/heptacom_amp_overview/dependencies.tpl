@@ -18,13 +18,13 @@
             <ul class="nav nav-pills">
                 <li class="active">
                     <a href="#">
-                        <i class="glyphicon glyphicon-cog"></i>
+                        <i class="fa fa-cog"></i>
                         Systemanforderungen
                     </a>
                 </li>
                 <li>
                     <a href="{url controller='HeptacomAmpOverview' module='backend' action='validator'}">
-                        <i class="glyphicon glyphicon-ok"></i>
+                        <i class="fa fa-check"></i>
                         Validator
                     </a>
                 </li>
@@ -59,7 +59,7 @@
                     {$dep->getInstalledVersion()}
                 </td>
                 <td class="col-xs-1 text-right">
-                    <i class="{if $dep->isOk()}glyphicon glyphicon-ok-sign text-success{else}glyphicon glyphicon-exclamation-sign text-danger{/if}"></i>
+                    <i class="{if $dep->isOk()}fa fa-check-circle text-success{else}fa fa-exclamation-triangle text-danger{/if}"></i>
                 </td>
             </tr>
         {/foreach}
