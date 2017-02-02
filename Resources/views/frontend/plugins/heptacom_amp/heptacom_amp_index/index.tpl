@@ -6,7 +6,7 @@
 {/block}
 
 {block name='frontend_index_html'}
-<html amp lang="{s name='IndexXmlLang'}{/s}" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+<html amp lang="{s name='IndexXmlLang'}{/s}" itemscope="itemscope" itemtype="http://schema.org/WebPage" class="has--csstransforms">
 {/block}
 
 {block name='frontend_index_header'}

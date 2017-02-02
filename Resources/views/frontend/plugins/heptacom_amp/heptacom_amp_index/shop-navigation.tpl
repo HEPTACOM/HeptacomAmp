@@ -45,8 +45,8 @@
 
         {* Search form *}
         {block name='frontend_index_search'}
-            <li class="navigation--entry entry--search" role="menuitem" data-search="true" aria-haspopup="true">
-                <a class="btn entry--link entry--trigger" href="#show-hide--search" title="{"{s namespace='frontend/index/search' name="IndexTitleSearchToggle"}{/s}"|escape}">
+            <li class="navigation--entry entry--search is--active" role="menuitem" data-search="true" aria-haspopup="true">
+                <a class="btn entry--link entry--trigger is--active" href="#show-hide--search" title="{"{s namespace='frontend/index/search' name="IndexTitleSearchToggle"}{/s}"|escape}">
                     <i class="icon--search"></i>
 
                     {block name='frontend_index_search_display'}
