@@ -61,6 +61,19 @@ class CssAmplifier
         return $this->parser->render(OutputFormat::createCompact());
     }
 
+    protected static function ord_utf8($c)
+    {
+        $b0 = ord($c[0]);
+        if ( $b0 < 0x10 ) {
+            return $b0;
+        }
+        $b1 = ord($c[1]);
+        if ( $b0 < 0xE0 ) {
+            return (($b0 & 0x1F) << 6) + ($b1 & 0x3F);
+        }
+        return (($b0 & 0x0F) << 12) + (($b1 & 0x3F) << 6) + (ord($c[2]) & 0x3F);
+    }
+
     public function applyFilters()
     {
         /** @var CSSList[] $contents */
@@ -95,6 +108,14 @@ class CssAmplifier
                         if ($this->filter->isImportant()) {
                             $rule->setIsImportant(false);
                         }
+
+                        if ($rule->getRule() == 'content') {
+                            $value = trim($rule->getValue(), '"');
+
+                            if (strlen($value) != mb_strlen($value)) {
+                                $rule->setValue('"\\' . base_convert(static::ord_utf8($value), 10, 16) . '"');
+                            }
+                        }
                     }
 
                     $ruleSet->removeRule('-webkit-');
@@ -108,7 +129,7 @@ class CssAmplifier
                         $fontName = $rule->getValue();
                         if ($fontName != 'shopware') {
                             // this removes too much
-                                // $this->parser->remove($ruleSet);
+                            // $this->parser->remove($ruleSet);
                         }
                     }
                     break;
@@ -121,7 +142,7 @@ class CssAmplifier
             switch (true) {
                 case ($value instanceof URL && $this->filter->isPaths()):
                     /** @var URL $value */
-                    $origPath = trim($value->getURL(), '\"');
+                    $origPath = trim($value->getURL(), '"');
                     $exploded = explode('?', $origPath);
                     $origPath = array_shift($exploded);
                     $params = empty($exploded) ? '' : '?' . array_shift($exploded);
