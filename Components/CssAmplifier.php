@@ -133,6 +133,7 @@ class CssAmplifier
                             $this->parser->remove($ruleSet);
                         }
                     }
+                    $duplicateRules = [];
                     /** @var Rule[] $rules */
                     $rules = $ruleSet->getRules();
                     foreach ($rules as $rule) {
@@ -155,11 +156,22 @@ class CssAmplifier
                             $ruleSet->removeRule($rule);
                             continue;
                         }
+
+                        $duplicateRules[$rule->getRule()][] = $rule;
                     }
 
                     $ruleSet->removeRule('-webkit-');
                     $ruleSet->removeRule('-moz-');
                     $ruleSet->removeRule('-ms-');
+
+                    array_walk($duplicateRules, function ($items) use ($ruleSet) {
+                        array_shift($items);
+
+                        foreach ($items as $item) {
+                            $ruleSet->removeRule($item);
+                        }
+                    });
+
                     break;
                 case ($ruleSet instanceof AtRuleSet):
                     /** @var AtRuleSet $ruleSet */
