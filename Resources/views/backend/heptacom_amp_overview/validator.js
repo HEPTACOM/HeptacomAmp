@@ -6,12 +6,28 @@ heptacom = {
         data: {
             fetchingData: false,
             fetchedData: false,
+            processingData: false,
             articles: []
         },
         methods: {
             fetched: function(articles) {
                 return articles.filter(function (article) {
                     return article.status === 'fetched';
+                })
+            },
+            validating: function(articles) {
+                return articles.filter(function (article) {
+                    return article.status === 'validating';
+                })
+            },
+            valid: function(articles) {
+                return articles.filter(function (article) {
+                    return article.status === 'valid';
+                })
+            },
+            error: function(articles) {
+                return articles.filter(function (article) {
+                    return article.status === 'error';
                 })
             }
         }
@@ -26,26 +42,68 @@ heptacom = {
         heptacom.validationArticles.articles.splice(0);
 
         var fetcher = function(id) {
-            heptacom.overviewGetArticleIds(id, 50).success(function(data) {
+            heptacom.overviewGetArticleIds(id, 20).success(function(data) {
                 data.data.forEach(function (item) {
-                    item.validated = false;
                     item.errors = [];
                     item.status = 'fetched';
                     heptacom.validationArticles.articles.push(item);
                 });
-                heptacom.validationArticles.fetchedData = true;
 
-                if (data.data.length == 50) {
+                if (data.data.length == 20) {
                     setTimeout(function () {
-                        fetcher(id + 50);
+                        fetcher(id + 20);
                     }, 100);
                 } else {
                     heptacom.validationArticles.fetchingData = false;
                 }
-            })
+            }).done(function () {
+                heptacom.validationArticles.fetchedData = true;
+            });
         };
 
         fetcher(0);
+    },
+
+    btnValidateArticles: function(event) {
+        heptacom.validationArticles.processingData = true;
+
+        var validIterator = function(id) {
+            heptacom.validationArticles.articles[id].status = 'validating';
+            var request = heptacom.validate(
+                heptacom.validationArticles.articles[id].amp_url,
+                function () {
+                    heptacom.validationArticles.articles[id].status = 'valid';
+                },
+                function (data) {
+                    heptacom.validationArticles.articles[id].status = 'error';
+                    heptacom.validationArticles.articles[id].errors.splice(0);
+
+                    data.errors.forEach(function (item) {
+                        heptacom.validationArticles.articles[id].errors.push(item);
+                    })
+                }
+            ).fail(function(request, textStatus, errorThrown) {
+                heptacom.validationArticles.articles[id].status = 'error';
+                heptacom.validationArticles.articles[id].errors.push({
+                    type: 'HTTP',
+                    params: [ request.status ]
+                });
+            }).done(function(){
+                var validatingCount = heptacom.validationArticles.articles.filter(function (item) {
+                    return item.status == 'validating';
+                }).length;
+
+                if (validatingCount == 0) {
+                    heptacom.validationArticles.processingData = false
+                }
+            });
+
+            if (id + 1 < heptacom.validationArticles.articles.length) {
+                setTimeout(function () { validIterator(id + 1); }, 1000);
+            }
+        };
+
+        validIterator(0);
     },
 
     validate: function(url, success, error) {

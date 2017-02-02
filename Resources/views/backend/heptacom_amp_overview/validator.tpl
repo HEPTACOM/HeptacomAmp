@@ -54,21 +54,68 @@
         </div>
         <div class="panel-body text-right">
             <span class="btn-group">
-                <button class="btn btn-link" :disabled="!fetchedData || fetchingData" onclick="heptacom.btnValidateArticles(event)">
-                    <i class="fa fa-bug"></i>
+                <button class="btn btn-link" :disabled="!fetchedData || fetchingData || processingData" onclick="heptacom.btnValidateArticles(event)">
+                    <i v-if="processingData" class="fa fa-spin fa-bug"></i>
+                    <i v-else class="fa fa-bug"></i>
                 </button>
-                <button class="btn btn-link" :disabled="fetchingData" onclick="heptacom.btnLoadArticles(event)">
+                <button class="btn btn-link" :disabled="fetchingData || processingData || processingData" onclick="heptacom.btnLoadArticles(event)">
                     <i v-if="fetchingData" class="fa fa-spin fa-refresh"></i>
                     <i v-else class="fa fa-refresh"></i>
                 </button>
             </span>
         </div>
-        <table class="table table-condensed">
-            <tr class="row" v-for="article in fetched(articles)">
-                <td>
-                    {ldelim}{ldelim}article.name{rdelim}{rdelim}
-                </td>
-            </tr>
-        </table>
+        <div v-if="error(articles).length > 0" class="panel panel-danger">
+            <div class="panel-heading">
+                <i class="fa fa-exclamation-triangle text-danger"></i>
+                Fehler
+            </div>
+            <table class="table table-condensed">
+                <tr class="row" v-for="article in error(articles)">
+                    <td>
+                        {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                        <span class="label bg-danger">{ldelim}{ldelim}article.errors.length{rdelim}{rdelim}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div v-if="validating(articles).length > 0" class="panel panel-info">
+            <div class="panel-heading">
+                <i class="fa fa-refresh fa-spin"></i>
+                In Verarbeitung
+            </div>
+            <table class="table table-condensed">
+                <tr class="row" v-for="article in validating(articles)">
+                    <td>
+                        {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div v-if="valid(articles).length > 0" class="panel panel-success">
+            <div class="panel-heading">
+                <i class="fa fa-check-square text-success"></i>
+                AMP-Valide
+            </div>
+            <table class="table table-condensed">
+                <tr class="row" v-for="article in valid(articles)">
+                    <td>
+                        {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div v-if="fetched(articles).length > 0" class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-download"></i>
+                Erfasst
+            </div>
+            <table class="table table-condensed">
+                <tr class="row" v-for="article in fetched(articles)">
+                    <td>
+                        {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 {/block}
