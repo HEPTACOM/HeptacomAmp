@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{link file="backend/_resources/HeptacomAmp/css/bootstrap.min.css"}" />
     <link rel="stylesheet" href="{link file="backend/_resources/HeptacomAmp/css/bootstrap-theme.min.css"}" />
+    <link rel="stylesheet" href="{link file="backend/_resources/HeptacomAmp/css/font-awesome.min.css"}" />
     <link rel="stylesheet" href="{link file="backend/_resources/HeptacomAmp/css/heptacom-dialog-box.css"}" />
     {block name="head"}{/block}
 </head>
