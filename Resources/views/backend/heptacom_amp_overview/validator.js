@@ -1,12 +1,51 @@
 heptacom = {
     url: {},
 
+    validationArticles: new Vue({
+        el: '#heptacomArticles',
+        data: {
+            fetchingData: false,
+            fetchedData: false,
+            articles: []
+        },
+        methods: {
+            fetched: function(articles) {
+                return articles.filter(function (article) {
+                    return article.status === 'fetched';
+                })
+            }
+        }
+    }),
+
     setUrls: function(urls) {
         heptacom.url = urls;
     },
 
-    btnValidateArticleDetails: function(event) {
+    btnLoadArticles: function(event) {
+        heptacom.validationArticles.fetchingData = true;
+        heptacom.validationArticles.articles.splice(0);
 
+        var fetcher = function(id) {
+            heptacom.overviewGetArticleIds(id, 50).success(function(data) {
+                data.data.forEach(function (item) {
+                    item.validated = false;
+                    item.errors = [];
+                    item.status = 'fetched';
+                    heptacom.validationArticles.articles.push(item);
+                });
+                heptacom.validationArticles.fetchedData = true;
+
+                if (data.data.length == 50) {
+                    setTimeout(function () {
+                        fetcher(id + 50);
+                    }, 100);
+                } else {
+                    heptacom.validationArticles.fetchingData = false;
+                }
+            })
+        };
+
+        fetcher(0);
     },
 
     validate: function(url, success, error) {

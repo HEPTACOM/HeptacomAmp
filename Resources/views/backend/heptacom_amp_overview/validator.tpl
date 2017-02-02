@@ -46,23 +46,29 @@
 {/block}
 
 {block name="content/main/content"}
-    <table class="table table-condensed">
-        <tr>
-            <th class="col-xs-7">
-                Bereiche
-            </th>
-            <th class="col-xs-3"></th>
-        </tr>
-        <tr>
-            <td>
-                Artikeldetails
-            </td>
-            <td class="text-right">
-                <span class="btn-group">
-                    <button class="btn btn-link" onclick="heptacom.btnValidateArticleDetails(event)">
-                    </button>
-                </span>
-            </td>
-        </tr>
-    </table>
+    <div class="panel panel-default" id="heptacomArticles">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Artikel
+            </h3>
+        </div>
+        <div class="panel-body text-right">
+            <span class="btn-group">
+                <button class="btn btn-link" :disabled="!fetchedData || fetchingData" onclick="heptacom.btnValidateArticles(event)">
+                    <i class="fa fa-bug"></i>
+                </button>
+                <button class="btn btn-link" :disabled="fetchingData" onclick="heptacom.btnLoadArticles(event)">
+                    <i v-if="fetchingData" class="fa fa-spin fa-refresh"></i>
+                    <i v-else class="fa fa-refresh"></i>
+                </button>
+            </span>
+        </div>
+        <table class="table table-condensed">
+            <tr class="row" v-for="article in fetched(articles)">
+                <td>
+                    {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                </td>
+            </tr>
+        </table>
+    </div>
 {/block}
