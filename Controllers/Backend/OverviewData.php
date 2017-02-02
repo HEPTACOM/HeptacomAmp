@@ -59,13 +59,18 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $router = $this->getRouter();
 
         foreach ($articles as &$article) {
-            $article['url'] = $router->assemble([
+            $article['url'] = str_replace('http://', 'https://', $router->assemble([
                 'module' => 'frontend',
                 'controller' => 'detail',
                 'action' => 'index',
                 'sArticle' => $article['id'],
-                'title' => $article['name'],
-            ]);
+            ]));
+            $article['amp_url'] = str_replace('http://', 'https://', $router->assemble([
+                'module' => 'frontend',
+                'controller' => 'heptacomAmpDetail',
+                'action' => 'index',
+                'sArticle' => $article['id'],
+            ]));
         }
 
         $this->View()->assign(['success' => true, 'data' => $articles]);
