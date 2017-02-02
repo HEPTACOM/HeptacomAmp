@@ -129,7 +129,8 @@ class CssAmplifier
                     foreach ($selectors as $selector) {
                         if (strpos($selector->getSelector(), '-webkit-') !== false
                             || strpos($selector->getSelector(), '-moz-') !== false
-                            || strpos($selector->getSelector(), '-ms-') !== false) {
+                            || strpos($selector->getSelector(), '-ms-') !== false
+                            || strpos($selector->getSelector(), '.emotion--') !== false) {
                             $this->parser->remove($ruleSet);
                         }
                     }
