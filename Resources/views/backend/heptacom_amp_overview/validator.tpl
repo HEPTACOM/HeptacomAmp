@@ -65,25 +65,31 @@
             </span>
         </div>
         <div v-if="error(articles).length > 0" class="panel panel-danger">
-            <div class="panel-heading">
-                <i class="fa fa-exclamation-triangle text-danger"></i>
-                Fehler
+            <div class="panel-heading" data-toggle="collapse" data-target=".panel-danger .table">
+                <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
+                Fehler&nbsp;
+                <span class="badge">
+                    {ldelim}{ldelim}error(articles).length{rdelim}{rdelim}
+                </span>
             </div>
-            <table class="table table-condensed">
+            <table class="collapse table table-condensed">
                 <tr class="row" v-for="article in error(articles)">
                     <td>
                         {ldelim}{ldelim}article.name{rdelim}{rdelim}
-                        <span class="label bg-danger">{ldelim}{ldelim}article.errors.length{rdelim}{rdelim}</span>
+                        <span class="badge badge-danger">{ldelim}{ldelim}article.errors.length{rdelim}{rdelim}</span>
                     </td>
                 </tr>
             </table>
         </div>
         <div v-if="validating(articles).length > 0" class="panel panel-info">
-            <div class="panel-heading">
-                <i class="fa fa-refresh fa-spin"></i>
-                In Verarbeitung
+            <div class="panel-heading" data-toggle="collapse" data-target=".panel-info .table">
+                <i class="fa fa-refresh fa-spin"></i>&nbsp;
+                In Verarbeitung&nbsp;
+                <span class="badge">
+                    {ldelim}{ldelim}validating(articles).length{rdelim}{rdelim}
+                </span>
             </div>
-            <table class="table table-condensed">
+            <table class="collapse table table-condensed">
                 <tr class="row" v-for="article in validating(articles)">
                     <td>
                         {ldelim}{ldelim}article.name{rdelim}{rdelim}
@@ -92,11 +98,14 @@
             </table>
         </div>
         <div v-if="valid(articles).length > 0" class="panel panel-success">
-            <div class="panel-heading">
-                <i class="fa fa-check-square text-success"></i>
-                AMP-Valide
+            <div class="panel-heading" data-toggle="collapse" data-target=".panel-success .table">
+                <i class="fa fa-check-square text-success"></i>&nbsp;
+                AMP-Valide&nbsp;
+                <span class="badge">
+                    {ldelim}{ldelim}valid(articles).length{rdelim}{rdelim}
+                </span>
             </div>
-            <table class="table table-condensed">
+            <table class="collapse table table-condensed">
                 <tr class="row" v-for="article in valid(articles)">
                     <td>
                         {ldelim}{ldelim}article.name{rdelim}{rdelim}
@@ -105,11 +114,14 @@
             </table>
         </div>
         <div v-if="fetched(articles).length > 0" class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-download"></i>
-                Erfasst
+            <div class="panel-heading" data-toggle="collapse" data-target=".panel-default .table">
+                <i class="fa fa-download"></i>&nbsp;
+                Erfasst&nbsp;
+                <span class="badge">
+                    {ldelim}{ldelim}fetched(articles).length{rdelim}{rdelim}
+                </span>
             </div>
-            <table class="table table-condensed">
+            <table class="collapse table table-condensed">
                 <tr class="row" v-for="article in fetched(articles)">
                     <td>
                         {ldelim}{ldelim}article.name{rdelim}{rdelim}
