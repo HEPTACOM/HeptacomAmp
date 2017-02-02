@@ -147,10 +147,9 @@ class CssAmplifier
                     /** @var AtRuleSet $ruleSet */
                     if ($ruleSet->atRuleName() == 'font-face') {
                         $rule = array_shift($ruleSet->getRules('font-family'));
-                        $fontName = $rule->getValue();
+                        $fontName = trim($rule->getValue(), '"');
                         if ($fontName != 'shopware') {
-                            // this removes too much
-                            // $this->parser->remove($ruleSet);
+                            $this->parser->remove($ruleSet);
                         }
                     }
                     break;
