@@ -123,6 +123,16 @@ class CssAmplifier
             switch (true) {
                 case ($ruleSet instanceof DeclarationBlock):
                     /** @var DeclarationBlock $ruleSet */
+
+                    /** @var Selector[] $selectors */
+                    $selectors = $ruleSet->getSelectors();
+                    foreach ($selectors as $selector) {
+                        if (strpos($selector->getSelector(), '-webkit-') !== false
+                            || strpos($selector->getSelector(), '-moz-') !== false
+                            || strpos($selector->getSelector(), '-ms-') !== false) {
+                            $this->parser->remove($ruleSet);
+                        }
+                    }
                     /** @var Rule[] $rules */
                     $rules = $ruleSet->getRules();
                     foreach ($rules as $rule) {
@@ -136,6 +146,14 @@ class CssAmplifier
                             if (strlen($value) != mb_strlen($value)) {
                                 $rule->setValue('"\\' . base_convert(static::ord_utf8($value), 10, 16) . '"');
                             }
+                        }
+
+                        // TODO: should use regex
+                        if (strpos($rule->getValue(), '-webkit-') !== false
+                            || strpos($rule->getValue(), '-moz-') !== false
+                            || strpos($rule->getValue(), '-ms-') !== false) {
+                            $ruleSet->removeRule($rule);
+                            continue;
                         }
                     }
 
