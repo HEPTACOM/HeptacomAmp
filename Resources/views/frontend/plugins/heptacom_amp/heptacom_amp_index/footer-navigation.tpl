@@ -110,7 +110,7 @@
                     </p>
 
                     {block name="frontend_index_footer_column_newsletter_form"}
-                        <form class="newsletter--form" action="{url controller='newsletter'}" method="get" target="_top">
+                        <form class="newsletter--form" action="{url controller='newsletter' forceSecure}" method="get" target="_top">
                             <input type="hidden" value="1" name="subscribeToNewsletter" />
 
                             {block name="frontend_index_footer_column_newsletter_form_field"}
