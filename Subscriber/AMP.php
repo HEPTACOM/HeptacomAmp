@@ -45,10 +45,14 @@ class AMP implements SubscriberInterface
         $this->pluginLogger = $pluginLogger;
 
         $this->domAmplifier = new DOMAmplifier();
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\CSSMerge());
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
+        $styleStorage = new DOMAmplifier\StyleStorage();
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\CustomStyleInjector($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
     }
 
     /**
