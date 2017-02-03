@@ -1,4 +1,4 @@
-<amp-sidebar id="offcanvas-menu" layout="nodisplay" class="sidebar-main">
+<amp-sidebar id="offcanvas-menu" layout="nodisplay" side="left" class="sidebar-main">
     {block name="frontend_index_left_inner"}
         {* Mobile specific menu actions *}
         {block name="frontend_index_left_navigation_smartphone"}
