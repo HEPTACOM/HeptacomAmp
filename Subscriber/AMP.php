@@ -6,6 +6,7 @@ use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
+use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 
@@ -44,10 +45,10 @@ class AMP implements SubscriberInterface
         $this->pluginLogger = $pluginLogger;
 
         $this->domAmplifier = new DOMAmplifier();
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\CSSMerge());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\ComponentInjection());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\TagFilter());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\AttributeFilter());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\CSSMerge());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
     }
 
     /**
