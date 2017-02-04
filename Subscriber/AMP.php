@@ -7,6 +7,7 @@ use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
+use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 
@@ -46,12 +47,14 @@ class AMP implements SubscriberInterface
 
         $this->domAmplifier = new DOMAmplifier();
         $styleStorage = new DOMAmplifier\StyleStorage();
+        $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
+        $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\CustomStyleInjector($styleStorage));
+        $this->domAmplifier->useAmplifier($styleInjector);
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
     }
 
