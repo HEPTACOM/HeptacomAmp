@@ -186,7 +186,7 @@
 
                             {* Include buy button and quantity box *}
                             {block name="frontend_detail_index_buybox"}
-                                {include file="frontend/detail/buy.tpl"}
+                                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/buy.tpl"}
                             {/block}
 
                             {* Product actions *}
