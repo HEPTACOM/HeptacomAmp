@@ -269,7 +269,7 @@
 
             {* Tab navigation *}
             {block name="frontend_detail_index_tabs"}
-                {include file="frontend/detail/tabs.tpl"}
+                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs.tpl"}
             {/block}
         {/block}
 
