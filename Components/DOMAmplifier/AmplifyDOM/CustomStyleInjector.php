@@ -21,6 +21,11 @@ class CustomStyleInjector implements IAmplifyDOM
     private $styleStorage;
 
     /**
+     * @var IAmplifyStyle[]
+     */
+    private $styleAmplifier = [];
+
+    /**
      * CSSMerge constructor.
      * @param StyleStorage $styleStorage
      */
@@ -30,12 +35,29 @@ class CustomStyleInjector implements IAmplifyDOM
     }
 
     /**
+     * Registers a ⚡lifier module.
+     * @param IAmplifyStyle $amplify The module to use.
+     */
+    public function useAmplifier(IAmplifyStyle $amplify)
+    {
+        if (!empty($amplify)) {
+            $this->styleAmplifier[] = $amplify;
+        }
+    }
+
+    /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
      * @return DOMNode The ⚡lified node.
      */
     public function amplify(DOMNode $node)
     {
+        $styleDocument = $this->styleStorage->parseToStylesheet();
+
+        foreach ($this->styleAmplifier as $amplifier) {
+            list($node, $styleDocument) = $amplifier->amplify($node, $styleDocument);
+        }
+
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
@@ -43,7 +65,7 @@ class CustomStyleInjector implements IAmplifyDOM
             /** @var DOMElement $head */
             $style = $document->createElement('style');
             $style->setAttributeNode($document->createAttribute('amp-custom'));
-            $style->textContent = $this->styleStorage->parseToStylesheet()->render(OutputFormat::createCompact());
+            $style->textContent = $styleDocument->render(OutputFormat::createCompact());
             $head->appendChild($style);
 
             break;
