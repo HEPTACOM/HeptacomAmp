@@ -174,11 +174,11 @@
                                 <div class="product--configurator">
                                     {if $sArticle.sConfigurator}
                                         {if $sArticle.sConfiguratorSettings.type == 1}
-                                            {include file="frontend/detail/config_step.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_step.tpl"}
                                         {elseif $sArticle.sConfiguratorSettings.type == 2}
-                                            {include file="frontend/detail/config_variant.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_variant.tpl"}
                                         {else}
-                                            {include file="frontend/detail/config_upprice.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_upprice.tpl"}
                                         {/if}
                                     {/if}
                                 </div>
