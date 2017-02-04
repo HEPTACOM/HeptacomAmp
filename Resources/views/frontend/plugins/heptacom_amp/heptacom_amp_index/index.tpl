@@ -23,6 +23,12 @@
 {block name='frontend_index_after_body'}{/block}
 
 {block name="frontend_index_page_wrap"}
+
+    {* Sidebar left *}
+    {block name='frontend_index_content_left'}
+        {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/sidebar.tpl'}
+    {/block}
+
     <div class="page-wrap">
 
         {* Message if javascript is disabled *}
@@ -36,7 +42,7 @@
 
         {* Shop header *}
         {block name='frontend_index_navigation'}
-            <header class="header-main">
+            <header class="header-main is--active-searchfield">
 
                 {block name='frontend_index_header_navigation'}
                     <div class="container header--navigation">
@@ -53,17 +59,6 @@
                     </div>
                 {/block}
             </header>
-
-            {* Maincategories navigation top *}
-            {block name='frontend_index_navigation_categories_top'}
-                <nav class="navigation-main">
-                    <div class="container" data-menu-scroller="true" data-listSelector=".navigation--list.container" data-viewPortSelector=".navigation--list-wrapper">
-                        {block name="frontend_index_navigation_categories_top_include"}
-                            {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/main-navigation.tpl'}
-                        {/block}
-                    </div>
-                </nav>
-            {/block}
         {/block}
 
         {block name='frontend_index_content_main'}
@@ -84,11 +79,6 @@
                 {block name="frontend_index_content_top"}{/block}
 
                 <div class="content-main--inner">
-                    {* Sidebar left *}
-                    {block name='frontend_index_content_left'}
-                        {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/sidebar.tpl'}
-                    {/block}
-
                     {* Main content *}
                     {block name='frontend_index_content_wrapper'}
                         <div class="content--wrapper">
