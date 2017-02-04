@@ -7,12 +7,12 @@
 
             {* Content list *}
             {block name="frontend_detail_tabs_content"}
-                <amp-accordion class="tab--container-list">
+                <amp-accordion class="tab--container-list" disable-session-states>
                     {block name="frontend_detail_tabs_content_inner"}
 
                         {* Description container *}
                         {block name="frontend_detail_tabs_content_description"}
-                            <section class="tab--container">
+                            <section class="tab--container has--border">
                                 {block name="frontend_detail_tabs_content_description_inner"}
 
                                     {* Description title *}
@@ -40,17 +40,18 @@
                         {* Rating container *}
                         {block name="frontend_detail_tabs_content_rating"}
                             {if !{config name=VoteDisable}}
-                                <section class="tab--container">
+                                <section class="tab--container has--border">
                                     {block name="frontend_detail_tabs_content_rating_inner"}
 
                                         {* Rating title *}
                                         {block name="frontend_detail_tabs_rating_title"}
                                             <header class="tab--header">
                                                 {block name="frontend_detail_tabs_rating_title_inner"}
-                                                    <a href="#" class="tab--title" title="{s name='DetailTabsRating'}{/s}">{s name='DetailTabsRating'}{/s}</a>
-                                                    {block name="frontend_detail_tabs_rating_title_count"}
-                                                        <span class="product--rating-count">{$sArticle.sVoteAverage.count}</span>
-                                                    {/block}
+                                                    <a href="#" class="tab--title" title="{s name='DetailTabsRating'}{/s}">{s name='DetailTabsRating'}{/s}
+                                                        {block name="frontend_detail_tabs_rating_title_count"}
+                                                            <span class="product--rating-count">{$sArticle.sVoteAverage.count}</span>
+                                                        {/block}
+                                                    </a>
                                                 {/block}
                                             </header>
                                         {/block}
