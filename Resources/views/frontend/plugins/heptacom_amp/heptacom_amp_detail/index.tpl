@@ -192,7 +192,7 @@
                             {* Product actions *}
                             {block name="frontend_detail_index_actions"}
                                 <nav class="product--actions">
-                                    {include file="frontend/detail/actions.tpl"}
+                                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/actions.tpl"}
                                 </nav>
                             {/block}
                         </div>
