@@ -22,8 +22,11 @@ class RemoveResponsiveMediaRules implements IAmplifyStyle
     {
         foreach ($styleDocument->getContents() as $list) {
             if ($list instanceof AtRuleBlockList) {
-                if ($list->atRuleName() == 'media' && strpos($list->atRuleArgs(), 'min-width') !== false) {
-                    $styleDocument->remove($list);
+                if ($list->atRuleName() == 'media') {
+                    if (stripos($list->atRuleArgs(), 'min-width') !== false ||
+                        stripos($list->atRuleArgs(), 'print') !== false) {
+                        $styleDocument->remove($list);
+                    }
                 }
             }
         }
