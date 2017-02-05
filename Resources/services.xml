@@ -18,8 +18,5 @@
         <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
             <argument type="service" id="PluginLogger" />
         </service>
-        <service id="heptacom_amp.components.style_amplifier" class="HeptacomAmp\Components\StyleAmplifier">
-            <argument type="service" id="heptacom_amp.components.file_cache" />
-        </service>
     </services>
 </container>

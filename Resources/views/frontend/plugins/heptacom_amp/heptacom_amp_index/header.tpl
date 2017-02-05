@@ -83,11 +83,10 @@
     {block name="frontend_index_header_css_screen"}
         {{compileLess timestamp={themeTimestamp} output="lessFiles"}}
         {$baseUrl = $Shopware->Front()->Request()->getBaseUrl()}
-        <style amp-custom type="text/css">
-            {foreach $lessFiles as $stylesheet}
-                {amplifyCss file=$stylesheet}
-            {/foreach}
-        </style>
+
+        {foreach $lessFiles as $stylesheet}
+            <link rel="stylesheet" href="{$stylesheet}" />
+        {/foreach}
 
         {* {if $theme.additionalCssData}
             {$theme.additionalCssData}

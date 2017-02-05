@@ -48,8 +48,17 @@ class AMP implements SubscriberInterface
         $this->domAmplifier = new DOMAmplifier();
         $styleStorage = new DOMAmplifier\StyleStorage();
         $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveVendorPrefixedItems());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveDuplicateValues());
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnusedTagSelectors());
         $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
+        $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
+        $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
+        $styleInjector->useAmplifier(new AmplifyStyle\RenameClassNames());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
