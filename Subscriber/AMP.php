@@ -48,6 +48,7 @@ class AMP implements SubscriberInterface
         $this->domAmplifier = new DOMAmplifier();
         $styleStorage = new DOMAmplifier\StyleStorage();
         $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnusedTagSelectors());
         $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
