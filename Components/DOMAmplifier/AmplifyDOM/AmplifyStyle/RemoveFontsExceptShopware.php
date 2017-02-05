@@ -25,7 +25,7 @@ class RemoveFontsExceptShopware implements IAmplifyStyle
                 /** @var AtRuleSet $ruleSet */
                 if ($ruleSet->atRuleName() == 'font-face') {
                     $rule = array_shift($ruleSet->getRules('font-family'));
-                    if (!is_null($rule) && strcasecmp(trim($rule->getValue(), '"\''), 'shopware') === 0) {
+                    if (!is_null($rule) && strcasecmp(trim($rule->getValue(), '"\''), 'shopware') !== 0) {
                         $styleDocument->remove($ruleSet);
                     }
                 }
