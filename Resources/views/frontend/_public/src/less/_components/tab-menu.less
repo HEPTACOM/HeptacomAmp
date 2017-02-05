@@ -1,0 +1,33 @@
+amp-accordion .tab--container {
+  .border-radius();
+  .unitize(margin-bottom, 10);
+
+  &.has--border {
+    border: 1px solid @border-color;
+  }
+
+  .tab--header {
+    background: inherit;
+    border-width: 0;
+    padding: 0;
+
+    .tab--title {
+      display: block;
+      .unitize-padding(10, 38, 10, 10);
+      .unitize(line-height, 20);
+
+      &::after {
+        content: "\e68f";
+      }
+    }
+  }
+  &[expanded] {
+    .tab--header {
+      border-width: 0 0 1px;
+
+      .tab--title::after {
+        content: "\e68e";
+      }
+    }
+  }
+}
