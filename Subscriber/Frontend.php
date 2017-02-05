@@ -8,7 +8,7 @@ use Enlight\Event\SubscriberInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use ShopwarePlugins\SwagCustomProducts\Components\Services\TemplateServiceInterface;
 
-class Detail implements SubscriberInterface
+class Frontend implements SubscriberInterface
 {
     /**
      * @return array
