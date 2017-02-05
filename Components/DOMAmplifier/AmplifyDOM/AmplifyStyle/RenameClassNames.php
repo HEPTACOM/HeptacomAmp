@@ -7,7 +7,6 @@ use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyStyle;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
 use Sabberworm\CSS\CSSList\Document;
-use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\Property\Selector;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 
@@ -32,7 +31,7 @@ class RenameClassNames implements IAmplifyStyle
             foreach ($declarationBlock->getSelectors() as $selector) {
                 /** @var Selector $selector */
                 $selectors[] = $selector->getSelector();
-                if (preg_match_all('/\\[class([~|^$*]?)=[\'"](.+)[\'"]((?:\\si)?)\\]/', $selector, $attributeMatches) > 0) {
+                if (preg_match_all('/\\[class([~|^$*]?)=[\'"](.+)[\'"]((?:\\si)?)\\]/', $selector, $attributeMatches, PREG_SET_ORDER) > 0) {
                     foreach ($attributeMatches as $attributeMatch) {
                         $quote = preg_quote($attributeMatch[2]);
                         $suffix = trim($attributeMatch[3]) == 'i'?'i':'';
@@ -70,7 +69,6 @@ class RenameClassNames implements IAmplifyStyle
 
         /** @var string[] $classes */
         $classes = [];
-
         $nodes = new DOMNodeRecursiveIterator($domNode->childNodes);
         foreach ($nodes->getRecursiveIterator() as $subnode) {
             if ($subnode instanceof DOMElement &&
@@ -83,27 +81,28 @@ class RenameClassNames implements IAmplifyStyle
             }
         }
 
+        $classes = array_filter($classes, function ($class) use ($classNameFilters) {
+            return !static::classNameMatchesRegex($class, $classNameFilters) && strlen($class) > 2;
+        });
+
+        usort($classes, function ($a, $b) {
+            $aL = strlen($a);
+            $bL = strlen($b);
+
+            if ($aL == $bL) {
+                return -strcmp($a, $b);
+            } elseif ($aL > $bL) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+
+
         /** @var string $classSet */
-        $classSet = "qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM1234567890";
+        $classSet = "qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM";
         /** @var int $classNumber */
         $classNumber = 0;
-
-        /**
-         *
-        usort($classes, function ($a, $b) {
-        $aL = strlen($a);
-        $bL = strlen($b);
-
-        if ($aL == $bL) {
-        return -strcmp($a, $b);
-        } elseif ($aL > $bL) {
-        return -1;
-        } else {
-        return 1;
-        }
-        });
-         */
-
 
         /** @var string[] $translations */
         $translations = [];
@@ -112,21 +111,45 @@ class RenameClassNames implements IAmplifyStyle
             $classKeyNumber = $classNumber++;
 
             $classKey = substr($classSet, $classKeyNumber % strlen($classSet), 1);
-            while ($classKeyNumber > strlen($classSet)) {
-                $classKey .= substr($classSet, $classKeyNumber % strlen($classSet), 1);
+            while ($classKeyNumber >= strlen($classSet)) {
                 $classKeyNumber /= strlen($classSet);
+                $classKey .= substr($classSet, $classKeyNumber % strlen($classSet), 1);
             }
 
-            $translations[$classKey] = $class;
+            $translations[$class] = $classKey;
         }
-/*
-        var_dump($selectors);
-        var_dump($classNameFilters);
-        var_dump($classes);
-        var_dump(array_filter($classes, function ($classItem) use($classNameFilters) { return !static::classNameMatchesRegex($classItem, $classNameFilters); }));
-        var_dump($translations);
-        die;
-*/
+
+        foreach ($nodes->getRecursiveIterator() as $subnode) {
+            if ($subnode instanceof DOMElement &&
+                !empty($class = $subnode->getAttribute('class'))) {
+                $newClasses = [];
+                foreach (explode(' ', $class) as $classItem) {
+                    if (array_key_exists($classItem, $translations)) {
+                        $newClasses[] = $translations[$classItem];
+                    } else {
+                        $newClasses[] = $classItem;
+                    }
+                }
+                $subnode->setAttribute('class', join(' ', $newClasses));
+            }
+        }
+
+        foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
+            /** @var DeclarationBlock $declarationBlock */
+            $selectors = [];
+
+            foreach ($declarationBlock->getSelectors() as $selector) {
+                $sel = $selector->getSelector();
+                foreach ($classes as $class) {
+                    if (array_key_exists($class, $translations)) {
+                        $sel = str_replace('.'.$class, '.'.$translations[$class], $sel);
+                    }
+                }
+                $selectors[] = $sel;
+            }
+
+            $declarationBlock->setSelectors($selectors);
+        }
     }
 
     /**
