@@ -19,6 +19,7 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontendDetail',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'onGetControllerPathFrontendCustom',
         ];
     }
 
@@ -84,5 +85,14 @@ class Frontend implements SubscriberInterface
     public function onGetControllerPathFrontendDetail(Enlight_Event_EventArgs $args)
     {
         return implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Frontend', 'HeptacomAmpDetail.php']);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     * @return string
+     */
+    public function onGetControllerPathFrontendCustom(Enlight_Event_EventArgs $args)
+    {
+        return implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Frontend', 'HeptacomAmpCustom.php']);
     }
 }
