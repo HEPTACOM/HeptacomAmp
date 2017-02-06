@@ -42,6 +42,8 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
         }
 
         $classes = array_filter($classes, 'strlen');
+        /// TODO: REMOVE
+        $removedSelectors = [];
 
         foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
             /** @var DeclarationBlock $declarationBlock */
@@ -62,7 +64,13 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
             } else {
                 array_walk($selectorsToRemove, [$declarationBlock, 'removeSelector']);
             }
+
+            /// TODO: REMOVE
+            $removedSelectors = array_merge($removedSelectors, $selectorsToRemove);
         }
+
+        /// TODO: REMOVE
+        var_dump($removedSelectors);
     }
 
     /**
