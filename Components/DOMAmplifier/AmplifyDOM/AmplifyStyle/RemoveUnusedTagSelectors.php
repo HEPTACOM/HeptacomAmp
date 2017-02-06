@@ -104,7 +104,7 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
      */
     private static function selectorContainsClassAttribute(Selector $selector, array $classes)
     {
-        if (preg_match_all('/\\[class([~|^$*]?)=[\'"](.+)[\'"]((?:\\si)?)\\]/', $selector, $attributes) > 0) {
+        if (preg_match_all('/\\[class([~|^$*]?)=[\'"](.+)[\'"]((?:\\si)?)\\]/', $selector, $attributes, PREG_SET_ORDER) > 0) {
             foreach ($attributes as $attribute) {
                 $case = trim($attribute[3]) == 'i';
                 switch ($attribute[1]) {
