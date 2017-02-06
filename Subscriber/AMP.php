@@ -60,6 +60,7 @@ class AMP implements SubscriberInterface
         $styleInjector->useAmplifier(new AmplifyStyle\RenameClassNames());
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
         $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
+        $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
