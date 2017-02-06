@@ -32,7 +32,8 @@ class RemoveDuplicateValues implements IAmplifyStyle
             }
 
             array_walk($duplicateRules, function ($items) use ($declarationBlock) {
-                array_pop($items);
+                usort($items, 'strlen');
+                array_shift($items);
                 array_walk($items, [$declarationBlock, 'removeRule']);
             });
         }
