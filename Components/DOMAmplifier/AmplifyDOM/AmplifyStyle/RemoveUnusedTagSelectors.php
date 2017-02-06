@@ -120,7 +120,7 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
                     }
                     case '|': {
                         foreach ($classes as $class) {
-                            if (preg_match('/^'.preg_quote($attribute[2]).'($|\\-.*$)/'.($case?'i':''), $classes)== 1) {
+                            if (preg_match('/^'.preg_quote($attribute[2]).'($|\\-.*$)/'.($case?'i':''), $class)== 1) {
                                 return true;
                             }
                         }
