@@ -33,7 +33,7 @@ class RemoveVendorPrefixedItems implements IAmplifyStyle
                 if (strpos($selector->getSelector(), '-webkit-') !== false
                     || strpos($selector->getSelector(), '-moz-') !== false
                     || strpos($selector->getSelector(), '-ms-') !== false
-                    || strpos($selector->getSelector(), '.emotion--') !== false) {
+                    || strpos($selector->getSelector(), '-o-') !== false) {
                     $styleDocument->remove($declarationBlock);
                     continue;
                 }
@@ -43,7 +43,8 @@ class RemoveVendorPrefixedItems implements IAmplifyStyle
                     // TODO: should use regex
                     if (strpos($rule->getValue(), '-webkit-') !== false ||
                         strpos($rule->getValue(), '-moz-') !== false  ||
-                        strpos($rule->getValue(), '-ms-') !== false) {
+                        strpos($rule->getValue(), '-ms-') !== false  ||
+                        strpos($rule->getValue(), '-o-') !== false) {
                         $declarationBlock->removeRule($rule);
                         continue;
                     }
@@ -52,6 +53,7 @@ class RemoveVendorPrefixedItems implements IAmplifyStyle
                 $declarationBlock->removeRule('-webkit-');
                 $declarationBlock->removeRule('-moz-');
                 $declarationBlock->removeRule('-ms-');
+                $declarationBlock->removeRule('-o-');
             }
         }
     }
