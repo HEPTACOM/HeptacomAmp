@@ -42,8 +42,3 @@
 
     </div>
 {/block}
-
-{* Sidebar left *}
-{block name="frontend_index_content_left"}
-    {include file="frontend/plugins/heptacom_amp/index/sidebar.tpl"}
-{/block}
