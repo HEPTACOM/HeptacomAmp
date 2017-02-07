@@ -56,7 +56,7 @@
 
                 {* Include of the search form *}
                 {block name='frontend_index_search_include'}
-                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/search.tpl"}
+                    {include file="frontend/plugins/heptacom_amp/index/search.tpl"}
                 {/block}
             </li>
         {/block}

@@ -28,7 +28,7 @@
                                     {block name="frontend_detail_tabs_content_description_description"}
                                         <div class="tab--content">
                                             {block name="frontend_detail_tabs_content_description_description_inner"}
-                                                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs/description.tpl"}
+                                                {include file="frontend/plugins/heptacom_amp/detail/tabs/description.tpl"}
                                             {/block}
                                         </div>
                                     {/block}
@@ -60,7 +60,7 @@
                                         {block name="frontend_detail_tabs_rating_content"}
                                             <div class="tab--content">
                                                 {block name="frontend_detail_tabs_rating_content_inner"}
-                                                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs/comment.tpl"}
+                                                    {include file="frontend/plugins/heptacom_amp/detail/tabs/comment.tpl"}
                                                 {/block}
                                             </div>
                                         {/block}

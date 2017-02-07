@@ -93,7 +93,7 @@
             {$theme.additionalCssData}
         {/if} *}
 
-        {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/amp-boilerplate.tpl"}
+        {include file="frontend/plugins/heptacom_amp/index/amp-boilerplate.tpl"}
     {/block}
 
     {* Print Stylesheets *}

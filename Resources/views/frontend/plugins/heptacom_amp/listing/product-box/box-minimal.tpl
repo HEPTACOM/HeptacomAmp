@@ -1,4 +1,4 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/box-basic.tpl"}
+{extends file="frontend/plugins/heptacom_amp/listing/product-box/box-basic.tpl"}
 
 {namespace name="frontend/listing/box_article"}
 

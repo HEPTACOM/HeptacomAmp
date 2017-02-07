@@ -1,4 +1,4 @@
-{extends file='frontend/plugins/heptacom_amp/heptacom_amp_index/header.tpl'}
+{extends file='frontend/plugins/heptacom_amp/index/header.tpl'}
 
 {* Meta title *}
 {block name="frontend_index_header_title"}{if $sArticle.metaTitle}{$sArticle.metaTitle|escapeHtml} | {{config name=sShopname}|escapeHtml}{else}{$sArticle.articleName} | {$smarty.block.parent}{/if}{/block}

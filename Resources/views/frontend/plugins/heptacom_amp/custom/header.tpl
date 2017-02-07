@@ -1,4 +1,4 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_index/header.tpl"}
+{extends file="frontend/plugins/heptacom_amp/index/header.tpl"}
 
 {* Keywords *}
 {block name="frontend_index_header_meta_keywords"}{if $sCustomPage.meta_keywords}{$sCustomPage.meta_keywords|escapeHtml}{else}{$smarty.block.parent}{/if}{/block}

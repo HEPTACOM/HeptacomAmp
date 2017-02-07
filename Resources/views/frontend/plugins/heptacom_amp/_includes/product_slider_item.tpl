@@ -5,6 +5,6 @@
 
 {block name="frontend_common_product_slider_item"}
     <div class="product-slider--item">
-        {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/box_article.tpl" sArticle=$article productBoxLayout=$productBoxLayout fixedImageSize=$fixedImageSize}
+        {include file="frontend/plugins/heptacom_amp/listing/box_article.tpl" sArticle=$article productBoxLayout=$productBoxLayout fixedImageSize=$fixedImageSize}
     </div>
 {/block}

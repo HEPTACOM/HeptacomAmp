@@ -42,13 +42,13 @@
 
             {* Review entry *}
             {block name="frontend_detail_comment_block"}
-                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/comment/entry.tpl" isLast=$vote@last}
+                {include file="frontend/plugins/heptacom_amp/detail/comment/entry.tpl" isLast=$vote@last}
             {/block}
 
             {* Review answer *}
             {block name="frontend_detail_answer_block"}
                 {if $vote.answer}
-                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/comment/answer.tpl" isLast=$vote@last}
+                    {include file="frontend/plugins/heptacom_amp/detail/comment/answer.tpl" isLast=$vote@last}
                 {/if}
             {/block}
         {/foreach}
@@ -57,7 +57,7 @@
     {* Publish product review *}
     {block name='frontend_detail_comment_post'}
         <div class="review--form-container">
-            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/comment/form.tpl"}
+            {include file="frontend/plugins/heptacom_amp/detail/comment/form.tpl"}
         </div>
     {/block}
 </div>

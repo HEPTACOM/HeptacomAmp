@@ -1,10 +1,10 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_index/index.tpl"}
+{extends file="frontend/plugins/heptacom_amp/index/index.tpl"}
 
 {namespace name="frontend/detail/index"}
 
 {* Custom header *}
 {block name='frontend_index_header'}
-    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/header.tpl"}
+    {include file="frontend/plugins/heptacom_amp/detail/header.tpl"}
 {/block}
 
 {* Modify the breadcrumb *}
@@ -88,7 +88,7 @@
             {* Product image *}
             {block name='frontend_detail_index_image_container'}
                 <div class="product--image-container image-slider">
-                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/image.tpl"}
+                    {include file="frontend/plugins/heptacom_amp/detail/image.tpl"}
                 </div>
             {/block}
 
@@ -132,7 +132,7 @@
 
                     {block name='frontend_detail_buy_laststock'}
                         {if !$sArticle.isAvailable && ($sArticle.isSelectionSpecified || !$sArticle.sConfigurator)}
-                            {include file="frontend/plugins/heptacom_amp/_heptacom_amp_includes/messages.tpl" type="error" content="{s name='DetailBuyInfoNotAvailable' namespace='frontend/detail/buy'}{/s}"}
+                            {include file="frontend/plugins/heptacom_amp/_includes/messages.tpl" type="error" content="{s name='DetailBuyInfoNotAvailable' namespace='frontend/detail/buy'}{/s}"}
                         {/if}
                     {/block}
 
@@ -176,11 +176,11 @@
                                 <div class="product--configurator">
                                     {if $sArticle.sConfigurator}
                                         {if $sArticle.sConfiguratorSettings.type == 1}
-                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_step.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/detail/config_step.tpl"}
                                         {elseif $sArticle.sConfiguratorSettings.type == 2}
-                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_variant.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/detail/config_variant.tpl"}
                                         {else}
-                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/config_upprice.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/detail/config_upprice.tpl"}
                                         {/if}
                                     {/if}
                                 </div>
@@ -188,13 +188,13 @@
 
                             {* Include buy button and quantity box *}
                             {block name="frontend_detail_index_buybox"}
-                                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/buy.tpl"}
+                                {include file="frontend/plugins/heptacom_amp/detail/buy.tpl"}
                             {/block}
 
                             {* Product actions *}
                             {block name="frontend_detail_index_actions"}
                                 <nav class="product--actions">
-                                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/actions.tpl"}
+                                    {include file="frontend/plugins/heptacom_amp/detail/actions.tpl"}
                                 </nav>
                             {/block}
                         </div>
@@ -271,7 +271,7 @@
 
             {* Tab navigation *}
             {block name="frontend_detail_index_tabs"}
-                {include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs.tpl"}
+                {include file="frontend/plugins/heptacom_amp/detail/tabs.tpl"}
             {/block}
         {/block}
 
@@ -302,7 +302,7 @@
                                                     </span>
                                                 </a>
                                             </header>
-                                            <div class="tab--content content--related">{include file="frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs/related.tpl"}</div>
+                                            <div class="tab--content content--related">{include file="frontend/plugins/heptacom_amp/detail/tabs/related.tpl"}</div>
                                         {/block}
                                     </section>
                                 {/if}
@@ -316,7 +316,7 @@
                                             <header class="tab--header">
                                                 <a href="#" class="tab--title" title="{s name="DetailRecommendationSimilarLabel"}{/s}">{s name="DetailRecommendationSimilarLabel"}{/s}</a>
                                             </header>
-                                            <div class="tab--content content--similar">{include file='frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs/similar.tpl'}</div>
+                                            <div class="tab--content content--similar">{include file='frontend/plugins/heptacom_amp/detail/tabs/similar.tpl'}</div>
                                         {/block}
                                     </section>
                                 {/block}
@@ -359,7 +359,7 @@
                                                 <a href="#" class="tab--title" title="{$relatedProductStream.name}">{$relatedProductStream.name}</a>
                                             </header>
                                             <div class="tab--content content--related-product-streams-{$key}">
-                                                {include file='frontend/plugins/heptacom_amp/heptacom_amp_detail/tabs/product_streams.tpl'}
+                                                {include file='frontend/plugins/heptacom_amp/detail/tabs/product_streams.tpl'}
                                             </div>
                                         {/block}
                                     </section>

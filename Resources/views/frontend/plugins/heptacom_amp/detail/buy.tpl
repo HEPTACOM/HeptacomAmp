@@ -84,7 +84,7 @@
                                     <a class="buybox--button block btn is--primary is--icon-right is--center is--large"
                                         {if $buy_box_display} style="{$buy_box_display}"{/if}
                                         href="{url sArticle=$sArticle.articleID title=$sArticle.articleName controller='detail'}">
-                                        {s name="OpenCanonicalConfigurator" namespace="frontend/plugins/heptacom_amp/heptacom_amp_detail/buy"}Jetzt konfigurieren{/s} <i class="icon--arrow-right"></i>
+                                        {s name="OpenCanonicalConfigurator" namespace="frontend/plugins/heptacom_amp/detail/buy"}Jetzt konfigurieren{/s} <i class="icon--arrow-right"></i>
                                     </a>
                                 {else}
                                     {if $sArticle.sConfigurator && !$activeConfiguratorSelection}

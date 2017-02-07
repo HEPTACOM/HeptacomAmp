@@ -11,7 +11,7 @@
 
                 {* Product box badges - highlight, newcomer, ESD product and discount *}
                 {block name='frontend_listing_box_article_badges'}
-                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-badges.tpl"}
+                    {include file="frontend/plugins/heptacom_amp/listing/product-box/product-badges.tpl"}
                 {/block}
 
                 {block name='frontend_listing_box_article_info_container'}
@@ -19,7 +19,7 @@
 
                         {* Product image *}
                         {block name='frontend_listing_box_article_picture'}
-                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-image.tpl"}
+                            {include file="frontend/plugins/heptacom_amp/listing/product-box/product-image.tpl"}
                         {/block}
 
                         {* Customer rating for the product *}
@@ -52,19 +52,19 @@
 
                                 {* Product price - Unit price *}
                                 {block name='frontend_listing_box_article_unit'}
-                                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-price-unit.tpl"}
+                                    {include file="frontend/plugins/heptacom_amp/listing/product-box/product-price-unit.tpl"}
                                 {/block}
 
                                 {* Product price - Default and discount price *}
                                 {block name='frontend_listing_box_article_price'}
-                                    {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-price.tpl"}
+                                    {include file="frontend/plugins/heptacom_amp/listing/product-box/product-price.tpl"}
                                 {/block}
                             </div>
                         {/block}
 
                         {* Product actions - Compare product, more information, buy now *}
                         {block name='frontend_listing_box_article_actions'}
-                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-actions.tpl"}
+                            {include file="frontend/plugins/heptacom_amp/listing/product-box/product-actions.tpl"}
                         {/block}
                     </div>
                 {/block}

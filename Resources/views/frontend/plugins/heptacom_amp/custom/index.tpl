@@ -1,4 +1,4 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_index/index.tpl"}
+{extends file="frontend/plugins/heptacom_amp/index/index.tpl"}
 
 {* Breadcrumb *}
 {block name="frontend_index_start" append}
@@ -16,7 +16,7 @@
 {/block}
 
 {block name="frontend_index_header"}
-    {include file="frontend/plugins/heptacom_amp/heptacom_amp_custom/header.tpl"}
+    {include file="frontend/plugins/heptacom_amp/custom/header.tpl"}
 {/block}
 
 {* Main content *}
@@ -45,5 +45,5 @@
 
 {* Sidebar left *}
 {block name="frontend_index_content_left"}
-    {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/sidebar.tpl"}
+    {include file="frontend/plugins/heptacom_amp/index/sidebar.tpl"}
 {/block}

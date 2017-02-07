@@ -1,4 +1,4 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/box-basic.tpl"}
+{extends file="frontend/plugins/heptacom_amp/listing/product-box/box-basic.tpl"}
 
 {namespace name="frontend/listing/box_article"}
 
@@ -11,7 +11,7 @@
                 {* Product badges *}
                 {block name='frontend_listing_box_article_badges'}
                     {if !$imageOnly}
-                        {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-badges.tpl"}
+                        {include file="frontend/plugins/heptacom_amp/listing/product-box/product-badges.tpl"}
                     {/if}
                 {/block}
 
@@ -91,12 +91,12 @@
 
                                         {* Product price - Unit price *}
                                         {block name='frontend_listing_box_article_unit'}
-                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-price-unit.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/listing/product-box/product-price-unit.tpl"}
                                         {/block}
 
                                         {* Product price - Default and discount price *}
                                         {block name='frontend_listing_box_article_price'}
-                                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/product-price.tpl"}
+                                            {include file="frontend/plugins/heptacom_amp/listing/product-box/product-price.tpl"}
                                         {/block}
                                     </div>
                                 {/block}

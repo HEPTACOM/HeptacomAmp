@@ -1,4 +1,4 @@
-{extends file="frontend/plugins/heptacom_amp/heptacom_amp_listing/product-box/box-basic.tpl"}
+{extends file="frontend/plugins/heptacom_amp/listing/product-box/box-basic.tpl"}
 
 {block name="frontend_listing_box_article_rating"}{/block}
 

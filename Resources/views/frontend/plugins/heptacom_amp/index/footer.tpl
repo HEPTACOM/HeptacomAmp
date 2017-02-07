@@ -1,7 +1,7 @@
 {* Footer menu *}
 {block name='frontend_index_footer_menu'}
     <div class="footer--columns block-group">
-        {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/footer-navigation.tpl'}
+        {include file='frontend/plugins/heptacom_amp/index/footer-navigation.tpl'}
     </div>
 {/block}
 
@@ -23,7 +23,7 @@
         {/block}
 
         {block name='frontend_index_footer_minimal'}
-            {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/footer_minimal.tpl" hideCopyrightNotice=true}
+            {include file="frontend/plugins/heptacom_amp/index/footer_minimal.tpl" hideCopyrightNotice=true}
         {/block}
 
         {* Shopware footer *}

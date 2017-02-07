@@ -10,7 +10,7 @@
 {/block}
 
 {block name='frontend_index_header'}
-    {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/header.tpl'}
+    {include file='frontend/plugins/heptacom_amp/index/header.tpl'}
 {/block}
 
 <body class="{block name="frontend_index_body_classes"}{strip}
@@ -26,7 +26,7 @@
 
     {* Sidebar left *}
     {block name='frontend_index_content_left'}
-        {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/sidebar.tpl'}
+        {include file='frontend/plugins/heptacom_amp/index/sidebar.tpl'}
     {/block}
 
     <div class="page-wrap">
@@ -34,7 +34,7 @@
         {* Message if javascript is disabled *}
         {block name="frontend_index_no_script_message"}
             <noscript class="noscript-main">
-                {include file="frontend/plugins/heptacom_amp/_heptacom_amp_includes/messages.tpl" type="warning" content="{s name="IndexNoscriptNotice"}{/s}" borderRadius=false}
+                {include file="frontend/plugins/heptacom_amp/_includes/messages.tpl" type="warning" content="{s name="IndexNoscriptNotice"}{/s}" borderRadius=false}
             </noscript>
         {/block}
 
@@ -49,12 +49,12 @@
 
                         {* Logo container *}
                         {block name='frontend_index_logo_container'}
-                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/logo-container.tpl"}
+                            {include file="frontend/plugins/heptacom_amp/index/logo-container.tpl"}
                         {/block}
 
                         {* Shop navigation *}
                         {block name='frontend_index_shop_navigation'}
-                            {include file="frontend/plugins/heptacom_amp/heptacom_amp_index/shop-navigation.tpl"}
+                            {include file="frontend/plugins/heptacom_amp/index/shop-navigation.tpl"}
                         {/block}
                     </div>
                 {/block}
@@ -69,7 +69,7 @@
                     {if count($sBreadcrumb)}
                         <nav class="content--breadcrumb block">
                             {block name='frontend_index_breadcrumb_inner'}
-                                {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/breadcrumb.tpl'}
+                                {include file='frontend/plugins/heptacom_amp/index/breadcrumb.tpl'}
                             {/block}
                         </nav>
                     {/if}
@@ -97,7 +97,7 @@
             <footer class="footer-main">
                 <div class="container">
                     {block name="frontend_index_footer_container"}
-                        {include file='frontend/plugins/heptacom_amp/heptacom_amp_index/footer.tpl'}
+                        {include file='frontend/plugins/heptacom_amp/index/footer.tpl'}
                     {/block}
                 </div>
             </footer>

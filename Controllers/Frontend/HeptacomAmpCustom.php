@@ -12,7 +12,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpCustom extends Shopware_Controlle
     public function indexAction()
     {
         $this->View()->Engine()->template_class = 'HeptacomAmp\\Template\\HeptacomAmp';
-        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'heptacom_amp_custom', 'index.tpl']));
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'custom', 'index.tpl']));
 
         $this->View()->setTemplateDir([
             implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Bare']),
