@@ -86,7 +86,7 @@ class AMP implements SubscriberInterface
         $bootstrap = $args->get('subject');
         $moduleName = $bootstrap->Front()->Request()->getModuleName();
         $controllerName = $bootstrap->Front()->Request()->getControllerName();
-        if ($moduleName != 'frontend' || $controllerName != 'heptacomAmpDetail') {
+        if ($moduleName != 'frontend' || strpos($controllerName, 'heptacomAmp') !== 0) {
             return;
         }
 
