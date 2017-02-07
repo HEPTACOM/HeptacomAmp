@@ -39,7 +39,18 @@
             {* Logo *}
             {block name="frontend_index_shopware_footer_logo"}
                 <div class="footer--logo">
-                    <i class="icon--shopware"></i>
+                    {if $supportHeptacom}
+                        <a href="https://www.heptacom.de/" title="{s name='HeptacomAmpFooterLinkTitle'}Realisiert durch HEPTACOM{/s}">
+                            <amp-img src="{link file='frontend/_public/src/img/icons/icon--heptacom.png'}"
+                                 alt="{s name='HeptacomAmpFooterImageAlt'}HEPTACOM{/s}"
+                                 height="32"
+                                 width="32"
+                                 layout="fixed">
+                            </amp-img>
+                        </a>
+                    {else}
+                        <i class="icon--shopware"></i>
+                    {/if}
                 </div>
             {/block}
         {/block}
