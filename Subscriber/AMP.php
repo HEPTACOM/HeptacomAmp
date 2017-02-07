@@ -57,7 +57,7 @@ class AMP implements SubscriberInterface
         $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
         $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
         $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
-        $styleInjector->useAmplifier(new AmplifyStyle\RenameClassNames());
+        // $styleInjector->useAmplifier(new AmplifyStyle\RenameClassNames());
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
         $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
         $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
@@ -98,7 +98,7 @@ class AMP implements SubscriberInterface
         $bootstrap = $args->get('subject');
         $moduleName = $bootstrap->Front()->Request()->getModuleName();
         $controllerName = $bootstrap->Front()->Request()->getControllerName();
-        if ($moduleName != 'frontend' || $controllerName != 'heptacomAmpDetail') {
+        if ($moduleName != 'frontend' || strpos($controllerName, 'heptacomAmp') !== 0) {
             return;
         }
 
