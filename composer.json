@@ -1,5 +1,6 @@
 {
     "require": {
-        "sabberworm/php-css-parser": "^8.1"
+        "sabberworm/php-css-parser": "^8.1",
+        "atofighi/phpquery": "2.0.1"
     }
 }

@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5cf5fb0e7cd4ab512ea1ab8d03f6b81",
+    "hash": "3990f23d84ed5b30d70c8bc813286b5a",
+    "content-hash": "4efb07075e42beb13d1c916344f92b04",
     "packages": [
+        {
+            "name": "atofighi/phpquery",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ATofighi/phpQuery.git",
+                "reference": "6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ATofighi/phpQuery/zipball/6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54",
+                "reference": "6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "phpQuery/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobiasz Cudnik",
+                    "email": "tobiasz.cudnik@gmail.com",
+                    "homepage": "https://github.com/TobiaszCudnik",
+                    "role": "Developer"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                },
+                {
+                    "name": "AliReza Tofighi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
+            "homepage": "https://github.com/ATofighi/phpQuery/",
+            "time": "2015-11-10 17:41:36"
+        },
         {
             "name": "sabberworm/php-css-parser",
             "version": "8.1.0",
@@ -48,7 +93,7 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2016-07-19T19:14:21+00:00"
+            "time": "2016-07-19 19:14:21"
         }
     ],
     "packages-dev": [],
