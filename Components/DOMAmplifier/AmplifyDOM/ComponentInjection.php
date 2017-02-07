@@ -1,16 +1,16 @@
 <?php
 
-namespace HeptacomAmp\Components\DOMAmplifier;
+namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
 use DOMAttr;
 use DOMDocument;
-use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
+use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 
 /**
  * Class ComponentInjection
- * @package HeptacomAmp\Components\DOMAmplifier
+ * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
  */
 class ComponentInjection implements IAmplifyDOM
 {

@@ -6,7 +6,10 @@ use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
+use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
+use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 use Shopware\Components\Logger;
+use Shopware\Components\Theme\LessDefinition;
 
 class AMP implements SubscriberInterface
 {
@@ -15,9 +18,13 @@ class AMP implements SubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return extension_loaded('dom') ?
-                ['Enlight_Plugins_ViewRenderer_FilterRender' => 'filterRenderedView']:
-                [];
+        $listeners = [
+            'Theme_Compiler_Collect_Plugin_Less' => 'addLessFiles',
+        ];
+        if (extension_loaded('dom')) {
+            $listeners['Enlight_Plugins_ViewRenderer_FilterRender'] = 'filterRenderedView';
+        }
+        return $listeners;
     }
 
     /**
@@ -39,19 +46,59 @@ class AMP implements SubscriberInterface
         $this->pluginLogger = $pluginLogger;
 
         $this->domAmplifier = new DOMAmplifier();
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\CSSMerge());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\ComponentInjection());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\TagFilter());
-        $this->domAmplifier->useAmplifier(new DOMAmplifier\AttributeFilter());
+        $styleStorage = new DOMAmplifier\StyleStorage();
+        $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveVendorPrefixedItems());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveDuplicateValues());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnusedTagSelectors());
+        $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
+        $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
+        $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
+        // $styleInjector->useAmplifier(new AmplifyStyle\RenameClassNames());
+        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
+        $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
+        $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
+        $this->domAmplifier->useAmplifier($styleInjector);
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
     }
 
+    /**
+     * @param Enlight_Event_EventArgs $args
+     * @return LessDefinition
+     */
+    public function addLessFiles(Enlight_Event_EventArgs $args)
+    {
+        return new LessDefinition([], [implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            '..',
+            'Resources',
+            'views',
+            'frontend',
+            '_public',
+            'src',
+            'less',
+            'all.less'
+        ])]);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
         $bootstrap = $args->get('subject');
         $moduleName = $bootstrap->Front()->Request()->getModuleName();
         $controllerName = $bootstrap->Front()->Request()->getControllerName();
-        if ($moduleName != 'frontend' || $controllerName != 'heptacomAmpDetail') {
+        if ($moduleName != 'frontend' || strpos($controllerName, 'heptacomAmp') !== 0) {
             return;
         }
 

@@ -1,14 +1,15 @@
 <?php
 
-namespace HeptacomAmp\Components\DOMAmplifier;
+namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
 use Closure;
 use DOMElement;
 use DOMNode;
+use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 
 /**
  * Class TagFilter
- * @package HeptacomAmp\Components\DOMAmplifier
+ * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
  */
 class TagFilter implements IAmplifyDOM
 {

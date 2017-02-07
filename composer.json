@@ -1,6 +1,6 @@
 {
     "require": {
         "sabberworm/php-css-parser": "^8.1",
-        "google/apiclient": "^2.0"
+        "atofighi/phpquery": "2.0.1"
     }
 }

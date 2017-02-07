@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="heptacom_amp.subscriber.detail" class="HeptacomAmp\Subscriber\Detail">
+        <service id="heptacom_amp.subscriber.frontend" class="HeptacomAmp\Subscriber\Frontend">
             <tag name="shopware.event_subscriber" />
         </service>
         <service id="heptacom_amp.subscriber.AMP" class="HeptacomAmp\Subscriber\AMP">
@@ -14,6 +14,9 @@
         </service>
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
+        </service>
+        <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
+            <argument type="service" id="PluginLogger" />
         </service>
     </services>
 </container>

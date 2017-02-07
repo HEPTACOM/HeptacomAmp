@@ -1,37 +1,49 @@
 <?php
 
-namespace HeptacomAmp\Components\DOMAmplifier;
+namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
-use DOMDocument;
 use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
+use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
+use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
 /**
- * Class CSSMerge
- * @package HeptacomAmp\Components\DOMAmplifier
+ * Class InlineStyleExtractor
+ * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
  */
-class CSSMerge implements IAmplifyDOM
+class InlineStyleExtractor implements IAmplifyDOM
 {
+    /**
+     * @var StyleStorage
+     */
+    private $styleStorage;
+
+    /**
+     * StyleExtractor constructor.
+     * @param StyleStorage $styleStorage
+     */
+    public function __construct(StyleStorage $styleStorage)
+    {
+        $this->styleStorage = $styleStorage;
+    }
+
     /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
      * @return DOMNode The ⚡lified node.
      */
-    public function amplify(DOMNode $node)
+    function amplify(DOMNode $node)
     {
         $cssIndex = 0;
-        $css = [];
 
         $nodes = new DOMNodeRecursiveIterator($node->childNodes);
         foreach ($nodes->getRecursiveIterator() as $subnode) {
-            /** @var DOMNode $subnode */
-
             if ($subnode instanceof DOMElement &&
                 $subnode->hasAttributes() &&
                 !empty($styleAttr = $subnode->getAttribute('style'))) {
-                $key = 'heptacom-amp-inline-'.++$cssIndex;
-                $css[$cssIndex] = ".$key{ $styleAttr }";
+                $key = "heptacom-amp-inline-{++$cssIndex}";
+                $this->styleStorage->addStyle(".$key{ $styleAttr }");
 
                 $subnode->removeAttribute('style');
 
@@ -40,16 +52,6 @@ class CSSMerge implements IAmplifyDOM
                 } else {
                     $subnode->setAttribute('class', "$class $key");
                 }
-            }
-        }
-
-        /** @var DOMDocument $document */
-        $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
-
-        foreach ($document->getElementsByTagName('style') as $style) {
-            if (!is_null($style->attributes->getNamedItem('amp-custom'))) {
-                $style->textContent .= join('', $css);
-                break;
             }
         }
 
