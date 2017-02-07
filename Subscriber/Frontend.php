@@ -19,8 +19,19 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontendDetail',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'addAmpTemplate',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'onGetControllerPathFrontendCustom',
         ];
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function addAmpTemplate(Enlight_Event_EventArgs $args)
+    {
+        /** @var Enlight_Controller_Action $controller */
+        $controller = $args->get('subject');
+        $controller->View()->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
     }
 
     /**
@@ -33,7 +44,7 @@ class Frontend implements SubscriberInterface
         $request = $controller->Request();
         $view = $controller->View();
 
-        $view->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
+        $this->addAmpTemplate($args);
 
         if ($request->get('amp') == 1) {
             $sArticle = (int) $request->get('sArticle');
