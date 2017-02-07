@@ -4,6 +4,10 @@ namespace HeptacomAmp\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 
+/**
+ * Class Backend
+ * @package HeptacomAmp\Subscriber
+ */
 class Backend implements SubscriberInterface
 {
     /**
@@ -13,6 +17,7 @@ class Backend implements SubscriberInterface
     {
         return  [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverview' => 'onGetBackendOverviewController',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverviewData' => 'onGetBackendOverviewDataController',
         ];
     }
 
@@ -22,5 +27,13 @@ class Backend implements SubscriberInterface
     public function onGetBackendOverviewController()
     {
         return join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Backend', 'Overview.php']);
+    }
+
+    /**
+     * @return string
+     */
+    public function onGetBackendOverviewDataController()
+    {
+        return join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Backend', 'OverviewData.php']);
     }
 }

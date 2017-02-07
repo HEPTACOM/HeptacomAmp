@@ -40,7 +40,15 @@ class StyleStorage
      */
     public function addStylesheet($stylesheetUrl)
     {
-        $this->styles[] = file_get_contents($stylesheetUrl);
+        if (is_file(realpath($stylesheetUrl))) {
+            $this->styles[] = file_get_contents($stylesheetUrl);
+        } else {
+            $this->styles[] = file_get_contents(realpath(implode(DIRECTORY_SEPARATOR, [
+                Shopware()->DocPath(),
+                substr($stylesheetUrl, strlen(Shopware()->Front()->Request()->getBaseUrl()))
+            ])));
+        }
+
         $this->cachedParsedDocument = null;
         return $this;
     }

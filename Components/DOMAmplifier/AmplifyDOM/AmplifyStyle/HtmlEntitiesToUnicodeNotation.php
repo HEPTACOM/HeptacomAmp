@@ -36,9 +36,8 @@ class HtmlEntitiesToUnicodeNotation implements IAmplifyStyle
      * Process and ⚡lifies the given node and style.
      * @param DOMNode $domNode The node to ⚡lify.
      * @param Document $styleDocument The style to ⚡lify.
-     * @return mixed The ⚡lified nodes.
      */
-    function amplify(DOMNode $domNode, Document $styleDocument)
+    function amplify(DOMNode& $domNode, Document& $styleDocument)
     {
         foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
             /** @var DeclarationBlock $declarationBlock */

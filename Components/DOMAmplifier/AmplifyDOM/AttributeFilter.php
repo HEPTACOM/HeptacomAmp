@@ -15,6 +15,22 @@ use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 class AttributeFilter implements IAmplifyDOM
 {
     /**
+     * @var string[]
+     */
+    private static $ampDefaultAttributes = [
+        'fallback',
+        'heights',
+        'layout',
+        'media',
+        'noloading',
+        'on',
+        'placeholder',
+        'sizes',
+        'width',
+        'height'
+    ];
+
+    /**
      * @var Closure[]
      */
     private static $whitelist;
@@ -84,6 +100,26 @@ class AttributeFilter implements IAmplifyDOM
                  */
                 function (DOMNode $node) {
                     return strtolower($node->parentNode->nodeName) == 'meta' && strtolower($node->nodeName) == 'http-equiv';
+                },
+
+                /**
+                 * Forbids wrong tags on amp-image.
+                 * @param DOMNode $node The node to validate.
+                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
+                 */
+                function (DOMNode $node) {
+                    if (strtolower($node->parentNode->nodeName) == 'amp-img') {
+                        return !in_array(strtolower($node->nodeName), array_merge([
+                            'src',
+                            'srcset',
+                            'alt',
+                            'attribution',
+                            'height',
+                            'width'
+                        ], static::$ampDefaultAttributes));
+                    }
+
+                    return false;
                 }
             ];
         }

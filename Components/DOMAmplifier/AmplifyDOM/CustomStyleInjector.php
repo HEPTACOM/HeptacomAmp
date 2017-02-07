@@ -55,7 +55,7 @@ class CustomStyleInjector implements IAmplifyDOM
         $styleDocument = $this->styleStorage->parseToStylesheet();
 
         foreach ($this->styleAmplifier as $amplifier) {
-            list($node, $styleDocument) = $amplifier->amplify($node, $styleDocument);
+            $amplifier->amplify($node, $styleDocument);
         }
 
         /** @var DOMDocument $document */
