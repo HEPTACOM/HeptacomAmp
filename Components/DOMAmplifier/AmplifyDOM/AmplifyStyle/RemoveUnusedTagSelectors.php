@@ -18,6 +18,15 @@ use Sabberworm\CSS\RuleSet\DeclarationBlock;
 class RemoveUnusedTagSelectors implements IAmplifyStyle
 {
     /**
+     * @var array
+     */
+    private static $whitelist = [
+        'amp-img',
+        'amp-accordion',
+        // to be continued
+    ];
+
+    /**
      * Process and ⚡lifies the given node and style.
      * @param DOMNode $domNode The node to ⚡lify.
      * @param Document $styleDocument The style to ⚡lify.
@@ -30,6 +39,11 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
             $selectorsToRemove = [];
             foreach ($declarationBlock->getSelectors() as $selector) {
                 /** @var Selector $selector */
+
+                if (static::isWhitelisted($selector)) {
+                    continue;
+                }
+
                 if (phpQuery::pq($selector->getSelector(), $domNode)->count() == 0) {
                     $selectorsToRemove[] = $selector;
                 }
@@ -42,5 +56,19 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
                 array_walk($selectorsToRemove, [$declarationBlock, 'removeSelector']);
             }
         }
+    }
+
+    /**
+     * @param $selector
+     * @return bool
+     */
+    private static function isWhitelisted($selector)
+    {
+        foreach (static::$whitelist as $whitelistedSelector) {
+            if (strpos($selector, $whitelistedSelector) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }
