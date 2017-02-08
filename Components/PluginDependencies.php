@@ -17,6 +17,8 @@ class PluginDependencies
         } else {
             $this->dependencies[] = new Dependency('php DOM Extension', '*', '', false);
         }
+
+        $this->dependencies[] = new Dependency('HTTPS', '*', '*', static::isSecure());
     }
 
     /**
@@ -49,5 +51,14 @@ class PluginDependencies
     public function getDependencies()
     {
         return $this->dependencies;
+    }
+
+    /**
+     * @return bool
+     */
+    private static function isSecure()
+    {
+        // TODO improve HTTPS check availability
+        return Shopware()->Front()->Request()->isSecure();
     }
 };
