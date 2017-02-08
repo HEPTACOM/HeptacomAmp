@@ -19,6 +19,20 @@ class DOMAmplifier
     private $amplifier = [];
 
     /**
+     * @var FileCache
+     */
+    private $fileCache;
+
+    /**
+     * DOMAmplifier constructor.
+     * @param FileCache $fileCache
+     */
+    public function __construct(FileCache $fileCache)
+    {
+        $this->fileCache = $fileCache;
+    }
+
+    /**
      * Registers a ⚡lifier module.
      * @param IAmplifyDOM $amplify The module to use.
      */
@@ -38,19 +52,23 @@ class DOMAmplifier
      */
     public function amplifyHTML($html)
     {
-        $document = new DOMDocument();
+        $amplifier = $this->amplifier;
 
-        if (!$document->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'))) {
-            throw new HTMLLoadException();
-        }
+        return $this->fileCache->getCachedContents($html, 'amp_html', function ($htmlData) use($amplifier) {
+            $document = new DOMDocument();
 
-        $document = $this->amplifyDOM($document);
+            if (!$document->loadHTML(mb_convert_encoding($htmlData, 'HTML-ENTITIES', 'UTF-8'))) {
+                throw new HTMLLoadException();
+            }
 
-        if (!($parsed = $document->saveHTML())) {
-            throw new HTMLSaveException();
-        }
+            $document = static::amplifyDOMWithFilter($document, $amplifier);
 
-        return $parsed;
+            if (!($parsed = $document->saveHTML())) {
+                throw new HTMLSaveException();
+            }
+
+            return $parsed;
+        });
     }
 
     /**
@@ -60,8 +78,19 @@ class DOMAmplifier
      */
     public function amplifyDOM(DOMDocument $document)
     {
-        foreach ($this->amplifier as $amplifier) {
-            $document = $amplifier->amplify($document);
+        return static::amplifyDOMWithFilter($document, $this->amplifier);
+    }
+
+    /**
+     * ⚡lifies the given DOM.
+     * @param DOMDocument $document The DOM to ⚡lify.
+     * @param IAmplifyDOM[] $amplifier The filter.
+     * @return DOMDocument The ⚡lified DOM.
+     */
+    public static function amplifyDOMWithFilter(DOMDocument $document, array $amplifier)
+    {
+        foreach ($amplifier as $amplify) {
+            $document = $amplify->amplify($document);
         }
 
         return $document;

@@ -8,6 +8,7 @@ use Enlight\Event\SubscriberInterface;
 use HeptacomAmp\Components\DOMAmplifier;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
+use HeptacomAmp\Components\FileCache;
 use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 
@@ -40,12 +41,13 @@ class AMP implements SubscriberInterface
     /**
      * Detail constructor.
      * @param Logger $pluginLogger
+     * @param FileCache $fileCache
      */
-    public function __construct(Logger $pluginLogger)
+    public function __construct(Logger $pluginLogger, FileCache $fileCache)
     {
         $this->pluginLogger = $pluginLogger;
 
-        $this->domAmplifier = new DOMAmplifier();
+        $this->domAmplifier = new DOMAmplifier($fileCache);
         $styleStorage = new DOMAmplifier\StyleStorage();
         $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
