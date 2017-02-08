@@ -59,6 +59,7 @@ class AMP implements SubscriberInterface
         $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
         $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
         $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
+        // TODO revert commit bb66496a2772525a4e8e93c22c07cb376c09b80b to add class renaming
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
         $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
         $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
