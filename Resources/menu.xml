@@ -7,10 +7,10 @@
             <label lang="de">AMP</label>
             <label lang="en">AMP</label>
             <controller>HeptacomAmpOverview</controller>
-            <action>dependencies</action>
+            <action>index</action>
             <class>sprite-lightning</class>
             <parent identifiedBy="controller">Marketing</parent>
-            <onclick>Shopware.ModuleManager.createSimplifiedModule("HeptacomAmpOverview")</onclick>
+            <onclick>Shopware.ModuleManager.createSimplifiedModule("HeptacomAmpOverview", {"title": "HEPTACOM AMP"})</onclick>
         </entry>
     </entries>
 </menu>

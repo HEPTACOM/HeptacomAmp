@@ -14,6 +14,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     {
         return [
             'dependencies',
+            'index',
             'validator',
         ];
     }
@@ -39,5 +40,13 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
     public function dependenciesAction()
     {
         $this->View()->assign('dependencies', PluginDependencies::instance()->getDependencies());
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverview/index
+     */
+    public function indexAction()
+    {
+        $this->View()->assign('urls', ['empty' => 'url']);
     }
 }
