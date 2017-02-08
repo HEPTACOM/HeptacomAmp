@@ -33,18 +33,13 @@ class RemoveDuplicateValues implements IAmplifyStyle
 
             array_walk($duplicateRules, function ($items) use ($declarationBlock) {
                 /*
-                 * TODO: This logic needs to be replaced.
-                 * It should find the last occurrence of a
-                 * rule in a block and use only that one.
-                 * No rearrangement should be done, because
-                 * that would be prone to errors. Instead
-                 * maybe we could try to convert the value
+                 * TODO: This logic needs to be improved.
+                 * Maybe we could try to convert the value
                  * of that last rule (if possible) to a
                  * shorter form (e.g. "rem" to "px" or
                  * "rgb()" to "#hex").
                  */
-                usort($items, 'strlen');
-                array_shift($items);
+                array_pop($items);
                 array_walk($items, [$declarationBlock, 'removeRule']);
             });
         }
