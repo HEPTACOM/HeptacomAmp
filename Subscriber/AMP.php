@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp\Subscriber;
 
+use Enlight_Controller_Action;
 use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
@@ -20,6 +21,10 @@ class AMP implements SubscriberInterface
     {
         $listeners = [
             'Theme_Compiler_Collect_Plugin_Less' => 'addLessFiles',
+
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpDetail' => 'injectAmpTemplate',
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpCustom' => 'injectAmpTemplate',
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpListing' => 'injectAmpTemplate',
         ];
         if (extension_loaded('dom')) {
             $listeners['Enlight_Plugins_ViewRenderer_FilterRender'] = 'filterRenderedView';
@@ -87,6 +92,32 @@ class AMP implements SubscriberInterface
             'less',
             'all.less'
         ])]);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function injectAmpTemplate(Enlight_Event_EventArgs $args)
+    {
+        /** @var Enlight_Controller_Action $controller */
+        $controller = $args->get('subject');
+
+        $controller->View()->Engine()->addPluginsDir(realpath(
+            implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views', 'frontend', '_private', 'smarty'])
+        ));
+
+        $controller->View()->Engine()->template_class = 'HeptacomAmp\\Template\\HeptacomAmp';
+
+        $controller->View()->setTemplateDir([
+            implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Bare']),
+            implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Responsive']),
+            realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views'])),
+        ]);
+        if (file_exists(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp']))) {
+            $controller->View()->addTemplateDir(
+                implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp'])
+            );
+        }
     }
 
     /**
