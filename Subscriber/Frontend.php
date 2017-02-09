@@ -21,6 +21,7 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontendDetail',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'addAmpTemplate',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'onGetControllerPathFrontendCustom',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'addAmpTemplate',
         ];
     }
 
@@ -42,7 +43,6 @@ class Frontend implements SubscriberInterface
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $request = $controller->Request();
-        $view = $controller->View();
 
         $this->addAmpTemplate($args);
 
