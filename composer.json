@@ -1,7 +1,21 @@
 {
     "require": {
-        "sabberworm/php-css-parser": "^8.1",
+        "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
         "atofighi/phpquery": "2.0.1",
         "google/apiclient": "^2.0"
-    }
+    },
+	  "repositories": [
+		    {
+		        "type": "package",
+		        "package": {
+				        "name": "sabberworm/php-cs-parser",
+				        "version": "v9.0.0",
+				        "source": {
+					          "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+					          "type": "git",
+					          "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
+				        }
+			      }
+		    }
+	  ]
 }

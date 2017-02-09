@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b4ad6771c392300f189ea97c973c6b7e",
-    "content-hash": "14eb147fd79340da78be8f27fe9c0fb5",
+    "hash": "eefe76f87e3375e0edad1a2edf44877e",
+    "content-hash": "e30bc4a8a3df7d72a85f4308fc89313b",
     "packages": [
         {
             "name": "atofighi/phpquery",
@@ -721,16 +721,16 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "8.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-                "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+                "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
-                "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/50a802f562e71236140e2a8903b097c28d6101de",
+                "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
                 "shasum": ""
             },
             "require": {
@@ -761,13 +761,15 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2016-07-19 19:14:21"
+            "time": "2016-07-20 08:58:35"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sabberworm/php-css-parser": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
