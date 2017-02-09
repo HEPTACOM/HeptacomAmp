@@ -16,44 +16,31 @@ class Frontend implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'onFrontendDetailPostDispatch',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'handleAmp',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'handleAmp',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
+
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'onGetControllerPathFrontendDetail',
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'addAmpTemplate',
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'onGetControllerPathFrontendCustom',
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'addAmpTemplate',
         ];
     }
 
     /**
      * @param Enlight_Event_EventArgs $args
      */
-    public function addAmpTemplate(Enlight_Event_EventArgs $args)
-    {
-        /** @var Enlight_Controller_Action $controller */
-        $controller = $args->get('subject');
-        $controller->View()->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
-    }
-
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
-    public function onFrontendDetailPostDispatch(Enlight_Event_EventArgs $args)
+    public function handleAmp(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $request = $controller->Request();
-
-        $this->addAmpTemplate($args);
+        $view = $controller->View();
 
         if ($request->get('amp') == 1) {
-            $sArticle = (int) $request->get('sArticle');
-
-            $controller->redirect([
-                'controller' => 'heptacomAmpDetail',
-                'action' => 'index',
-                'sArticle' => $sArticle,
-            ]);
+            $controller->forward(
+                $request->getActionName(),
+                'HeptacomAmp' . ucfirst($request->getControllerName())
+            );
+        } else {
+            $view->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
         }
     }
 
@@ -87,23 +74,5 @@ class Frontend implements SubscriberInterface
 
         $assignedProduct['hasCustomProductsTemplate'] = $hasCustomProductsTemplate;
         $view->assign('sArticle', $assignedProduct);
-    }
-
-    /**
-     * @param Enlight_Event_EventArgs $args
-     * @return string
-     */
-    public function onGetControllerPathFrontendDetail(Enlight_Event_EventArgs $args)
-    {
-        return implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Frontend', 'HeptacomAmpDetail.php']);
-    }
-
-    /**
-     * @param Enlight_Event_EventArgs $args
-     * @return string
-     */
-    public function onGetControllerPathFrontendCustom(Enlight_Event_EventArgs $args)
-    {
-        return implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Frontend', 'HeptacomAmpCustom.php']);
     }
 }
