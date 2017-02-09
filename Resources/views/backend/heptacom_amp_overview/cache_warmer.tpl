@@ -54,17 +54,45 @@
                                 {ldelim}{ldelim}progressMax{rdelim}{rdelim}
                             </span>
                         </h3>
-                        <p v-if="processing || (progressSuccessValue + progressFailureValue) == progressMax">
+                        <p v-show="processing || (progressSuccessValue + progressFailureValue) == progressMax">
                             <div class="progress">
-                                <div class="progress-bar progress-bar-striped progress-bar-danger active" v-bind:style="{ width: percentFailureComplete + '%' }"></div>
-                                <div class="progress-bar progress-bar-striped progress-bar-success active" v-bind:style="{ width: percentSuccessComplete + '%' }"></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-danger active" :style="{ width: percentFailureComplete + '%' }"></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-success active" :style="{ width: percentSuccessComplete + '%' }"></div>
                             </div>
                         </p>
                         <p class="text-center">
-                            <button class="btn btn-success" :disabled="!fetchedAllData || !processing" v-on:click="btnWarmup($event)">
+                            <button class="btn btn-success" :disabled="!fetchedAllData || processing" @click="btnWarmup($event)">
                                 <i class="fa fa-refresh"></i> Cache erzeugen
                             </button>
                         </p>
+                        <div v-show="progressFailureValue" class="panel panel-default">
+                            <div class="panel-heading">
+                                Fehler
+                                &nbsp;
+                                <span class="badge">
+                                    {ldelim}{ldelim}progressFailureValue{rdelim}{rdelim}
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table table-striped table-condensed">
+                                    <div v-for="article in errors" class="row">
+                                        <div class="col-xs-10">
+                                            {ldelim}{ldelim}article.name{rdelim}{rdelim}
+                                        </div>
+                                        <div class="col-xs-2 text-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-link" :href="article.url" target="_blank">
+                                                    <i class="fa fa-desktop"></i>
+                                                </a>
+                                                <a class="btn btn-link" :href="article.amp_url" target="_blank">
+                                                    <i class="fa fa-mobile"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

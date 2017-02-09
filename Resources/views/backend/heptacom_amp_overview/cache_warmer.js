@@ -13,7 +13,8 @@ heptacom = {
             progressMax: 0,
             fetchedAllData: false,
             processing: false,
-            articleUrls: []
+            articleUrls: [],
+            errors: []
         },
         computed: {
             percentSuccessComplete : function() {
@@ -26,16 +27,17 @@ heptacom = {
         methods: {
             btnWarmup: function(event) {
                 var that = this;
+                that.errors.splice(0);
                 that.progressSuccessValue = 0;
                 that.progressFailureValue = 0;
                 var fetcher = function() {
                     var item = that.articleUrls.pop();
                     if (Boolean(item)) {
                         that.processing = true;
-
                         heptacom.getRequest(item.amp_url).done(function() {
                             ++that.progressSuccessValue;
                         }).fail(function() {
+                            that.errors.push(item);
                             ++that.progressFailureValue;
                         }).always(function() {
                             setTimeout(fetcher, 50);
