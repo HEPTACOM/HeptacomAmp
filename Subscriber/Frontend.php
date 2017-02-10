@@ -20,6 +20,8 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'handleAmp',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
 
+            'Enlight_Controller_Action_PostDispatchSecure_Widgets_Listing' => 'handleAmp',
+
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
         ];
     }
@@ -37,7 +39,8 @@ class Frontend implements SubscriberInterface
         if ($request->get('amp') == 1) {
             $controller->forward(
                 $request->getActionName(),
-                'HeptacomAmp' . ucfirst($request->getControllerName())
+                'HeptacomAmp' . ucfirst($request->getControllerName()),
+                $request->getModuleName()
             );
         } else {
             $view->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
