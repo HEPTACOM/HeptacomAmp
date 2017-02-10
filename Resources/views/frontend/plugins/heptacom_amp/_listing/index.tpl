@@ -1,11 +1,11 @@
-{extends file='frontend/plugins/heptacom_amp/index/index.tpl'}
+{extends file="frontend/plugins/heptacom_amp/index/index.tpl"}
 
 {block name='frontend_index_header'}
     {include file='frontend/plugins/heptacom_amp/listing/header.tpl'}
 {/block}
 
 {block name='frontend_index_content_left'}
-    {include file='frontend/plugins/heptacom_amp/listing/sidebar.tpl'}
+    {include file='frontend/listing/sidebar.tpl'}
 {/block}
 
 {* Main content *}
@@ -15,14 +15,14 @@
         {* Banner *}
         {block name="frontend_listing_index_banner"}
             {if !$hasEmotion}
-                {include file='frontend/plugins/heptacom_amp/listing/banner.tpl'}
+                {include file='frontend/listing/banner.tpl'}
             {/if}
         {/block}
 
         {* Category headline *}
         {block name="frontend_listing_index_text"}
             {if !$hasEmotion}
-                {include file='frontend/plugins/heptacom_amp/listing/text.tpl'}
+                {include file='frontend/listing/text.tpl'}
             {/if}
         {/block}
 
@@ -46,14 +46,14 @@
             {$productBoxLayout = 'basic'}
 
             {if $sCategoryContent.productBoxLayout !== null &&
-                $sCategoryContent.productBoxLayout !== 'extend'}
+            $sCategoryContent.productBoxLayout !== 'extend'}
                 {$productBoxLayout = $sCategoryContent.productBoxLayout}
             {/if}
         {/block}
 
         {* Listing *}
         {block name="frontend_listing_index_listing"}
-            {include file='frontend/plugins/heptacom_amp/listing/listing.tpl'}
+            {include file='frontend/listing/listing.tpl'}
         {/block}
 
         {* Tagcloud *}

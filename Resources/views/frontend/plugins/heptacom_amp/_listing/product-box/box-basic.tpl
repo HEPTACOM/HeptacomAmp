@@ -26,14 +26,14 @@
                         {block name='frontend_listing_box_article_rating'}
                             <div class="product--rating-container">
                                 {if $sArticle.sVoteAverage.average}
-                                    {include file='frontend/plugins/heptacom_amp/_includes/rating.tpl' points=$sArticle.sVoteAverage.average type="aggregated" label=false microData=false}
+                                    {include file='frontend/_includes/rating.tpl' points=$sArticle.sVoteAverage.average type="aggregated" label=false microData=false}
                                 {/if}
                             </div>
                         {/block}
 
                         {* Product name *}
                         {block name='frontend_listing_box_article_name'}
-                            <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}"
+                            <a href="{$sArticle.linkDetails}"
                                class="product--title"
                                title="{$sArticle.articleName|escapeHtml}">
                                 {$sArticle.articleName|truncate:50|escapeHtml}
