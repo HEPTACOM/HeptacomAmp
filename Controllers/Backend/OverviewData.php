@@ -4,6 +4,7 @@ use Doctrine\ORM\EntityRepository;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
+use Shopware\Models\Site\Site;
 
 /**
  * Class Shopware_Controllers_Backend_HeptacomAmpOverviewData
@@ -17,6 +18,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     {
         return [
             'getArticleIds',
+            'getCustoms',
         ];
     }
 
@@ -26,6 +28,14 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private function getArticleRepository()
     {
         return $this->container->get('models')->getRepository(Article::class);
+    }
+
+    /**
+     * @return EntityRepository
+     */
+    private function getCustomRepository()
+    {
+        return $this->container->get('models')->getRepository(Site::class);
     }
 
     /**
@@ -74,5 +84,46 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         }
 
         $this->View()->assign(['success' => true, 'data' => $articles]);
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getCustoms
+     */
+    public function getCustomsAction()
+    {
+        $skip = $this->Request()->getParam('skip', 0);
+        $take = $this->Request()->getParam('take', 50);
+
+        $customs = $this->getCustomRepository()->
+                          createQueryBuilder('custom')->
+                          select([
+                              'custom.id',
+                              'custom.description'
+                          ])->
+                          addOrderBy('custom.id', 'ASC')->
+                          setFirstResult($skip)->
+                          setMaxResults($take)->
+                          getQuery()->
+                          getArrayResult();
+
+        $router = $this->getRouter();
+
+        foreach ($customs as &$custom) {
+            $custom['name'] = $custom['description'];
+            $custom['url'] = str_replace('http://', 'https://', $router->assemble([
+                'module' => 'frontend',
+                'controller' => 'custom',
+                'action' => 'index',
+                'sCustom' => $custom['id'],
+            ]));
+            $custom['amp_url'] = str_replace('http://', 'https://', $router->assemble([
+                'module' => 'frontend',
+                'controller' => 'heptacomAmpCustom',
+                'action' => 'index',
+                'sCustom' => $custom['id'],
+            ]));
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $customs]);
     }
 }
