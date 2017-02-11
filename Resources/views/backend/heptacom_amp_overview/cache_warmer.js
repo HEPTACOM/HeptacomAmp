@@ -35,7 +35,7 @@ Vue.component('cache-warmer', {
             return Math.ceil(this.successValue / this.urls.length * 100);
         },
         percentFailureComplete: function() {
-            return Math.ceil(this.errors.length / this.urls.length * 100);
+            return Math.floor(this.errors.length / this.urls.length * 100);
         },
         progressVisible: function () {
             return (this.urls.length > 0 && (this.urls.length == this.successValue + this.errors.length)) || this.processing;
