@@ -20,7 +20,7 @@
 
                         {* Product image *}
                         {block name='frontend_listing_box_article_picture'}
-                            <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}"
+                            <a href="{$sArticle.linkDetails}"
                                title="{$sArticle.articleName|escape}"
                                class="product--image{if $imageOnly} is--large{/if}">
 
@@ -61,11 +61,11 @@
                                                         {$desc = $sArticle.image.description|escape}
                                                     {/if}
 
-                                                    <amp-img layout="fill"
-                                                             src="{$baseSource}"
-                                                             alt="{$desc}"
-                                                             title="{$desc|truncate:160}"
-                                                    ></amp-img>
+                                                    <picture>
+                                                        {if $srcSetRetina}<source sizes="(min-width: 48em) {$itemSize}, 100vw" srcset="{$srcSetRetina}" media="(min-resolution: 192dpi)" />{/if}
+                                                        {if $srcSet}<source sizes="(min-width: 48em) {$itemSize}, 100vw" srcset="{$srcSet}" />{/if}
+                                                        <img src="{$baseSource}" alt="{$desc}" title="{$desc|truncate:160}" />
+                                                    </picture>
                                                 {/block}
                                             </span>
                                         {/block}
@@ -79,7 +79,7 @@
 
                                 {* Product name *}
                                 {block name='frontend_listing_box_article_name'}
-                                    <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}"
+                                    <a href="{$sArticle.linkDetails}"
                                        class="product--title"
                                        title="{$sArticle.articleName|escapeHtml}">
                                         {$sArticle.articleName|truncate:50|escapeHtml}
