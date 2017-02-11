@@ -2,7 +2,7 @@
 {namespace name="frontend/listing/listing_actions"}
 
 {if $criteria && $criteria->getLimit() && $pageSizes}
-    <form class="action--per-page action--content block" method="get" target="_top" data-action-form="true">
+    <form class="action--per-page action--content block" method="get" target="_top" action="#" data-action-form="true">
 
         {* Necessary to reset the page to the first one *}
         <input type="hidden" name="{$shortParameters.sPage}" value="1">

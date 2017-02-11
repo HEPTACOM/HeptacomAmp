@@ -25,6 +25,7 @@
                         <form id="filter"
                               method="get"
                               target="_top"
+                              action="#"
                               data-filter-form="true"
                               data-count-ctrl="{$countCtrlUrl}">
 
