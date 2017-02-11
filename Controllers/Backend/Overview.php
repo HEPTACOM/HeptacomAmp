@@ -49,14 +49,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
      */
     public function cacheWarmerAction()
     {
-        $this->View()->assign('urls',
-            [
-                'getArticleIds' => str_replace('http://', 'https://', $this->getRouter()->assemble([
-                    'module' => 'backend',
-                    'controller' => 'HeptacomAmpOverviewData',
-                    'action' => 'getArticleIds'
-                ])),
-            ]);
+        $this->View()->assign('urls', ['empty' => 'url']);
     }
 
     /**
