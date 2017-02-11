@@ -47,14 +47,14 @@
                 {* Actual include of the categories *}
                 {block name='frontend_index_left_categories_inner'}
                     <div class="sidebar--categories-navigation">
-                        {include file='frontend/index/sidebar-categories.tpl'}
+                        {include file='frontend/plugins/heptacom_amp/index/sidebar-categories.tpl'}
                     </div>
                 {/block}
             {/block}
 
             {* Static sites *}
             {block name='frontend_index_left_menu'}
-                {include file='frontend/index/sites-navigation.tpl'}
+                {include file='frontend/plugins/heptacom_amp/index/sites-navigation.tpl'}
             {/block}
         </div>
     {/block}
