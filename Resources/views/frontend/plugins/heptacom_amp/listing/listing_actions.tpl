@@ -5,7 +5,7 @@
 
         {* Filter action button *}
         {block name="frontend_listing_actions_filter"}
-            {include file="frontend/plugins/heptacom_amp/listing/actions/action-filter-button.tpl"}
+            {*{include file="frontend/plugins/heptacom_amp/listing/actions/action-filter-button.tpl"}*}
         {/block}
 
         {* Order by selection *}
@@ -15,7 +15,7 @@
 
         {* Filter options *}
         {block name="frontend_listing_actions_filter_options"}
-            {include file="frontend/plugins/heptacom_amp/listing/actions/action-filter-panel.tpl"}
+            {*{include file="frontend/plugins/heptacom_amp/listing/actions/action-filter-panel.tpl"}*}
         {/block}
 
         {* Listing pagination *}

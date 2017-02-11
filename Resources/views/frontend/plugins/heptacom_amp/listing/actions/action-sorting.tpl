@@ -42,5 +42,7 @@
 
             {block name='frontend_listing_actions_sort_values'}{/block}
         </select>
+
+        <button type="submit" class="btn is--large">{s name="ListingLabelSortButton" namespace="frontend/plugins/heptacom_amp/listing/listing_actions"}Filtern{/s}</button>
     {/block}
 </form>
