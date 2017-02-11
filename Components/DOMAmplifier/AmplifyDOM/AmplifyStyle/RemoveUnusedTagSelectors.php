@@ -23,6 +23,7 @@ class RemoveUnusedTagSelectors implements IAmplifyStyle
     private static $whitelist = [
         'amp-img',
         'amp-accordion',
+        'amp-sidebar',
         // to be continued
     ];
 
