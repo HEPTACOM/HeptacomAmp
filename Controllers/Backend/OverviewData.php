@@ -118,4 +118,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
 
         $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($articles)]);
     }
+
+    /// TODO undo 4037b1c9780ed0faaa18192ee4157bf203981bd4 for customs and categories in cache warming
 }
