@@ -1,6 +1,6 @@
 Vue.component('cache-warmer', {
     template: '<div class="caption">' +
-    '<h3><slot name="caption"></slot>&nbsp;<span class="badge">{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
+    '<h3><slot name="caption"></slot>&nbsp;<span class="badge"><span v-show="processing">{{errors.length + successValue}}&nbsp;/&nbsp;</span>{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
     '<div v-show="progressVisible"><div class="progress">' +
     '<div class="progress-bar progress-bar-striped progress-bar-danger active" :style="{ width: percentFailureComplete + \'%\' }"></div>' +
     '<div class="progress-bar progress-bar-striped progress-bar-success active" :style="{ width: percentSuccessComplete + \'%\' }"></div>' +
