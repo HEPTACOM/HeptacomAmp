@@ -5,6 +5,7 @@ use Doctrine\ORM\Query;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
+use Shopware\Models\Category\Category;
 use Shopware\Models\Site\Site;
 
 /**
@@ -19,6 +20,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     {
         return [
             'getArticleIds',
+            'getCategories',
             'getCustoms',
         ];
     }
@@ -37,6 +39,14 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private function getCustomRepository()
     {
         return $this->container->get('models')->getRepository(Site::class);
+    }
+
+    /**
+     * @return EntityRepository
+     */
+    private function getCategoryRepository()
+    {
+        return $this->container->get('models')->getRepository(Category::class);
     }
 
     /**
@@ -107,6 +117,49 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         }
 
         $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($articles)]);
+    }
+
+    /**
+     * @param Category $category
+     * @return bool
+     */
+    private static function discoverableCategories(Category $category)
+    {
+        return !empty($category->getPath()) && $category->getActive();
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getCategories
+     */
+    public function getCategoriesAction()
+    {
+        $skip = $this->Request()->getParam('skip', 0);
+        $take = $this->Request()->getParam('take', 50);
+
+        /** @var Category[] $categories */
+        $categories = $this->getCategoryRepository()->
+                             createQueryBuilder('category')->
+                             addOrderBy('category.id', 'ASC')->
+                             setFirstResult($skip)->
+                             setMaxResults($take)->
+                             getQuery()->
+                             getResult(Query::HYDRATE_OBJECT);
+
+        $filterCategories = array_filter($categories, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableCategories']);
+        $result = [];
+
+        foreach ($filterCategories as &$category) {
+            $result[] = [
+                'name' => $category->getName(),
+                'test_url' => $this->getUrl('heptacomAmpListing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1]),
+                'urls' => [
+                    'mobile' => $this->getUrl('heptacomAmpListing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1]),
+                    'desktop' => $this->getUrl('listing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1])
+                ]
+            ];
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($categories)]);
     }
 
     /**

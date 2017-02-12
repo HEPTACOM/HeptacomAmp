@@ -54,6 +54,13 @@
                         <span slot="error">Fehler</span>
                     </cache-warmer>
                 </div>
+                <div class="thumbnail">
+                    <cache-warmer fetch-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getCategories'}">
+                        <span slot="caption">Kategorielisten</span>
+                        <span slot="button"><i class="fa fa-refresh"></i> Cache erzeugen</span>
+                        <span slot="error">Fehler</span>
+                    </cache-warmer>
+                </div>
             </div>
         </div>
     </div>
