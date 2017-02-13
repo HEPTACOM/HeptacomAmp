@@ -1,12 +1,14 @@
 <?php
 
-namespace Shopware\HeptacomAmp\Template;
+namespace HeptacomAmp\Template;
 
-/**
- * Custom Template
- */
-class HeptacomAmp extends \Enlight_Template_Default
+use Enlight_Template_Default;
+
+class HeptacomAmp extends Enlight_Template_Default
 {
+    /**
+     * @param $templateName
+     */
     public function extendsTemplate($templateName)
     {
     }

@@ -1,28 +1,29 @@
 <?php
 
-/**
- * Frontend controller
- */
 class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controllers_Frontend_Detail
 {
+    public function preDispatch()
+    {
+        if ($this->Request()->getParam('heptacom_amp_redirect')) {
+            if ($this->Request()->getActionName() == 'index') {
+                $this->redirect([
+                    'controller' => 'detail',
+                    'action' => 'index',
+                    'sArticle' => (int)$this->Request()->get('sArticle'),
+                    'amp' => 1,
+                ]);
+            }
+        }
+
+        parent::preDispatch();
+    }
+
     public function indexAction()
     {
-        parent::indexAction();
-
-        $this->View()->Engine()->template_class = 'Shopware\\HeptacomAmp\\Template\\HeptacomAmp';
-
-        $this->View()->setTemplateDir(
-            array(
-                Shopware()->DocPath() . '/themes/Frontend/Bare',
-                Shopware()->DocPath() . '/themes/Frontend/Responsive',
-                __DIR__ . '/../../Views'
-            )
-        );
-        if (file_exists(Shopware()->DocPath() . '/themes/Frontend/HeptacomAmp')) {
-            $this->View()->addTemplateDir(Shopware()->DocPath() . '/themes/Frontend/HeptacomAmp');
-        }
-        $this->View()->loadTemplate('frontend/heptacom_amp/index.tpl');
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'detail', 'index.tpl']));
         $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
+
+        parent::indexAction();
     }
 
     /**
@@ -32,7 +33,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     {
         $id = (int) $this->Request()->get('sArticle');
         $number = $this->Request()->getParam('number', null);
-        $selection = $this->Request()->getParam('group', array());
+        $selection = $this->Request()->getParam('group', []);
 
         return Shopware()->Modules()->Articles()->sGetArticleById($id, null, $number, $selection);
     }
@@ -77,7 +78,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
                 if (array_key_exists('source', $sImage['thumbnails'][0])) {
                     $thumbnail['url'] = $thumbnail['contentUrl'] = $sImage['thumbnails'][0]['source'];
                 }
-                
+
                 if (array_key_exists('maxWidth', $sImage['thumbnails'][0])) {
                     $thumbnail['width'] = $sImage['thumbnails'][0]['maxWidth'];
                 }
@@ -150,7 +151,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
             '@context' => 'http://schema.org',
             '@type' => 'Product'
         ];
-        
+
         $result['productID'] = $sArticle['ordernumber'];
         $result['name'] = $sArticle['articleName'];
 

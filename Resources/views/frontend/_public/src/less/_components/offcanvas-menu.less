@@ -1,0 +1,13 @@
+amp-sidebar {
+  .unitize-width(280);
+
+  &[side=left] {
+    transform: translateX(-100%);
+    position: absolute;
+  }
+
+  &[open] + .page-wrap {
+    overflow: hidden;
+    height: 100vh;
+  }
+}

@@ -1,0 +1,14 @@
+.footer-main {
+  .column--headline {
+    background: inherit;
+    border: 0;
+  }
+
+  amp-accordion {
+    .footer--column[expanded] {
+      .column--headline::after {
+        content: '\e68e';
+      }
+    }
+  }
+}

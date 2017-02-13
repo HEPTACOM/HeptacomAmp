@@ -1,0 +1,39 @@
+.heptacom-dialog-box {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    min-height: 100vh;
+    max-height: 100vh;
+    height: 100vh;
+    min-width: 100vw;
+    max-width: 100vw;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.heptacom-dialog-box-content {
+    min-width: 100vw;
+    max-width: 100vw;
+    width: 100vw;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    height: 0;
+    overflow-y: auto;
+}
+
+.heptacom-dialog-box-footer,
+.heptacom-dialog-box-header {
+    min-width: 100vw;
+    max-width: 100vw;
+    width: 100vw;
+}
+
+.heptacom-dialog-box-footer .nav,
+.heptacom-dialog-box-header .nav {
+    padding: 4px;
+}
+
+.table {
+    margin: 0px;
+}

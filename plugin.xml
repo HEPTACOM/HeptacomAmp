@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/5.2/engine/Shopware/Components/Plugin/schema/plugin.xsd">
+    <label lang="de">AMP</label>
+    <label lang="en">AMP</label>
+
+    <version>2.0.0-dev</version>
+    <license>proprietary</license>
+    <link>https://www.heptacom.de/</link>
+    <author>HEPTACOM GbR</author>
+    <compatibility minVersion="5.2.0" />
+
+    <changelog version="1.0.0">
+        <changes lang="de">Erstveröffentlichung</changes>
+    </changelog>
+    <changelog version="1.0.1">
+        <changes lang="de">Konflikte mit anderen Plugins behoben. Außerdem kleinere Bugfixes.</changes>
+    </changelog>
+    <changelog version="1.0.2">
+        <changes lang="de">Template-Konflikte behoben.</changes>
+    </changelog>
+    <changelog version="1.0.3">
+        <changes lang="de">Neue Template-Struktur. Außerdem einige Links korrigiert.</changes>
+    </changelog>
+    <changelog version="1.0.4">
+        <changes lang="de">Strukturierte Daten hinzugefügt.</changes>
+    </changelog>
+    <changelog version="1.0.5">
+        <changes lang="de">Template-Überladung ermöglicht. Dazu ein Theme mit dem Namen "HeptacomAmp" anlegen und darin im Ordner "frontend/heptacom_amp/" das Template überladen.</changes>
+    </changelog>
+    <changelog version="2.0.0">
+        <changes lang="de">Upgrade auf die neue Plugin-Struktur.</changes>
+    </changelog>
+</plugin>
