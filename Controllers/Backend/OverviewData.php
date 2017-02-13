@@ -108,9 +108,9 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         foreach ($filteredArticles as &$article) {
             $result[] = [
                 'name' => $article->getName(),
-                'test_url' => $this->getUrl('heptacomAmpDetail', ['sArticle' => $article->getId()]),
+                'test_url' => $this->getUrl('detail', ['sArticle' => $article->getId(), 'amp' => 1]),
                 'urls' => [
-                    'mobile' => $this->getUrl('heptacomAmpDetail', ['sArticle' => $article->getId()]),
+                    'mobile' => $this->getUrl('detail', ['sArticle' => $article->getId(), 'amp' => 1]),
                     'desktop' => $this->getUrl('detail', ['sArticle' => $article->getId()])
                 ],
             ];
