@@ -3,6 +3,7 @@
 namespace HeptacomAmp\Subscriber;
 
 use Enlight_Controller_Action;
+use Enlight_Controller_Front;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -21,6 +22,8 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
 
             'Enlight_Controller_Action_PostDispatchSecure_Widgets_Listing' => 'handleAmp',
+
+            'Enlight_Controller_Front_DispatchLoopStartup' => 'legacyRedirect',
 
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
         ];
@@ -77,5 +80,18 @@ class Frontend implements SubscriberInterface
 
         $assignedProduct['hasCustomProductsTemplate'] = $hasCustomProductsTemplate;
         $view->assign('sArticle', $assignedProduct);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function legacyRedirect(Enlight_Event_EventArgs $args)
+    {
+        /** @var Enlight_Controller_Front $front */
+        $front = $args->get('subject');
+
+        if ($front->Request()->getControllerName() == 'heptacomAmpDetail') {
+            $front->Request()->setParam('heptacom_amp_redirect', true);
+        }
     }
 }
