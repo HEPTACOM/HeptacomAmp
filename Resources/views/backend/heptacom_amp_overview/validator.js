@@ -9,8 +9,8 @@ Vue.component('validator', {
     '<div v-show="errors.length > 0" class="panel panel-default">' +
     '<div class="panel-heading"><slot name="error"></slot>&nbsp;<span class="badge">{{errors.length}}</span></div>' +
     '<div class="panel-body"><div class="table table-condensed"><div v-for="page in errors" class="row">' +
-    '<div class="col-xs-10">{{page.name}}</div>' +
-    '<div class="col-xs-2 text-right"><div class="btn-group">' +
+    '<div class="col-xs-8 col-md-10">{{page.name}}&nbsp;<span class="badge">{{page.messages.length}}</span></div>' +
+    '<div class="col-xs-4 col-md-2 text-right"><div class="btn-group">' +
     '<a v-for="(url, urlKey) in page.urls" class="btn btn-link" :href="url" target="_blank"><i :class="[\'fa\', \'fa-\' + urlKey]"></i></a>' +
     '</div></div></div></div></div>' +
     '</div>',
