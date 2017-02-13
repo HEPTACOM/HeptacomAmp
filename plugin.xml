@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.0.0-dev</version>
+    <version>2.0.0</version>
     <license>proprietary</license>
     <link>https://www.heptacom.de/</link>
     <author>HEPTACOM GbR</author>
@@ -28,6 +28,12 @@
         <changes lang="de">Template-Überladung ermöglicht. Dazu ein Theme mit dem Namen "HeptacomAmp" anlegen und darin im Ordner "frontend/heptacom_amp/" das Template überladen.</changes>
     </changelog>
     <changelog version="2.0.0">
-        <changes lang="de">Upgrade auf die neue Plugin-Struktur.</changes>
+        <changes lang="de">Upgrade auf die neue Plugin-Struktur und Generalüberholung.</changes>
+        <changes lang="de">AMP Standardtheme näher am Shopware Standard.</changes>
+        <changes lang="de">Fehlende Features basierend auf Javascript ersetzt durch entsprechende AMP-Komponenten.</changes>
+        <changes lang="de">Fehlerkorrektur für bessere AMP Kompatibilität.</changes>
+        <changes lang="de">Kompression für noch weniger Datenverkehr an Mobilgeräte.</changes>
+        <changes lang="de">LESS Styling fehlerfrei verfügbar dank Fehlerkorrektur.</changes>
+        <changes lang="de">Systemanalyse um AMP Validität sicherzustellen.</changes>
     </changelog>
 </plugin>
