@@ -2,8 +2,8 @@ Vue.component('validator', {
     template: '<div class="caption">' +
     '<h3><slot name="caption"></slot>&nbsp;<span class="badge"><span v-show="processing">{{errors.length + successValue}}&nbsp;/&nbsp;</span>{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
     '<div v-show="progressVisible"><div class="progress">' +
-    '<div class="progress-bar progress-bar-striped progress-bar-danger active" :style="{ width: percentFailureComplete + \'%\' }"></div>' +
-    '<div class="progress-bar progress-bar-striped progress-bar-success active" :style="{ width: percentSuccessComplete + \'%\' }"></div>' +
+    '<div class="progress-bar progress-bar-striped progress-bar-danger" :class="{active: processing}" :style="{ width: percentFailureComplete + \'%\' }"></div>' +
+    '<div class="progress-bar progress-bar-striped progress-bar-success" :class="{active: processing}" :style="{ width: percentSuccessComplete + \'%\' }"></div>' +
     '</div></div>' +
     '<p class="text-center"><button class="btn btn-success" :disabled="fetching || processing" @click="btnValidate($event)"><slot name="button"></slot></button></p>' +
     '<div v-show="errors.length > 0" class="panel panel-default">' +
