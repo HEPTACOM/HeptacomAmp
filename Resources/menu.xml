@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/menu.xsd">
     <entries>
         <entry>
-            <name>HeptacomAmp</name>
+            <name>AMP</name>
             <label lang="de">AMP</label>
             <label lang="en">AMP</label>
             <controller>HeptacomAmpOverview</controller>

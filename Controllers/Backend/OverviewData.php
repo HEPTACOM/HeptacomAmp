@@ -1,9 +1,11 @@
 <?php
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
+use Shopware\Models\Category\Category;
 use Shopware\Models\Site\Site;
 
 /**
@@ -18,6 +20,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     {
         return [
             'getArticleIds',
+            'getCategories',
             'getCustoms',
         ];
     }
@@ -39,11 +42,47 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
+     * @return EntityRepository
+     */
+    private function getCategoryRepository()
+    {
+        return $this->container->get('models')->getRepository(Category::class);
+    }
+
+    /**
      * @return Router
      */
     private function getRouter()
     {
         return $this->container->get('router');
+    }
+
+    /**
+     * @param string $controller
+     * @param string[] $params
+     * @param string $action
+     * @return string
+     */
+    private function getUrl($controller, array $params, $action = 'index')
+    {
+        return str_replace(
+            'http://',
+            'https://',
+            $this->getRouter()->assemble(
+                array_merge([
+                    'module' => 'frontend',
+                    'controller' => $controller,
+                    'action' => $action
+                ], $params)));
+    }
+
+    /**
+     * @param Article $article
+     * @return bool
+     */
+    private static function discoverableArticles(Article $article)
+    {
+        return $article->getCategories()->count() > 0;
     }
 
     /**
@@ -54,36 +93,73 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $skip = $this->Request()->getParam('skip', 0);
         $take = $this->Request()->getParam('take', 50);
 
-        $articles = $this->getArticleRepository()->
-                           createQueryBuilder('articles')->
-                           select([
-                               'articles.id',
-                               'articles.name'
-                           ])->
-                           addOrderBy('articles.id', 'ASC')->
-                           setFirstResult($skip)->
-                           setMaxResults($take)->
-                           getQuery()->
-                           getArrayResult();
+        /** @var Article[] $articles */
+        $articles = $this->getArticleRepository()
+                         ->createQueryBuilder('articles')
+                         ->addOrderBy('articles.id', 'ASC')
+                         ->setFirstResult($skip)
+                         ->setMaxResults($take)
+                         ->getQuery()
+                         ->getResult(Query::HYDRATE_OBJECT);
 
-        $router = $this->getRouter();
+        $filteredArticles = array_filter($articles, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableArticles']);
+        $result = [];
 
-        foreach ($articles as &$article) {
-            $article['url'] = str_replace('http://', 'https://', $router->assemble([
-                'module' => 'frontend',
-                'controller' => 'detail',
-                'action' => 'index',
-                'sArticle' => $article['id'],
-            ]));
-            $article['amp_url'] = str_replace('http://', 'https://', $router->assemble([
-                'module' => 'frontend',
-                'controller' => 'heptacomAmpDetail',
-                'action' => 'index',
-                'sArticle' => $article['id'],
-            ]));
+        foreach ($filteredArticles as &$article) {
+            $result[] = [
+                'name' => $article->getName(),
+                'test_url' => $this->getUrl('heptacomAmpDetail', ['sArticle' => $article->getId()]),
+                'urls' => [
+                    'mobile' => $this->getUrl('heptacomAmpDetail', ['sArticle' => $article->getId()]),
+                    'desktop' => $this->getUrl('detail', ['sArticle' => $article->getId()])
+                ],
+            ];
         }
 
-        $this->View()->assign(['success' => true, 'data' => $articles]);
+        $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($articles)]);
+    }
+
+    /**
+     * @param Category $category
+     * @return bool
+     */
+    private static function discoverableCategories(Category $category)
+    {
+        return !empty($category->getPath()) && $category->getActive();
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getCategories
+     */
+    public function getCategoriesAction()
+    {
+        $skip = $this->Request()->getParam('skip', 0);
+        $take = $this->Request()->getParam('take', 50);
+
+        /** @var Category[] $categories */
+        $categories = $this->getCategoryRepository()->
+                             createQueryBuilder('category')->
+                             addOrderBy('category.id', 'ASC')->
+                             setFirstResult($skip)->
+                             setMaxResults($take)->
+                             getQuery()->
+                             getResult(Query::HYDRATE_OBJECT);
+
+        $filterCategories = array_filter($categories, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableCategories']);
+        $result = [];
+
+        foreach ($filterCategories as &$category) {
+            $result[] = [
+                'name' => $category->getName(),
+                'test_url' => $this->getUrl('heptacomAmpListing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1]),
+                'urls' => [
+                    'mobile' => $this->getUrl('heptacomAmpListing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1]),
+                    'desktop' => $this->getUrl('listing', ['sCategory' => $category->getId(), 'sViewport' => 'cat', 'p' => 1])
+                ]
+            ];
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($categories)]);
     }
 
     /**
@@ -94,36 +170,27 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $skip = $this->Request()->getParam('skip', 0);
         $take = $this->Request()->getParam('take', 50);
 
+        /** @var Site[] $customs */
         $customs = $this->getCustomRepository()->
                           createQueryBuilder('custom')->
-                          select([
-                              'custom.id',
-                              'custom.description'
-                          ])->
                           addOrderBy('custom.id', 'ASC')->
                           setFirstResult($skip)->
                           setMaxResults($take)->
                           getQuery()->
-                          getArrayResult();
+                          getResult(Query::HYDRATE_OBJECT);
 
-        $router = $this->getRouter();
-
+        $result = [];
         foreach ($customs as &$custom) {
-            $custom['name'] = $custom['description'];
-            $custom['url'] = str_replace('http://', 'https://', $router->assemble([
-                'module' => 'frontend',
-                'controller' => 'custom',
-                'action' => 'index',
-                'sCustom' => $custom['id'],
-            ]));
-            $custom['amp_url'] = str_replace('http://', 'https://', $router->assemble([
-                'module' => 'frontend',
-                'controller' => 'heptacomAmpCustom',
-                'action' => 'index',
-                'sCustom' => $custom['id'],
-            ]));
+            $result[] = [
+                'name' => $custom->getDescription(),
+                'test_url' => $this->getUrl('heptacomAmpCustom', ['sCustom' => $custom->getId()]),
+                'urls' => [
+                    'mobile' => $this->getUrl('heptacomAmpCustom', ['sCustom' => $custom->getId()]),
+                    'desktop' => $this->getUrl('custom', ['sCustom' => $custom->getId()]),
+                ]
+            ];
         }
 
-        $this->View()->assign(['success' => true, 'data' => $customs]);
+        $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($customs)]);
     }
 }

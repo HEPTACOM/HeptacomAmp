@@ -1,6 +1,6 @@
 Vue.component('cache-warmer', {
     template: '<div class="caption">' +
-    '<h3><slot name="caption"></slot>&nbsp;<span class="badge">{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
+    '<h3><slot name="caption"></slot>&nbsp;<span class="badge"><span v-show="processing">{{errors.length + successValue}}&nbsp;/&nbsp;</span>{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
     '<div v-show="progressVisible"><div class="progress">' +
     '<div class="progress-bar progress-bar-striped progress-bar-danger active" :style="{ width: percentFailureComplete + \'%\' }"></div>' +
     '<div class="progress-bar progress-bar-striped progress-bar-success active" :style="{ width: percentSuccessComplete + \'%\' }"></div>' +
@@ -11,8 +11,7 @@ Vue.component('cache-warmer', {
     '<div class="panel-body"><div class="table table-condensed"><div v-for="page in errors" class="row">' +
     '<div class="col-xs-10">{{page.name}}</div>' +
     '<div class="col-xs-2 text-right"><div class="btn-group">' +
-    '<a class="btn btn-link" :href="page.url" target="_blank"><i class="fa fa-desktop"></i></a>' +
-    '<a class="btn btn-link" :href="page.amp_url" target="_blank"><i class="fa fa-mobile"></i></a>' +
+    '<a v-for="(url, urlKey) in page.urls" class="btn btn-link" :href="url" target="_blank"><i :class="[\'fa\', \'fa-\' + urlKey]"></i></a>' +
     '</div></div></div></div></div>' +
     '</div>',
     data: function() {
@@ -50,7 +49,7 @@ Vue.component('cache-warmer', {
                     that.urls.push(item);
                 });
 
-                if (response.data.length == 20) {
+                if (response.count == 20) {
                     setTimeout(function () {
                         fetcher(id + 20);
                     }, 100);
@@ -72,7 +71,7 @@ Vue.component('cache-warmer', {
                 var item = todo.pop();
                 if (Boolean(item)) {
                     that.processing = true;
-                    heptacom.getRequest(item.amp_url).done(function() {
+                    heptacom.getRequest(item.test_url).done(function() {
                         ++that.successValue;
                     }).fail(function() {
                         that.errors.push(item);
