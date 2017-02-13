@@ -1,109 +1,120 @@
-heptacom = {
-    url: {},
-
-    validationArticles: new Vue({
-        el: '#heptacomArticles',
-        data: {
-            fetchingData: false,
-            fetchedData: false,
-            processingData: false,
-            articles: []
-        },
-        methods: {
-            fetched: function(articles) {
-                return articles.filter(function (article) {
-                    return article.status === 'fetched';
-                })
-            },
-            validating: function(articles) {
-                return articles.filter(function (article) {
-                    return article.status === 'validating';
-                })
-            },
-            valid: function(articles) {
-                return articles.filter(function (article) {
-                    return article.status === 'valid';
-                })
-            },
-            error: function(articles) {
-                return articles.filter(function (article) {
-                    return article.status === 'error';
-                })
-            }
+Vue.component('validator', {
+    template: '<div class="caption">' +
+    '<h3><slot name="caption"></slot>&nbsp;<span class="badge"><span v-show="processing">{{errors.length + successValue}}&nbsp;/&nbsp;</span>{{urls.length}}<i v-show="fetching" class="fa fa-spinner fa-pulse" style="margin-left:10px"></i></span></h3>' +
+    '<div v-show="progressVisible"><div class="progress">' +
+    '<div class="progress-bar progress-bar-striped progress-bar-danger active" :style="{ width: percentFailureComplete + \'%\' }"></div>' +
+    '<div class="progress-bar progress-bar-striped progress-bar-success active" :style="{ width: percentSuccessComplete + \'%\' }"></div>' +
+    '</div></div>' +
+    '<p class="text-center"><button class="btn btn-success" :disabled="fetching || processing" @click="btnValidate($event)"><slot name="button"></slot></button></p>' +
+    '<div v-show="errors.length > 0" class="panel panel-default">' +
+    '<div class="panel-heading"><slot name="error"></slot>&nbsp;<span class="badge">{{errors.length}}</span></div>' +
+    '<div class="panel-body"><div class="table table-condensed"><div v-for="page in errors" class="row">' +
+    '<div class="col-xs-10">{{page.name}}</div>' +
+    '<div class="col-xs-2 text-right"><div class="btn-group">' +
+    '<a v-for="(url, urlKey) in page.urls" class="btn btn-link" :href="url" target="_blank"><i :class="[\'fa\', \'fa-\' + urlKey]"></i></a>' +
+    '</div></div></div></div></div>' +
+    '</div>',
+    data: function() {
+        return {
+            urls: [],
+            errors: [],
+            successValue: 0,
+            processing: false,
+            fetching: false
         }
-    }),
-
-    setUrls: function(urls) {
-        heptacom.url = urls;
     },
-
-    btnLoadArticles: function(event) {
-        heptacom.validationArticles.fetchingData = true;
-        heptacom.validationArticles.articles.splice(0);
-
+    props: {
+        fetchUrl: {
+            type: String,
+            required: true
+        }
+    },
+    computed: {
+        percentSuccessComplete: function() {
+            return Math.ceil(this.successValue / this.urls.length * 100);
+        },
+        percentFailureComplete: function() {
+            return Math.floor(this.errors.length / this.urls.length * 100);
+        },
+        progressVisible: function () {
+            return (this.urls.length > 0 && (this.urls.length == this.successValue + this.errors.length)) || this.processing;
+        }
+    },
+    mounted: function() {
+        var that = this;
         var fetcher = function(id) {
-            heptacom.overviewGetArticleIds(id, 20).success(function(data) {
-                data.data.forEach(function (item) {
-                    item.errors = [];
-                    item.status = 'fetched';
-                    heptacom.validationArticles.articles.push(item);
+            that.fetching = true;
+            heptacom.fetchPaged(that.fetchUrl, id, 20).success(function(response) {
+                response.data.forEach(function (item) {
+                    item.urls.bolt = 'https://validator.ampproject.org/#url='+encodeURIComponent(item.test_url);
+                    that.urls.push(item);
                 });
 
-                if (data.data.length == 20) {
+                if (response.count == 20) {
                     setTimeout(function () {
                         fetcher(id + 20);
                     }, 100);
                 } else {
-                    heptacom.validationArticles.fetchingData = false;
+                    that.fetching = false;
                 }
-            }).done(function () {
-                heptacom.validationArticles.fetchedData = true;
             });
         };
 
         fetcher(0);
     },
-
-    btnValidateArticles: function(event) {
-        heptacom.validationArticles.processingData = true;
-
-        var validIterator = function(id) {
-            heptacom.validationArticles.articles[id].status = 'validating';
-            var request = heptacom.validate(
-                heptacom.validationArticles.articles[id].amp_url,
-                function () {
-                    heptacom.validationArticles.articles[id].status = 'valid';
-                },
-                function (data) {
-                    heptacom.validationArticles.articles[id].status = 'error';
-                    heptacom.validationArticles.articles[id].errors.splice(0);
-
-                    data.errors.forEach(function (item) {
-                        heptacom.validationArticles.articles[id].errors.push(item);
-                    })
+    methods: {
+        btnValidate: function(event) {
+            var that = this;
+            that.errors.splice(0);
+            that.successValue = 0;
+            var todo = that.urls.slice(0);
+            var fetcher = function() {
+                var item = todo.pop();
+                if (Boolean(item)) {
+                    that.processing = true;
+                    heptacom.validate(
+                        item.test_url,
+                        function () {
+                            ++that.successValue;
+                        },
+                        function (data) {
+                            item.messages = data.errors.slice(0);
+                            that.errors.push(item);
+                    }).fail(function(request, textStatus, errorThrown) {
+                        item.messages = [
+                            {
+                                type: 'HTTP',
+                                params: [
+                                    request.status
+                                ]
+                            }
+                        ];
+                        that.errors.push(item);
+                    }).always(function() {
+                        setTimeout(fetcher, 50);
+                    });
+                } else {
+                    that.processing = false;
                 }
-            ).fail(function(request, textStatus, errorThrown) {
-                heptacom.validationArticles.articles[id].status = 'error';
-                heptacom.validationArticles.articles[id].errors.push({
-                    type: 'HTTP',
-                    params: [ request.status ]
-                });
-            }).done(function(){
-                var validatingCount = heptacom.validationArticles.articles.filter(function (item) {
-                    return item.status == 'validating';
-                }).length;
+            };
 
-                if (validatingCount == 0) {
-                    heptacom.validationArticles.processingData = false
-                }
-            });
+            fetcher();
+        }
+    }
+});
 
-            if (id + 1 < heptacom.validationArticles.articles.length) {
-                setTimeout(function () { validIterator(id + 1); }, 1000);
+heptacom = {
+    fetchPaged: function(url, skip, take) {
+        return $.ajax({
+            type: 'get',
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {
+                skip: skip,
+                take: take
             }
-        };
-
-        validIterator(0);
+        });
     },
 
     validate: function(url, success, error) {
@@ -115,31 +126,9 @@ heptacom = {
                 (validationResult.status == 'PASS' ? success : error)(validationResult);
             }
         });
-    },
-
-    googleAmpCache: function(url) {
-        if (url.indexOf('https://') === 0) {
-            url = 'https://cdn.ampproject.org/c/s/' + url.substring(8);
-        } else if (url.indexOf('http://') === 0) {
-            url = 'https://cdn.ampproject.org/c/' + url.substring(7);
-        }
-
-        return $.ajax({
-            type: 'get',
-            url: url
-        });
-    },
-
-    overviewGetArticleIds: function(skip, take) {
-        return $.ajax({
-            type: 'get',
-            url: heptacom.url.getArticleIds,
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: {
-                skip: skip,
-                take: take
-            }
-        });
     }
 };
+
+new Vue({
+    el: '.container'
+});
