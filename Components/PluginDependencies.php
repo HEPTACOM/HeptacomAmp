@@ -3,6 +3,7 @@
 namespace HeptacomAmp\Components;
 
 use HeptacomAmp\Components\PluginDependencies\Dependency;
+use Shopware\Models\Shop\Shop;
 
 /**
  * Class PluginDependencies
@@ -18,7 +19,12 @@ class PluginDependencies
             $this->dependencies[] = new Dependency('php DOM Extension', '*', '', false);
         }
 
-        $this->dependencies[] = new Dependency('HTTPS', '*', '*', static::isSecure());
+        foreach (Shopware()->Container()->get('models')->getRepository(Shop::class)->findAll() as $shop) {
+            /** @var Shop $shop */
+            if ($shop->getActive()) {
+                $this->dependencies[] = new Dependency('HTTPS - Shop: ' . $shop->getName(), '*', '*', $shop->getSecure() || $shop->getAlwaysSecure());
+            }
+        }
     }
 
     /**
@@ -51,14 +57,5 @@ class PluginDependencies
     public function getDependencies()
     {
         return $this->dependencies;
-    }
-
-    /**
-     * @return bool
-     */
-    private static function isSecure()
-    {
-        // TODO improve HTTPS check availability
-        return Shopware()->Front()->Request()->isSecure();
     }
 };
