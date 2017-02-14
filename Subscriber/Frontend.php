@@ -38,32 +38,32 @@ class Frontend implements SubscriberInterface
 
     public function getControllerWidgetsHeptacomAmpListing(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Widgets/HeptacomAmpListing.php';
+        return __DIR__ . '/../Controllers/Widgets/HeptacomAmpListing.php';
     }
 
     public function getControllerFrontendHeptacomAmpListing(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Frontend/HeptacomAmpListing.php';
+        return __DIR__ . '/../Controllers/Frontend/HeptacomAmpListing.php';
     }
 
     public function getControllerFrontendHeptacomAmpDetail(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Frontend/HeptacomAmpDetail.php';
+        return __DIR__ . '/../Controllers/Frontend/HeptacomAmpDetail.php';
     }
 
     public function getControllerFrontendHeptacomAmpCustom(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Frontend/HeptacomAmpCustom.php';
+        return __DIR__ . '/../Controllers/Frontend/HeptacomAmpCustom.php';
     }
 
     public function getControllerBackendOverviewData(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Backend/OverviewData.php';
+        return __DIR__ . '/../Controllers/Backend/OverviewData.php';
     }
 
     public function getControllerBackendOverview(Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '../Controllers/Backend/Overview.php';
+        return __DIR__ . '/../Controllers/Backend/Overview.php';
     }
 
     /**
