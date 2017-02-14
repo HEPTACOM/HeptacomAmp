@@ -1,8 +1,7 @@
 {
     "require": {
         "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
-        "atofighi/phpquery": "2.0.1",
-        "google/apiclient": "^2.0"
+        "atofighi/phpquery": "2.0.1"
     },
 	  "repositories": [
 		    {
