@@ -16,7 +16,7 @@ class HeptacomAmp extends Plugin
      */
     public function activate(ActivateContext $context)
     {
-        $context->scheduleClearCache(InstallContext::CACHE_LIST_FRONTEND);
+        $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 
     /**
@@ -24,7 +24,7 @@ class HeptacomAmp extends Plugin
      */
     public function deactivate(DeactivateContext $context)
     {
-        $context->scheduleClearCache(InstallContext::CACHE_LIST_FRONTEND);
+        $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 
     /**
