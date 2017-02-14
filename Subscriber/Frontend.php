@@ -21,12 +21,49 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'handleAmp',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
 
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_Overview' => 'getControllerBackendOverview',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_OverviewData' => 'getControllerBackendOverviewData',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'getControllerFrontendHeptacomAmpCustom',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpDetail' => 'getControllerFrontendHeptacomAmpDetail',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpListing' => 'getControllerFrontendHeptacomAmpListing',
+            'Enlight_Controller_Dispatcher_ControllerPath_Widgets_HeptacomAmpListing' => 'getControllerWidgetsHeptacomAmpListing',
+
             'Enlight_Controller_Action_PostDispatchSecure_Widgets_Listing' => 'handleAmp',
 
             'Enlight_Controller_Front_DispatchLoopStartup' => 'legacyRedirect',
 
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
         ];
+    }
+
+    public function getControllerWidgetsHeptacomAmpListing(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Widgets/HeptacomAmpListing.php';
+    }
+
+    public function getControllerFrontendHeptacomAmpListing(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Frontend/HeptacomAmpListing.php';
+    }
+
+    public function getControllerFrontendHeptacomAmpDetail(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Frontend/HeptacomAmpDetail.php';
+    }
+
+    public function getControllerFrontendHeptacomAmpCustom(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Frontend/HeptacomAmpCustom.php';
+    }
+
+    public function getControllerBackendOverviewData(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Backend/OverviewData.php';
+    }
+
+    public function getControllerBackendOverview(Enlight_Event_EventArgs $args)
+    {
+        return __DIR__ . '../Controllers/Backend/Overview.php';
     }
 
     /**
