@@ -67,17 +67,13 @@ class HeptacomAmp extends Plugin
 
     /**
      * checkLicense()-method for HeptacomAmp
-     *
-     * @param bool $throwException
-     * @return bool|string
-     * @throws Exception
      */
     public function checkLicense($throwException = true)
     {
         try {
             /** @var $l Shopware_Components_License */
             $l = Shopware()->License();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($throwException) {
                 throw new Exception('The license manager has to be installed and active');
             } else {
