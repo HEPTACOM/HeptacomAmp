@@ -62,7 +62,7 @@ class HeptacomAmp extends Plugin
      */
     public function autoloadComposer(Enlight_Event_EventArgs $args)
     {
-        require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'vendor', 'autoload.php']);
+        require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'HeptacomAutoloader.php']);
     }
 
     /**
