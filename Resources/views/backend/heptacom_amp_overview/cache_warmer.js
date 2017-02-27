@@ -72,6 +72,7 @@ Vue.component('cache-warmer', {
                 if (Boolean(item)) {
                     that.processing = true;
                     heptacom.getRequest(item.test_url).done(function() {
+                        heptacom.sendUpdatePing(item.test_url);
                         ++that.successValue;
                     }).fail(function() {
                         that.errors.push(item);
@@ -107,6 +108,13 @@ heptacom = {
                 take: take
             }
         });
+    },
+
+    sendUpdatePing: function (url) {
+        var ampUrl = url.split('://').pop();
+        var cacheUrl = 'https://cdn.ampproject.org/update-ping/c/s/' + ampUrl;
+
+        heptacom.getRequest(cacheUrl);
     }
 };
 
