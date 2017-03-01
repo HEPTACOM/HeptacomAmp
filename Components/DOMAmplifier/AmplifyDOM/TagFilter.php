@@ -137,7 +137,8 @@ class TagFilter implements IAmplifyDOM
                         'object',
                         'param',
                         'applet',
-                        'embed'
+                        'embed',
+                        'include',
                     ]);
                 },
 
