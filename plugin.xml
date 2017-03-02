@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <license>proprietary</license>
     <link>https://www.heptacom.de/</link>
     <author>HEPTACOM GbR</author>
@@ -42,5 +42,9 @@
     </changelog>
     <changelog version="2.0.2">
         <changes lang="de">Probleme mit den Herstellerseiten behoben.</changes>
+    </changelog>
+    <changelog version="2.0.3">
+        <changes lang="de">Ungültiger Include-Tag entfernt.</changes>
+        <changes lang="de">Ungültige @import-Rules entfernt.</changes>
     </changelog>
 </plugin>
