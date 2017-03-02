@@ -5,6 +5,7 @@ namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyStyle;
 use Sabberworm\CSS\CSSList\Document;
+use Sabberworm\CSS\Property\Import;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 
 /**
@@ -29,6 +30,11 @@ class RemoveFontsExceptShopware implements IAmplifyStyle
                         $styleDocument->remove($ruleSet);
                     }
                 }
+            }
+        }
+        foreach ($styleDocument->getContents() as $content) {
+            if ($content instanceof Import) {
+                $styleDocument->remove($content);
             }
         }
     }
