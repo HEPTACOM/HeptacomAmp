@@ -96,6 +96,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         /** @var Article[] $articles */
         $articles = $this->getArticleRepository()
                          ->createQueryBuilder('articles')
+                         ->andWhere('articles.active = 1')
                          ->addOrderBy('articles.id', 'ASC')
                          ->setFirstResult($skip)
                          ->setMaxResults($take)
