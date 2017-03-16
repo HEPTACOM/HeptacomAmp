@@ -120,6 +120,8 @@ class AMP implements SubscriberInterface
                 implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp'])
             );
         }
+
+        $controller->Response()->setHeader('Access-Control-Allow-Origin', '*');
     }
 
     /**
