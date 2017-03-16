@@ -41,11 +41,15 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="thumbnail">
-                    <cache-warmer fetch-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticleIds'}">
+                    <shop-list
+                            shops-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getShops'}"
+                            categories-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getCategories'}"
+                            articles-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticles'}"
+                    >
                         <span slot="caption">Artikeldetailseiten</span>
                         <span slot="button"><i class="fa fa-refresh"></i> Cache erzeugen</span>
                         <span slot="error">Fehler</span>
-                    </cache-warmer>
+                    </shop-list>
                 </div>
             </div>
         </div>

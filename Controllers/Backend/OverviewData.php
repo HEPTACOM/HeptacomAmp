@@ -3,9 +3,11 @@
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Shopware\Components\CSRFWhitelistAware;
+use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
 use Shopware\Models\Category\Category;
+use Shopware\Models\Shop\Shop;
 use Shopware\Models\Site\Site;
 
 /**
@@ -19,7 +21,9 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     public function getWhitelistedCSRFActions()
     {
         return [
-            'getArticleIds',
+            'getShops',
+            'getCategories',
+            'getArticles',
             'getCategories',
             'getCustoms',
         ];
@@ -31,6 +35,14 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private function getArticleRepository()
     {
         return $this->container->get('models')->getRepository(Article::class);
+    }
+
+    /**
+     * @return EntityRepository
+     */
+    private function getShopRepository()
+    {
+        return $this->container->get('models')->getRepository(Shop::class);
     }
 
     /**
@@ -50,26 +62,46 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
+     * @param Shop $shop
      * @return Router
      */
-    private function getRouter()
+    private function createRouter(Shop $shop)
     {
-        return $this->container->get('router');
+        $router = $this->container->get('router');
+        /** @var $config \Shopware_Components_Config */
+        $config = $this->container->get('config');
+        // Register the shop (we're to soon)
+        $config->setShop($shop);
+
+        $context = $router->getContext();
+        $newContext = Context::createFromShop($shop, $config);
+        // Reuse the host
+        if ($newContext->getHost() === null) {
+            $newContext->setHost($context->getHost());
+            $newContext->setBaseUrl($context->getBaseUrl());
+            // Reuse https
+            if (!$newContext->isSecure()) {
+                $newContext->setSecure($context->isSecure());
+                $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
+            }
+        }
+        $router->setContext($newContext);
+        return $router;
     }
 
     /**
+     * @param Router $router
      * @param string $controller
      * @param string[] $params
      * @param string $action
      * @return string
      */
-    private function getUrl($controller, array $params, $action = 'index')
+    private function getUrl(Router $router, $controller, array $params, $action = 'index')
     {
         return str_replace(
             'http://',
             'https://',
-            $this->getRouter()->assemble(
-                array_merge([
+            $router->assemble(array_merge([
                     'module' => 'frontend',
                     'controller' => $controller,
                     'action' => $action
@@ -82,26 +114,137 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private static function discoverableArticles(Article $article)
     {
-        return $article->getCategories()->count() > 0;
+        if ($article->getCategories()->count() == 0) {
+            return false;
+        }
+
+        $now = new DateTime();
+        if (!is_null($article->getAvailableFrom()) && $now < $article->getAvailableFrom()) {
+            return false;
+        }
+
+        if (!is_null($article->getAvailableTo()) && $now > $article->getAvailableTo()) {
+            return false;
+        }
+
+        return !empty($article->getMainDetail()->getNumber());
     }
 
     /**
-     * Callable via /backend/HeptacomAmpOverviewData/getArticleIds
+     * @param Shop $shop
+     * @return bool
      */
-    public function getArticleIdsAction()
+    private static function discoverableShop(Shop $shop)
     {
-        $skip = $this->Request()->getParam('skip', 0);
-        $take = $this->Request()->getParam('take', 50);
+        $newCategories = [$shop->getCategory()];
+
+        while (!empty($newCategories)) {
+            $newerCategories = [];
+
+            foreach ($newCategories as $category) {
+                /** @var Category $category */
+
+                if ($category->getActive()) {
+                    if (!$category->getArticles()->isEmpty()) {
+                        foreach ($category->getArticles() as $article) {
+                            if (static::discoverableArticles($article)) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    foreach ($category->getChildren() as $subCategory) {
+                        $newerCategories[] = $subCategory;
+                    }
+                }
+            }
+
+            $newCategories = $newerCategories;
+        }
+
+        return false;
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getShops
+     */
+    public function getShopsAction()
+    {
+        $shops = $this->getShopRepository()
+                      ->createQueryBuilder('shops')
+                      ->andWhere('shops.active = 1')
+                      ->getQuery()
+                      ->getResult(Query::HYDRATE_OBJECT);
+
+        $rawShops = [];
+        $shops = array_filter($shops, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableShop']);
+
+        foreach ($shops as $shop) {
+            /** @var Shop $shop */
+
+            $rawShops[] = [
+                'id' => $shop->getId(),
+                'name' => $shop->getName(),
+            ];
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $rawShops]);
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getCategories
+     */
+    public function getCategoriesAction()
+    {
+        $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
+
+        $rawCategories = [];
+        $newCategories = [$shop->getCategory()];
+
+        while (!empty($newCategories)) {
+            $newerCategories = [];
+
+            foreach ($newCategories as $category) {
+                /** @var Category $category */
+
+                if ($category->getActive()) {
+                    if (!$category->getArticles()->isEmpty()) {
+                        foreach ($category->getArticles() as $article) {
+                            if (static::discoverableArticles($article)) {
+                                $rawCategories[] = [
+                                    'id' => $category->getId(),
+                                    'name' => $category->getName(),
+                                ];
+                                break;
+                            }
+                        }
+                    }
+
+                    foreach ($category->getChildren() as $subCategory) {
+                        $newerCategories[] = $subCategory;
+                    }
+                }
+            }
+
+            $newCategories = $newerCategories;
+        }
+
+        $this->View()->assign(['success' => true, 'data' => $rawCategories]);
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getArticles
+     */
+    public function getArticlesAction()
+    {
+        /** @var Shop $shop */
+        $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
+        /** @var Category $category */
+        $category = $this->getCategoryRepository()->find($this->Request()->getParam('category'));
+        $router = $this->createRouter($shop);
 
         /** @var Article[] $articles */
-        $articles = $this->getArticleRepository()
-                         ->createQueryBuilder('articles')
-                         ->andWhere('articles.active = 1')
-                         ->addOrderBy('articles.id', 'ASC')
-                         ->setFirstResult($skip)
-                         ->setMaxResults($take)
-                         ->getQuery()
-                         ->getResult(Query::HYDRATE_OBJECT);
+        $articles = $category->getArticles()->toArray();
 
         $filteredArticles = array_filter($articles, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableArticles']);
         $result = [];
@@ -109,15 +252,15 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         foreach ($filteredArticles as &$article) {
             $result[] = [
                 'name' => $article->getName(),
-                'test_url' => $this->getUrl('detail', ['sArticle' => $article->getId(), 'amp' => 1]),
+                'test_url' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId(), 'amp' => 1]),
                 'urls' => [
-                    'mobile' => $this->getUrl('detail', ['sArticle' => $article->getId(), 'amp' => 1]),
-                    'desktop' => $this->getUrl('detail', ['sArticle' => $article->getId()])
+                    'mobile' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId(), 'amp' => 1]),
+                    'desktop' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId()])
                 ],
             ];
         }
 
-        $this->View()->assign(['success' => true, 'data' => $result, 'count' => count($articles)]);
+        $this->View()->assign(['success' => true, 'data' => $result]);
     }
 
     /// TODO undo 4037b1c9780ed0faaa18192ee4157bf203981bd4 for customs and categories in cache warming
