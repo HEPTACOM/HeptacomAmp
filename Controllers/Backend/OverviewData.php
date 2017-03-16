@@ -118,6 +118,10 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             return false;
         }
 
+        if (!$article->getActive()) {
+            return false;
+        }
+
         $now = new DateTime();
         if (!is_null($article->getAvailableFrom()) && $now < $article->getAvailableFrom()) {
             return false;
