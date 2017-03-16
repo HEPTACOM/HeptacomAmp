@@ -15,7 +15,7 @@ Vue.component('shop-list', {
             '<category-list :categories-url="categoriesUrl" :articles-url="articlesUrl" :shop="shop" @fetchComplete="shopFetchComplete">' +
                 '<template slot="button"><slot name="button"></slot></template>' +
                 '<template slot="error"><slot name="error"></slot></template>' +
-    '</category-list>' +
+            '</category-list>' +
         '</div>' +
     '</div>',
     data: function() {
@@ -157,10 +157,13 @@ Vue.component('category-list', {
 Vue.component('category', {
     template: '<div class="row">' +
         '<div class="col-xs-4 text-ellipse">{{category.name}}</div>' +
-        '<div class="col-xs-1 text-center">' +
-            '<badge :value="category.data.errors.length + category.data.success" :maximum="category.data.articles.length" :spinning="fetching" :counting="category.data.working"></badge>' +
+            '<div class="col-xs-1 text-center">' +
+                '<badge :value="category.data.errors.length + category.data.success" :maximum="category.data.articles.length" :spinning="fetching" :counting="category.data.working"></badge>' +
+            '</div>' +
+            '<div class="col-xs-7">' +
+                '<progressbar :success="category.data.success" :failure="category.data.errors.length" :maximum="category.data.articles.length" :visible="true"></progressbar>' +
+            '</div>' +
         '</div>' +
-        '<div class="col-xs-7"><progressbar :success="category.data.success" :failure="category.data.errors.length" :maximum="category.data.articles.length" :visible="true"></progressbar></div>' +
     '</div>',
     data: function () {
         return {

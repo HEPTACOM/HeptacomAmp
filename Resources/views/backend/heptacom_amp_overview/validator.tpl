@@ -42,21 +42,17 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="thumbnail">
-                    <validator fetch-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticleIds'}">
+                    <shop-list
+                            shops-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getShops'}"
+                            categories-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getCategories'}"
+                            articles-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticles'}"
+                    >
                         <span slot="caption">Artikeldetailseiten</span>
-                        <span slot="button"><i class="fa fa-bug"></i> Artikel validieren</span>
+                        <span slot="button"><i class="fa fa-refresh"></i> Artikel validieren</span>
                         <span slot="error">Fehler</span>
-                    </validator>
+                    </shop-list>
                 </div>
             </div>
         </div>
     </div>
-    <table class="collapse table table-condensed">
-        <tr class="row" v-for="article in error(articles)">
-            <td>
-                {ldelim}{ldelim}article.name{rdelim}{rdelim}
-                <span class="badge badge-danger">{ldelim}{ldelim}article.errors.length{rdelim}{rdelim}</span>
-            </td>
-        </tr>
-    </table>
 {/block}
