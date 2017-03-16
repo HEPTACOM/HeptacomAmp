@@ -50,4 +50,8 @@
     <changelog version="2.0.4">
         <changes lang="de">Inaktive Artikel mit dem CacheWarmer ignoriert.</changes>
     </changelog>
+    <changelog version="2.1.0">
+        <changes lang="de">Systemanalyse unterteilt auf einzelne Sub- und Sprachshops.</changes>
+        <changes lang="de">Systemanalyse unterteilt auf einzelne Kategorien je Shop.</changes>
+    </changelog>
 </plugin>
