@@ -37,3 +37,13 @@
 .table {
     margin: 0px;
 }
+
+.text-ellipse {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress {
+    margin-bottom: 0px;
+}
