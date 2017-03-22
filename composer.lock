@@ -4,20 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "41bb59c1acbf896da68e550147946897",
+    "hash": "7e543e76ef1d26a91d7857c66ed662ce",
+    "content-hash": "a9a22da2fdb8423698281ff31076bd50",
     "packages": [
         {
             "name": "atofighi/phpquery",
-            "version": "2.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ATofighi/phpQuery.git",
-                "reference": "6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54"
+                "reference": "6f8adb03a3ecc0421c74eedf16278ae52f35a9a4"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/ATofighi/phpQuery/zipball/6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54",
-                "reference": "6b8c77ce7d7d1bdc8ed2381b273f22ae87233b54",
+                "reference": "6f8adb03a3ecc0421c74eedf16278ae52f35a9a4",
                 "shasum": ""
             },
             "type": "library",
@@ -48,7 +49,7 @@
             ],
             "description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
             "homepage": "https://github.com/ATofighi/phpQuery/",
-            "time": "2015-11-10T17:41:36+00:00"
+            "time": "2015-11-10 17:41:36"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -60,7 +61,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/50a802f562e71236140e2a8903b097c28d6101de",
                 "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
                 "shasum": ""
             },
@@ -92,14 +93,15 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2016-07-20T08:58:35+00:00"
+            "time": "2016-07-20 08:58:35"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sabberworm/php-css-parser": 20
+        "sabberworm/php-css-parser": 20,
+        "atofighi/phpquery": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -1,20 +1,32 @@
 {
-    "require": {
-        "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
-        "atofighi/phpquery": "2.0.1"
+  "require": {
+    "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
+    "atofighi/phpquery": "dev-master#6f8adb03a3ecc0421c74eedf16278ae52f35a9a4"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "sabberworm/php-cs-parser",
+        "version": "v9.0.0",
+        "source": {
+          "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+          "type": "git",
+          "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
+        }
+      }
     },
-	  "repositories": [
-		    {
-		        "type": "package",
-		        "package": {
-				        "name": "sabberworm/php-cs-parser",
-				        "version": "v9.0.0",
-				        "source": {
-					          "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-					          "type": "git",
-					          "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
-				        }
-			      }
-		    }
-	  ]
+    {
+      "type": "package",
+      "package": {
+        "name": "atofighi/phpquery",
+        "version": "v2.0.1",
+        "source": {
+          "url": "https://github.com/HEPTACOM/phpQuery.git",
+          "type": "git",
+          "reference": "6f8adb03a3ecc0421c74eedf16278ae52f35a9a4"
+        }
+      }
+    }
+  ]
 }
