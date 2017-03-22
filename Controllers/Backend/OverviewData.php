@@ -114,6 +114,10 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private static function discoverableArticles(Article $article)
     {
+        if (is_null($article)) {
+            return false;
+        }
+
         if ($article->getCategories()->count() == 0) {
             return false;
         }
@@ -131,7 +135,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             return false;
         }
 
-        return !empty($article->getMainDetail()->getNumber());
+        return !is_null($article->getMainDetail()) && !empty($article->getMainDetail()->getNumber());
     }
 
     /**
