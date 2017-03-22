@@ -2,13 +2,11 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
-use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyStyle;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Rule\Rule;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\Size;
-use Sabberworm\CSS\Value\Value;
 use Sabberworm\CSS\Value\ValueList;
 
 /**
@@ -19,10 +17,9 @@ class ShortenRulesToKnownShorthands implements IAmplifyStyle
 {
     /**
      * Process and ⚡lifies the given node and style.
-     * @param DOMNode $domNode The node to ⚡lify.
      * @param Document $styleDocument The style to ⚡lify.
      */
-    function amplify(DOMNode& $domNode, Document& $styleDocument)
+    function amplify(Document& $styleDocument)
     {
         /** @var DeclarationBlock[] $declarationBlocks */
         $declarationBlocks = $styleDocument->getAllDeclarationBlocks();

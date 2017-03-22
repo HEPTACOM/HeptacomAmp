@@ -2,10 +2,8 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
-use DOMElement;
 use DOMNode;
-use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyStyle;
-use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
+use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyDOMStyle;
 use phpQuery;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Property\Selector;
@@ -15,7 +13,7 @@ use Sabberworm\CSS\RuleSet\DeclarationBlock;
  * Class RemoveUnusedTagSelectors
  * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle
  */
-class RemoveUnusedTagSelectors implements IAmplifyStyle
+class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
 {
     /**
      * @var array

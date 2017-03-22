@@ -54,7 +54,7 @@ class AMP implements SubscriberInterface
 
         $this->domAmplifier = new DOMAmplifier($fileCache);
         $styleStorage = new DOMAmplifier\StyleStorage();
-        $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage);
+        $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage, $fileCache);
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
         $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
@@ -69,11 +69,11 @@ class AMP implements SubscriberInterface
         $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
         $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
         $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
         $this->domAmplifier->useAmplifier($styleInjector);
+        $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
         $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
     }
 

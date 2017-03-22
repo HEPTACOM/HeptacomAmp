@@ -2,9 +2,6 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier;
 
-use Sabberworm\CSS\CSSList\Document;
-use Sabberworm\CSS\Parser;
-
 /**
  * Class StyleStorage
  * @package HeptacomAmp\Components\DOMAmplifier
@@ -17,11 +14,6 @@ class StyleStorage
     private $styles = [];
 
     /**
-     * @var Document
-     */
-    private $cachedParsedDocument;
-
-    /**
      * Add a style to the storage.
      * @param string $style
      * @return $this
@@ -29,7 +21,6 @@ class StyleStorage
     public function addStyle($style)
     {
         $this->styles[] = $style;
-        $this->cachedParsedDocument = null;
         return $this;
     }
 
@@ -49,20 +40,15 @@ class StyleStorage
             ])));
         }
 
-        $this->cachedParsedDocument = null;
         return $this;
     }
 
     /**
-     * Generates if necessary a stylesheet document.
-     * @return Document
+     * Gets the content of the extract styles.
+     * @return string
      */
-    public function parseToStylesheet()
+    public function getContent()
     {
-        if (is_null($this->cachedParsedDocument)) {
-            $this->cachedParsedDocument = (new Parser(join(' ', $this->styles)))->parse();
-        }
-
-        return $this->cachedParsedDocument;
+        return join(' ', $this->styles);
     }
 }
