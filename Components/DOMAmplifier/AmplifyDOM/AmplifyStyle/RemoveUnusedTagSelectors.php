@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
+use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyDOMStyle;
@@ -56,7 +57,8 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                 }
 
                 $xpathSelector = $this->xpathConverter->toXPath($selector->getSelector());
-                $xpath = new DOMXPath($domNode);
+                $document = $domNode instanceof DOMDocument ? $domNode : $domNode->ownerDocument;
+                $xpath = new DOMXPath($document);
                 if ($xpath->query($xpathSelector)->length !== 0) {
                     $selectorsToRemove[] = $selector;
                 }
