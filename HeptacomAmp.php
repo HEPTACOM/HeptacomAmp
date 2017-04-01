@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp;
 
+use Enlight_Controller_Request_Request;
 use Enlight_Event_EventArgs;
 use Exception;
 use Shopware\Components\Plugin;
@@ -53,7 +54,7 @@ class HeptacomAmp extends Plugin
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Front_StartDispatch' => 'autoloadComposer',
+            'Enlight_Controller_Front_RouteShutdown' => 'autoloadComposer',
         ];
     }
 
@@ -62,7 +63,12 @@ class HeptacomAmp extends Plugin
      */
     public function autoloadComposer(Enlight_Event_EventArgs $args)
     {
-        require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'HeptacomAutoloader.php']);
+        /** @var Enlight_Controller_Request_Request $request */
+        $request = $args->get('request');
+
+        if ($request->getParam('amp', 0)) {
+            require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'HeptacomAutoloader.php']);
+        }
     }
 
     /**
