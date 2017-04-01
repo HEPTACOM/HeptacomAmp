@@ -6,7 +6,6 @@ use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyDOMStyle;
-use phpQuery;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Property\Selector;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
