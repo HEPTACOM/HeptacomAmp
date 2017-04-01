@@ -74,7 +74,7 @@ class CustomStyleInjector implements IAmplifyDOM
     {
         $styleAmplifier = $this->styleAmplifier;
 
-        /** @var string $styleContent */
+        /** @var Document $styleContent */
         $styleContent = $this->fileCache->getCachedSerializedContents($this->styleStorage->getContent(), 'amp_css', function ($cssContent) use ($styleAmplifier) {
             $styleDocument = static::parseCss($cssContent);
 
@@ -83,12 +83,7 @@ class CustomStyleInjector implements IAmplifyDOM
             }
 
             return $styleDocument;
-        }, [__CLASS__, 'renderCss'], [__CLASS__, 'parseCss']);
-
-        /** @var Document $styleContent */
-        $styleContent = $this->fileCache->getCachedSerializedContents($styleContent, 'amp_ccss', function ($cssContent) {
-            return $cssContent;
-        }, 'serialize', 'unserialize');
+        }, [__CLASS__, 'serializeCss'], 'unserialize');
 
         foreach ($this->styleDOMAmplifier as $amplifier) {
             $amplifier->amplify($node, $styleContent);
@@ -108,6 +103,15 @@ class CustomStyleInjector implements IAmplifyDOM
         }
 
         return $node;
+    }
+
+    /**
+     * @param string $stylesheet
+     * @return string
+     */
+    public static function serializeCss($stylesheet)
+    {
+        return serialize(static::parseCss($stylesheet));
     }
 
     /**
