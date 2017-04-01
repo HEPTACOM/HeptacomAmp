@@ -83,7 +83,7 @@ class CustomStyleInjector implements IAmplifyDOM
             }
 
             return $styleDocument;
-        }, [__CLASS__, 'serializeCss'], 'unserialize');
+        }, 'serialize', 'unserialize');
 
         foreach ($this->styleDOMAmplifier as $amplifier) {
             $amplifier->amplify($node, $styleContent);
@@ -103,15 +103,6 @@ class CustomStyleInjector implements IAmplifyDOM
         }
 
         return $node;
-    }
-
-    /**
-     * @param string $stylesheet
-     * @return string
-     */
-    public static function serializeCss($stylesheet)
-    {
-        return serialize(static::parseCss($stylesheet));
     }
 
     /**
