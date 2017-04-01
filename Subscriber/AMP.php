@@ -39,9 +39,9 @@ class AMP implements SubscriberInterface
     private $pluginLogger;
 
     /**
-     * @var DOMAmplifier
+     * @var FileCache
      */
-    private $domAmplifier;
+    private $fileCache;
 
     /**
      * Detail constructor.
@@ -51,30 +51,7 @@ class AMP implements SubscriberInterface
     public function __construct(Logger $pluginLogger, FileCache $fileCache)
     {
         $this->pluginLogger = $pluginLogger;
-
-        $this->domAmplifier = new DOMAmplifier($fileCache);
-        $styleStorage = new DOMAmplifier\StyleStorage();
-        $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage, $fileCache);
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveVendorPrefixedItems());
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveDuplicateValues());
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnusedTagSelectors());
-        $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
-        $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
-        $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
-        // TODO revert commit bb66496a2772525a4e8e93c22c07cb376c09b80b to add class renaming
-        $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
-        $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
-        $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
-        $this->domAmplifier->useAmplifier($styleInjector);
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
-        $this->domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
+        $this->fileCache = $fileCache;
     }
 
     /**
@@ -141,7 +118,32 @@ class AMP implements SubscriberInterface
         }
 
         try {
-            $args->setReturn($this->domAmplifier->amplifyHTML($args->getReturn()));
+            $domAmplifier = new DOMAmplifier($this->fileCache);
+            $styleStorage = new DOMAmplifier\StyleStorage();
+            $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage, $this->fileCache);
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveVendorPrefixedItems());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveDuplicateValues());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnusedTagSelectors());
+            $styleInjector->useAmplifier(new AmplifyStyle\HtmlEntitiesToUnicodeNotation());
+            $styleInjector->useAmplifier(new AmplifyStyle\NoRuleIsImportant());
+            $styleInjector->useAmplifier(new AmplifyStyle\RedirectUrls());
+            // TODO revert commit bb66496a2772525a4e8e93c22c07cb376c09b80b to add class renaming
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
+            $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
+            $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
+            $domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
+            $domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
+            $domAmplifier->useAmplifier($styleInjector);
+            $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
+            $domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
+
+
+            $args->setReturn($domAmplifier->amplifyHTML($args->getReturn()));
         } catch (\Exception $ex) {
             $this->pluginLogger->error('Error while amplifying output', [$ex]);
         }
