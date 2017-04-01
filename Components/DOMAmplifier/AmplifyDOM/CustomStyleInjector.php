@@ -8,6 +8,7 @@ use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 use HeptacomAmp\Components\FileCache;
+use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\Parser;
 
@@ -73,23 +74,20 @@ class CustomStyleInjector implements IAmplifyDOM
     {
         $styleAmplifier = $this->styleAmplifier;
 
-        $styleContent = $this->fileCache->getCachedContents($this->styleStorage->getContent(), 'amp_css', function ($cssContent) use ($styleAmplifier) {
-            $styleDocument = (new Parser($cssContent))->parse();
+        /** @var Document $styleContent */
+        $styleContent = $this->fileCache->getCachedSerializedContents($this->styleStorage->getContent(), 'amp_css', function ($cssContent) use ($styleAmplifier) {
+            $styleDocument = static::parseCss($cssContent);
 
             foreach ($styleAmplifier as $amplifier) {
                 $amplifier->amplify($styleDocument);
             }
 
-            return $styleDocument->render(OutputFormat::createCompact());
-        });
-
-        $styleDocument = (new Parser($styleContent))->parse();
+            return $styleDocument;
+        }, 'serialize', 'unserialize');
 
         foreach ($this->styleDOMAmplifier as $amplifier) {
-            $amplifier->amplify($node, $styleDocument);
+            $amplifier->amplify($node, $styleContent);
         }
-
-        $styleContent = $styleDocument->render(OutputFormat::createCompact());
 
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
@@ -98,12 +96,30 @@ class CustomStyleInjector implements IAmplifyDOM
             /** @var DOMElement $head */
             $style = $document->createElement('style');
             $style->setAttributeNode($document->createAttribute('amp-custom'));
-            $style->textContent = $styleContent;
+            $style->textContent = static::renderCss($styleContent);
             $head->appendChild($style);
 
             break;
         }
 
         return $node;
+    }
+
+    /**
+     * @param Document $styleDocument
+     * @return string
+     */
+    public static function renderCss(Document $styleDocument)
+    {
+        return $styleDocument->render(OutputFormat::createCompact());
+    }
+
+    /**
+     * @param $stylesheet
+     * @return Document
+     */
+    public static function parseCss($stylesheet)
+    {
+        return (new Parser($stylesheet))->parse();
     }
 }
