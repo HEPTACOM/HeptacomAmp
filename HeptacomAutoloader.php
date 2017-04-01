@@ -16,13 +16,6 @@
  * Adjusted order by class not found exceptionds
  */
 
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/compat/mbstring.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/DOMEvent.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/Callback.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/phpQueryObject.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/phpQueryEvents.php");
-require_once(__DIR__ . "/vendor/atofighi/phpquery/phpQuery/phpQuery/DOMDocumentWrapper.php");
 require_once(__DIR__ . "/vendor/sabberworm/php-css-parser/lib/Sabberworm/CSS/Renderable.php");
 require_once(__DIR__ . "/vendor/sabberworm/php-css-parser/lib/Sabberworm/CSS/Comment/Comment.php");
 require_once(__DIR__ . "/vendor/sabberworm/php-css-parser/lib/Sabberworm/CSS/Comment/Commentable.php");

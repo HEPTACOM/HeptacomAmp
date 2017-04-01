@@ -2,12 +2,15 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
+use DOMDocument;
 use DOMNode;
+use DOMXPath;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyDOMStyle;
 use phpQuery;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Property\Selector;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Symfony\Component\CssSelector\CssSelectorConverter;
 
 /**
  * Class RemoveUnusedTagSelectors
@@ -24,6 +27,16 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
         'amp-sidebar',
         // to be continued
     ];
+
+    /**
+     * @var CssSelectorConverter
+     */
+    private $xpathConverter;
+
+    public function __construct()
+    {
+        $this->xpathConverter = new CssSelectorConverter();
+    }
 
     /**
      * Process and ⚡lifies the given node and style.
@@ -43,8 +56,18 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                     continue;
                 }
 
-                if (phpQuery::pq($selector->getSelector(), $domNode)->count() == 0) {
-                    $selectorsToRemove[] = $selector;
+                try {
+                    $cleanedSelector = preg_replace('/:{1,2}[\w-]+(\(.*?\))?/m', '', $selector->getSelector());
+
+                    $xpathSelector = $this->xpathConverter->toXPath($cleanedSelector);
+                    $document = $domNode instanceof DOMDocument ? $domNode : $domNode->ownerDocument;
+                    $xpath = new DOMXPath($document);
+
+                    if ($xpath->query($xpathSelector)->length == 0) {
+                        $selectorsToRemove[] = $selector;
+                    }
+                } catch (\Exception $exception) {
+                    // TODO: log
                 }
             }
 
