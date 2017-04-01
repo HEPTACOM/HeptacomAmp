@@ -56,11 +56,18 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                     continue;
                 }
 
-                $xpathSelector = $this->xpathConverter->toXPath($selector->getSelector());
-                $document = $domNode instanceof DOMDocument ? $domNode : $domNode->ownerDocument;
-                $xpath = new DOMXPath($document);
-                if ($xpath->query($xpathSelector)->length !== 0) {
-                    $selectorsToRemove[] = $selector;
+                try {
+                    $cleanedSelector = preg_replace('/:{1,2}[\w-]+(\(.*?\))?/m', '', $selector->getSelector());
+
+                    $xpathSelector = $this->xpathConverter->toXPath($cleanedSelector);
+                    $document = $domNode instanceof DOMDocument ? $domNode : $domNode->ownerDocument;
+                    $xpath = new DOMXPath($document);
+
+                    if ($xpath->query($xpathSelector)->length == 0) {
+                        $selectorsToRemove[] = $selector;
+                    }
+                } catch (\Exception $exception) {
+                    // TODO: log
                 }
             }
 
