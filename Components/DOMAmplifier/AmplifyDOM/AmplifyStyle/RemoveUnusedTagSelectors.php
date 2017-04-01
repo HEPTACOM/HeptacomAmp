@@ -10,6 +10,7 @@ use phpQuery;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\Property\Selector;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Shopware\Components\Logger;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 /**
@@ -33,9 +34,18 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
      */
     private $xpathConverter;
 
+    /**
+     * @var Logger
+     */
+    private $pluginLogger;
+
+    /**
+     * RemoveUnusedTagSelectors constructor.
+     */
     public function __construct()
     {
         $this->xpathConverter = new CssSelectorConverter();
+        $this->pluginLogger = Shopware()->Container()->get('PluginLogger');
     }
 
     /**
@@ -68,6 +78,7 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                     }
                 } catch (\Exception $exception) {
                     // TODO: log
+                    $this->pluginLogger->error('Error while amplifying output', [$ex]);
                 }
             }
 
