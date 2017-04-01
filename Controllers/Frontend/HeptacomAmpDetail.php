@@ -21,7 +21,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
     public function indexAction()
     {
         $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'detail', 'index.tpl']));
-        $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
+        // $this->View()->assign('ampSchemaOrgProduct', static::sArticleToSchemaOrgProduct($this->getSArticle()));
 
         parent::indexAction();
     }
