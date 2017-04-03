@@ -59,7 +59,7 @@
         <changes lang="de">Fehler beim Laden von Kategorien mit verwaisten Artikel behoben.</changes>
     </changelog>
     <changelog version="2.1.2">
-        <changes lang="de">Performance des Rendern einer AMP-Seite verbessert durch das Cachen von Stylesheet-Optimierungen (bis zu 85% schneller).</changes>
+        <changes lang="de">Performance des Rendern einer AMP-Seite verbessert durch das Cachen von Stylesheet-Optimierungen (bis zu 110% schneller; benötigt nur noch 85% der ursprünglichen Zeit).</changes>
         <changes lang="de">Laden von Drittkomponenten optimiert.</changes>
     </changelog>
 </plugin>
