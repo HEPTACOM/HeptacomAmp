@@ -16,8 +16,12 @@
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
         </service>
+        <service id="heptacom_amp.subscriber.cli" class="HeptacomAmp\Subscriber\Cli">
+            <tag name="shopware.event_subscriber" />
+        </service>
         <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
             <argument type="service" id="PluginLogger" />
         </service>
+        <service id="heptacom_amp.components.dispatch_simulator" class="HeptacomAmp\Components\DispatchSimulator" />
     </services>
 </container>
