@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp\Commands;
 
+use HeptacomAmp\Components\DispatchSimulator;
 use Shopware\Commands\ShopwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,5 +18,7 @@ class CacheWarmer extends ShopwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var DispatchSimulator $dispatchSimulator */
+        $dispatchSimulator = $this->container->get('heptacom_amp.components.dispatch_simulator');
     }
 }

@@ -22,6 +22,8 @@
         <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
             <argument type="service" id="PluginLogger" />
         </service>
-        <service id="heptacom_amp.components.dispatch_simulator" class="HeptacomAmp\Components\DispatchSimulator" />
+        <service id="heptacom_amp.components.dispatch_simulator" class="HeptacomAmp\Components\DispatchSimulator">
+            <argument type="service" id="service_container" />
+        </service>
     </services>
 </container>
