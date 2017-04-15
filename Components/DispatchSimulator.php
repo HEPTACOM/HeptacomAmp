@@ -22,25 +22,32 @@ class DispatchSimulator
      */
     private $client;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var ModelManager
+     */
+    private $modelManager;
+
+    /**
+     * @var Repository
+     */
+    private $shopRepository;
+
+    public function __construct(ContainerInterface $container, ModelManager $modelManager)
     {
         $this->container = $container;
 
         /** @var Kernel $kernel */
-        $kernel = $container->get('kernel');
+        $kernel = $this->container->get('kernel');
         $this->client = new Client($kernel);
+
+        $this->modelManager = $modelManager;
+        $this->shopRepository = $this->modelManager->getRepository(Shop::class);
     }
 
     public function request($shopId, array $params = [])
     {
-        /** @var ModelManager $modelManager */
-        $modelManager = $this->container->get('Models');
-
-        /** @var Repository $shopRepository */
-        $shopRepository = $modelManager->getRepository(Shop::class);
-
         /** @var Shop $shop */
-        $shop = $shopRepository->find($shopId);
+        $shop = $this->shopRepository->find($shopId);
 
         if ($shop === null) {
             throw new Exception(sprintf('Error: Cannot find shop by id %s. Got null instead.', $shopId));

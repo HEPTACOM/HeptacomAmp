@@ -24,6 +24,7 @@
         </service>
         <service id="heptacom_amp.components.dispatch_simulator" class="HeptacomAmp\Components\DispatchSimulator">
             <argument type="service" id="service_container" />
+            <argument type="service" id="Models" />
         </service>
     </services>
 </container>

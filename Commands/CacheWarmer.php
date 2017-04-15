@@ -45,7 +45,8 @@ class CacheWarmer extends ShopwareCommand
             $progress = new ProgressBar($output, count($articleIds));
 
             foreach ($articleIds as $articleId) {
-                $dispatchSimulator->request($shop->getId(), ['controller' => 'detail', 'sArticle' => $articleId]);
+                $crawler = $dispatchSimulator->request($shop->getId(), ['controller' => 'heptacomAmpDetail', 'sArticle' => $articleId]);
+
                 $progress->advance();
             }
 
@@ -56,6 +57,6 @@ class CacheWarmer extends ShopwareCommand
 
     private function getArticleIds()
     {
-        return range(1, 10);
+        return range(2, 10);
     }
 }
