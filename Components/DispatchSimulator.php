@@ -3,13 +3,15 @@
 namespace HeptacomAmp\Components;
 
 use Exception;
-use Shopware\Components\Model\ModelManager;
 use Shopware\Kernel;
-use Shopware\Models\Shop\Repository;
 use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Client;
 
+/**
+ * Class DispatchSimulator
+ * @package HeptacomAmp\Components
+ */
 class DispatchSimulator
 {
     /**
@@ -23,34 +25,28 @@ class DispatchSimulator
     private $client;
 
     /**
-     * @var ModelManager
+     * DispatchSimulator constructor.
+     * @param ContainerInterface $container
      */
-    private $modelManager;
-
-    /**
-     * @var Repository
-     */
-    private $shopRepository;
-
-    public function __construct(ContainerInterface $container, ModelManager $modelManager)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
 
         /** @var Kernel $kernel */
         $kernel = $this->container->get('kernel');
         $this->client = new Client($kernel);
-
-        $this->modelManager = $modelManager;
-        $this->shopRepository = $this->modelManager->getRepository(Shop::class);
     }
 
-    public function request($shopId, array $params = [])
+    /**
+     * @param Shop $shop
+     * @param array $params
+     * @return \Symfony\Component\DomCrawler\Crawler
+     * @throws Exception
+     */
+    public function request(Shop $shop, array $params = [])
     {
-        /** @var Shop $shop */
-        $shop = $this->shopRepository->find($shopId);
-
         if ($shop === null) {
-            throw new Exception(sprintf('Error: Cannot find shop by id %s. Got null instead.', $shopId));
+            throw new Exception('Shop cannot be null.');
         }
 
         $uri = implode([

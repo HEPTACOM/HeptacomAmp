@@ -13,6 +13,10 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class CacheWarmer
+ * @package HeptacomAmp\Commands
+ */
 class CacheWarmer extends ShopwareCommand
 {
     protected function configure()
@@ -22,6 +26,10 @@ class CacheWarmer extends ShopwareCommand
             ->setHelp('The <info>%command.name%</info> generates a cached copy of the AMP pages.');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var DispatchSimulator $dispatchSimulator */
@@ -45,7 +53,7 @@ class CacheWarmer extends ShopwareCommand
             $progress = new ProgressBar($output, count($articleIds));
 
             foreach ($articleIds as $articleId) {
-                $crawler = $dispatchSimulator->request($shop->getId(), ['controller' => 'heptacomAmpDetail', 'sArticle' => $articleId]);
+                $dispatchSimulator->request($shop, ['controller' => 'heptacomAmpDetail', 'sArticle' => $articleId]);
 
                 $progress->advance();
             }
@@ -55,6 +63,9 @@ class CacheWarmer extends ShopwareCommand
         }
     }
 
+    /**
+     * @return array
+     */
     private function getArticleIds()
     {
         return range(2, 10);
