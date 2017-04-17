@@ -3,6 +3,8 @@
 namespace HeptacomAmp\Commands;
 
 use HeptacomAmp\Components\DispatchSimulator;
+use Shopware\Bundle\SearchBundle\ProductSearch;
+use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactory;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\CategoryService;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ContextService;
 use Shopware\Commands\ShopwareCommand;
@@ -35,6 +37,16 @@ class CacheWarmer extends ShopwareCommand
      * @var CategoryService
      */
     private $categoryService;
+
+    /**
+     * @var StoreFrontCriteriaFactory
+     */
+    private $criteriaFactory;
+
+    /**
+     * @var ProductSearch
+     */
+    private $productSearch;
 
     /**
      * @var ModelManager
@@ -78,9 +90,13 @@ class CacheWarmer extends ShopwareCommand
             $articleIds = $this->getArticleIds($shop, $categoryIds);
 
             $progress = new ProgressBar($output, count($articleIds));
+            $progress->start();
 
             foreach ($articleIds as $articleId) {
-                $this->dispatchSimulator->request($shop, ['controller' => 'heptacomAmpDetail', 'sArticle' => $articleId]);
+                $this->dispatchSimulator->request($shop, [
+                    'controller' => 'heptacomAmpDetail',
+                    'sArticle' => $articleId
+                ]);
 
                 $progress->advance();
             }
@@ -95,6 +111,8 @@ class CacheWarmer extends ShopwareCommand
         $this->dispatchSimulator = $this->container->get('heptacom_amp.components.dispatch_simulator');
         $this->contextService = $this->container->get('shopware_storefront.context_service');
         $this->categoryService = $this->container->get('shopware_storefront.category_service');
+        $this->criteriaFactory = $this->container->get('shopware_search.store_front_criteria_factory');
+        $this->productSearch = $this->container->get('shopware_search.product_search');
         $this->modelManager = $this->container->get('Models');
 
         $this->shopRepository = $this->modelManager->getRepository(Shop::class);
@@ -122,15 +140,18 @@ class CacheWarmer extends ShopwareCommand
     private function getArticleIds(Shop $shop, array $categoryIds)
     {
         $context = $this->contextService->createShopContext($shop->getId());
-        $categories = $this->categoryService->getList($categoryIds, $context);
+        $criteria = $this->criteriaFactory->createBaseCriteria($categoryIds, $context);
+
+        $searchResult = $this->productSearch->search(
+            $criteria,
+            $context
+        );
 
         $articleIds = [];
-        foreach ($categories as $category) {
-            // get all ids out of the category stuct
+        foreach ($searchResult->getProducts() as $product) {
+            $articleIds[] = $product->getId();
         }
 
-        // TODO remove this demo array
-        $articleIds = range(2, 10);
         return $articleIds;
     }
 }
