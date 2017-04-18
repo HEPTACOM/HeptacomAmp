@@ -1,7 +1,8 @@
 {
   "require": {
     "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
-    "symfony/css-selector": "~2.0,>=2.0.5|~3.0.0"
+    "symfony/css-selector": "~2.0,>=2.0.5|~3.0.0",
+    "symfony/browser-kit": "~2.3|~3.0"
   },
   "repositories": [
     {
