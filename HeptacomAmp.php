@@ -17,21 +17,17 @@ use Shopware_Components_License;
 
 class HeptacomAmp extends Plugin
 {
+    const CRONJOB_ACTION_CACHE_WARMER = 'Shopware_CronJob_HeptacomAmpCronjobCacheWarmer';
+
     /**
      * @param ActivateContext $context
      */
     public function activate(ActivateContext $context)
     {
-        /** @var Enlight_Components_Cron_Manager $cronManager */
-        $cronManager = $this->container->get('cron');
-
-        $cronJob = $cronManager->getJobByAction('Shopware_CronJob_HeptacomAmpCronjobCacheWarmer');
-        if ($cronJob !== null) {
-            $cronJob->setActive(true);
-            $cronManager->updateJob($cronJob);
-        }
-
+        $this->handleCronJob($context);
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
+
+        parent::activate($context);
     }
 
     /**
@@ -39,16 +35,10 @@ class HeptacomAmp extends Plugin
      */
     public function deactivate(DeactivateContext $context)
     {
-        /** @var Enlight_Components_Cron_Manager $cronManager */
-        $cronManager = $this->container->get('cron');
-
-        $cronJob = $cronManager->getJobByAction('Shopware_CronJob_HeptacomAmpCronjobCacheWarmer');
-        if ($cronJob !== null) {
-            $cronJob->setActive(false);
-            $cronManager->updateJob($cronJob);
-        }
-
+        $this->handleCronJob($context);
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
+
+        parent::deactivate($context);
     }
 
     /**
@@ -57,7 +47,10 @@ class HeptacomAmp extends Plugin
     public function update(UpdateContext $context)
     {
         $this->checkLicense();
+        $this->handleCronJob($context);
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
+
+        parent::update($context);
     }
 
     /**
@@ -66,32 +59,40 @@ class HeptacomAmp extends Plugin
     public function install(InstallContext $context)
     {
         $this->checkLicense();
-
-        /** @var Enlight_Components_Cron_Manager $cronManager */
-        $cronManager = $this->container->get('cron');
-
-        $cronJob = new Enlight_Components_Cron_Job([
-            'name' => 'AMP CacheWarmer',
-            'action' => 'Shopware_CronJob_HeptacomAmpCronjobCacheWarmer',
-            'interval' => '86400',
-            'data' => '',
-        ]);
-        $cronManager->addJob($cronJob);
+        $this->handleCronJob($context);
 
         parent::install($context);
     }
 
     public function uninstall(UninstallContext $context)
     {
+        $this->handleCronJob($context);
+        
+        parent::uninstall($context);
+    }
+
+    private function handleCronJob(InstallContext $context)
+    {
         /** @var Enlight_Components_Cron_Manager $cronManager */
         $cronManager = $this->container->get('cron');
 
-        $cronJob = $cronManager->getJobByAction('Shopware_CronJob_HeptacomAmpCronjobCacheWarmer');
-        if ($cronJob !== null) {
-            $cronManager->deleteJob($cronJob);
+        if (($cronJob = $cronManager->getJobByAction(static::CRONJOB_ACTION_CACHE_WARMER)) === null) {
+            $cronJob = new Enlight_Components_Cron_Job([
+                'name' => 'AMP CacheWarmer',
+                'action' => static::CRONJOB_ACTION_CACHE_WARMER,
+                'interval' => '86400',
+            ]);
         }
 
-        parent::uninstall($context);
+        if ($context instanceof ActivateContext || $context instanceof DeactivateContext) {
+            $cronJob->setActive($context instanceof ActivateContext);
+        }
+
+        if ($context instanceof UninstallContext) {
+            $cronManager->deleteJob($cronJob);
+        } else {
+            $cronManager->updateJob($cronJob);
+        }
     }
 
     /**
