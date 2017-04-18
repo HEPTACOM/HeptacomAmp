@@ -25,5 +25,13 @@
         <service id="heptacom_amp.components.dispatch_simulator" class="HeptacomAmp\Components\DispatchSimulator">
             <argument type="service" id="service_container" />
         </service>
+        <service id="heptacom_amp.components.cache_warmer" class="HeptacomAmp\Components\CacheWarmer">
+            <argument type="service" id="heptacom_amp.components.dispatch_simulator" />
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="shopware_storefront.category_service" />
+            <argument type="service" id="shopware_search.store_front_criteria_factory" />
+            <argument type="service" id="shopware_search.product_search" />
+            <argument type="service" id="models" />
+        </service>
     </services>
 </container>
