@@ -40,10 +40,18 @@ class RedirectUrls implements IAmplifyStyle
                 $params = empty($exploded) ? '' : '?' . array_shift($exploded);
 
                 $path = realpath(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'web', 'cache', $origPath]));
-                $path = implode(DIRECTORY_SEPARATOR, [
-                    Shopware()->Front()->Request()->getBaseUrl(),
-                    substr($path, strlen(Shopware()->DocPath()))
-                ]);
+
+                if (Shopware()->Front()->Request()->getBaseUrl()) {
+                    $path = implode(DIRECTORY_SEPARATOR, [
+                        Shopware()->Front()->Request()->getBaseUrl(),
+                        substr($path, strlen(Shopware()->DocPath()))
+                    ]);
+                } else {
+                    $path = implode(DIRECTORY_SEPARATOR, [
+                        Shopware()->Front()->Request()->getPathInfo(),
+                        substr($path, strlen(Shopware()->DocPath()))
+                    ]);
+                }
                 if (strpos($path,
                         implode(DIRECTORY_SEPARATOR, ['frontend', '_public', 'src', 'fonts', 'shopware'])) !== false
                 ) {
