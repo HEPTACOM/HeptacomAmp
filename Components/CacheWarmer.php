@@ -94,6 +94,9 @@ class CacheWarmer
         $this->categoryRepository = $this->modelManager->getRepository(Category::class);
     }
 
+    /**
+     * @param OutputInterface $output
+     */
     public function injectOutput(OutputInterface $output)
     {
         $this->output = $output;
@@ -112,8 +115,13 @@ class CacheWarmer
         foreach ($shops as $shop) {
             $articleIds = $this->getArticleIds($shop, $categoryIds);
 
+            if (($articleCount = count($articleIds)) == 0) {
+                continue;
+            }
+
             if (isset($this->output)) {
-                $progress = new ProgressBar($this->output, count($articleIds));
+                $this->output->writeln(sprintf('Currently working on shop: %s', $shop->getName()));
+                $progress = new ProgressBar($this->output, $articleCount);
                 $progress->start();
             }
 
