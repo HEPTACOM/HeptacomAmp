@@ -66,6 +66,11 @@ class CustomStyleInjector implements IAmplifyDOM
     }
 
     /**
+     * @var Document
+     */
+    private static $styleContent = null;
+
+    /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
      * @return DOMNode The ⚡lified node.
@@ -74,19 +79,23 @@ class CustomStyleInjector implements IAmplifyDOM
     {
         $styleAmplifier = $this->styleAmplifier;
 
-        /** @var Document $styleContent */
-        $styleContent = $this->fileCache->getCachedSerializedContents($this->styleStorage->getContent(), 'amp_css', function ($cssContent) use ($styleAmplifier) {
-            $styleDocument = static::parseCss($cssContent);
+        if (static::$styleContent === null) {
+            static::$styleContent = $this->fileCache->getCachedSerializedContents($this->styleStorage->getContent(), 'amp_css',
+                function ($cssContent) use ($styleAmplifier) {
+                    $styleDocument = static::parseCss($cssContent);
 
-            foreach ($styleAmplifier as $amplifier) {
-                $amplifier->amplify($styleDocument);
-            }
+                    foreach ($styleAmplifier as $amplifier) {
+                        $amplifier->amplify($styleDocument);
+                    }
 
-            return $styleDocument;
-        }, 'serialize', 'unserialize');
+                    return $styleDocument;
+                }, 'serialize', 'unserialize');
+        }
+
+        $documentStyle = clone static::$styleContent;
 
         foreach ($this->styleDOMAmplifier as $amplifier) {
-            $amplifier->amplify($node, $styleContent);
+            $amplifier->amplify($node, $documentStyle);
         }
 
         /** @var DOMDocument $document */
@@ -96,12 +105,13 @@ class CustomStyleInjector implements IAmplifyDOM
             /** @var DOMElement $head */
             $style = $document->createElement('style');
             $style->setAttributeNode($document->createAttribute('amp-custom'));
-            $style->textContent = static::renderCss($styleContent);
+            $style->textContent = static::renderCss($documentStyle);
             $head->appendChild($style);
 
             break;
         }
 
+        unset($documentStyle);
         return $node;
     }
 

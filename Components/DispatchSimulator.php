@@ -64,6 +64,6 @@ class DispatchSimulator
             'amp' => 1,
         ], $params);
 
-        return $this->client->request('GET', $uri, $params);
+        return $this->client->request('GET', $uri, $params, [], ['HTTPS' => true]);
     }
 }

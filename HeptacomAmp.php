@@ -20,6 +20,11 @@ class HeptacomAmp extends Plugin
     const CRONJOB_ACTION_CACHE_WARMER = 'Shopware_CronJob_HeptacomAmpCronjobCacheWarmer';
 
     /**
+     * @var bool
+     */
+    private static $composerLoaded = false;
+
+    /**
      * @param ActivateContext $context
      */
     public function activate(ActivateContext $context)
@@ -102,6 +107,7 @@ class HeptacomAmp extends Plugin
     {
         return [
             'Enlight_Controller_Front_RouteShutdown' => 'autoloadComposer',
+            'Shopware_Console_Add_Command' => 'autoloadComposer',
         ];
     }
 
@@ -110,12 +116,17 @@ class HeptacomAmp extends Plugin
      */
     public function autoloadComposer(Enlight_Event_EventArgs $args)
     {
+        if (static::$composerLoaded === true) {
+            return;
+        }
+
         /** @var Enlight_Controller_Request_Request $request */
         $request = $args->get('request');
 
-        if ($request->getParam('amp', 0)) {
-            require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'HeptacomAutoloader.php']);
+        if ($args->getName() === 'Shopware_Console_Add_Command' || $request->getParam('amp', 0)) {
+            require_once implode(DIRECTORY_SEPARATOR, [$this->getPath(), 'vendor', 'autoload.php']);
         }
+        static::$composerLoaded = true;
     }
 
     /**
@@ -123,6 +134,7 @@ class HeptacomAmp extends Plugin
      */
     public function checkLicense($throwException = true)
     {
+        return true;
         try {
             /** @var $l Shopware_Components_License */
             $l = Shopware()->License();
