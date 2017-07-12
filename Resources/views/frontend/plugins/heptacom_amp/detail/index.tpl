@@ -295,12 +295,12 @@
                                     <section class="tab--container has--content" data-tab-id="related">
                                         {block name="frontend_detail_index_tabs_related_inner"}
                                             <header class="tab--header">
-                                                <a href="#" class="tab--title" title="{s namespace="frontend/detail/tabs" name='DetailTabsAccessories'}{/s}">
+                                                <span class="tab--title" title="{s namespace="frontend/detail/tabs" name='DetailTabsAccessories'}{/s}">
                                                     {s namespace="frontend/detail/tabs" name='DetailTabsAccessories'}{/s}
                                                     <span class="product--rating-count-wrapper">
                                                         <span class="product--rating-count">{$sArticle.sRelatedArticles|@count}</span>
                                                     </span>
-                                                </a>
+                                                </span>
                                             </header>
                                             <div class="tab--content content--related">{include file="frontend/plugins/heptacom_amp/detail/tabs/related.tpl"}</div>
                                         {/block}
@@ -314,7 +314,7 @@
                                     <section class="tab--container has--content" data-tab-id="similar">
                                         {block name="frontend_detail_index_tabs_similar_inner"}
                                             <header class="tab--header">
-                                                <a href="#" class="tab--title" title="{s name="DetailRecommendationSimilarLabel"}{/s}">{s name="DetailRecommendationSimilarLabel"}{/s}</a>
+                                                <span class="tab--title" title="{s name="DetailRecommendationSimilarLabel"}{/s}">{s name="DetailRecommendationSimilarLabel"}{/s}</span>
                                             </header>
                                             <div class="tab--content content--similar">{include file='frontend/plugins/heptacom_amp/detail/tabs/similar.tpl'}</div>
                                         {/block}
@@ -328,7 +328,7 @@
                                     <section class="tab--container{* TODO: check for content *}" data-tab-id="alsobought">
                                         {block name="frontend_detail_index_tabs_also_bought_inner"}
                                             <header class="tab--header">
-                                                <a href="#" class="tab--title" title="{s name='DetailRecommendationAlsoBoughtLabel'}{/s}">{s name='DetailRecommendationAlsoBoughtLabel'}{/s}</a>
+                                                <span class="tab--title" title="{s name='DetailRecommendationAlsoBoughtLabel'}{/s}">{s name='DetailRecommendationAlsoBoughtLabel'}{/s}</span>
                                             </header>
                                             <div class="tab--content content--also-bought">{action module=widgets controller=recommendation action=bought articleId=$sArticle.articleID}</div>
                                         {/block}
@@ -342,7 +342,7 @@
                                     <section class="tab--container{* TODO: check for content *}" data-tab-id="alsoviewed">
                                         {block name="frontend_detail_index_tabs_also_viewed_inner"}
                                             <header class="tab--header">
-                                                <a href="#" class="tab--title" title="{s name='DetailRecommendationAlsoViewedLabel'}{/s}">{s name='DetailRecommendationAlsoViewedLabel'}{/s}</a>
+                                                <span class="tab--title" title="{s name='DetailRecommendationAlsoViewedLabel'}{/s}">{s name='DetailRecommendationAlsoViewedLabel'}{/s}</span>
                                             </header>
                                             <div class="tab--content content--also-viewed">{action module=widgets controller=recommendation action=viewed articleId=$sArticle.articleID}</div>
                                         {/block}
@@ -356,7 +356,7 @@
                                     <section class="tab--container has--content" data-tab-id="productStreamSliderId-{$relatedProductStream.id}">
                                         {block name="frontend_detail_index_tabs_related_product_streams_inner"}
                                             <header class="tab--header">
-                                                <a href="#" class="tab--title" title="{$relatedProductStream.name}">{$relatedProductStream.name}</a>
+                                                <span class="tab--title" title="{$relatedProductStream.name}">{$relatedProductStream.name}</span>
                                             </header>
                                             <div class="tab--content content--related-product-streams-{$key}">
                                                 {include file='frontend/plugins/heptacom_amp/detail/tabs/product_streams.tpl'}
