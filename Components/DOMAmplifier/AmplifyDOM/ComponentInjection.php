@@ -23,63 +23,229 @@ class ComponentInjection implements IAmplifyDOM
         'amp-pixel' => 'amp-pixel',
         'amp-img' => 'amp-img',
         */
-        'amp-access-laterpay' => 'amp-access-laterpay',
-        'amp-access' => 'amp-access',
-        'amp-accordion' => 'amp-accordion',
-        'amp-ad' => 'amp-ad',
-        'amp-analytics' => 'amp-analytics',
-        'amp-anim' => 'amp-anim',
-        'amp-animation' => 'amp-animation',
-        'amp-apester-media' => 'amp-apester-media',
-        'amp-app-banner' => 'amp-app-banner',
-        'amp-audio' => 'amp-audio',
-        'amp-bind' => 'amp-bind',
-        'amp-brid-player' => 'amp-brid-player',
-        'amp-brightcove' => 'amp-brightcove',
-        'amp-carousel' => 'amp-carousel',
-        'amp-dailymotion' => 'amp-dailymotion',
-        'amp-dynamic-css-classes' => 'amp-dynamic-css-classes',
-        'amp-experiment' => 'amp-experiment',
-        'amp-facebook' => 'amp-facebook',
-        'amp-fit-text' => 'amp-fit-text',
-        'amp-font' => 'amp-font',
-        'amp-form' => 'amp-form',
-        'amp-fx-flying-carpet' => 'amp-fx-flying-carpet',
-        'amp-gfycat' => 'amp-gfycat',
-        'amp-google-vrview-image' => 'amp-google-vrview-image',
-        'amp-hulu' => 'amp-hulu',
-        'amp-iframe' => 'amp-iframe',
-        'amp-image-lightbox' => 'amp-image-lightbox',
-        'amp-instagram' => 'amp-instagram',
-        'amp-install-serviceworker' => 'amp-install-serviceworker',
-        'amp-jwplayer' => 'amp-jwplayer',
-        'amp-kaltura-player' => 'amp-kaltura-player',
-        'amp-lightbox' => 'amp-lightbox',
-        'amp-list' => 'amp-list',
-        'amp-live-list' => 'amp-live-list',
-        'amp-mustache' => 'amp-mustache',
-        'amp-o2-player' => 'amp-o2-player',
-        'amp-ooyala-player' => 'amp-ooyala-player',
-        'amp-pinterest' => 'amp-pinterest',
-        'amp-playbuzz' => 'amp-playbuzz',
-        'amp-reach-player' => 'amp-reach-player',
-        'amp-reddit' => 'amp-reddit',
-        'amp-selector' => 'amp-selector',
-        'amp-share-tracking' => 'amp-share-tracking',
-        'amp-sidebar' => 'amp-sidebar',
-        'amp-social-share' => 'amp-social-share',
-        'amp-soundcloud' => 'amp-soundcloud',
-        'amp-springboard-player' => 'amp-springboard-player',
-        'amp-sticky-ad' => 'amp-sticky-ad',
-        'amp-twitter' => 'amp-twitter',
-        'amp-user-notification' => 'amp-user-notification',
-        'amp-video' => 'amp-video',
-        'amp-vimeo' => 'amp-vimeo',
-        'amp-vine' => 'amp-vine',
-        'amp-viz-vega' => 'amp-viz-vega',
-        'amp-youtube' => 'amp-youtube',
+        'amp-access-laterpay' => [
+            'component' => 'amp-access-laterpay',
+            'version' => '0.1',
+        ],
+        'amp-access' => [
+            'component' => 'amp-access',
+            'version' => '0.1',
+        ],
+        'amp-accordion' => [
+            'component' => 'amp-accordion',
+            'version' => '0.1',
+        ],
+        'amp-ad' => [
+            'component' => 'amp-ad',
+            'version' => '0.1',
+        ],
+        'amp-analytics' => [
+            'component' => 'amp-analytics',
+            'version' => '0.1',
+        ],
+        'amp-anim' => [
+            'component' => 'amp-anim',
+            'version' => '0.1',
+        ],
+        'amp-animation' => [
+            'component' => 'amp-animation',
+            'version' => '0.1',
+        ],
+        'amp-apester-media' => [
+            'component' => 'amp-apester-media',
+            'version' => '0.1',
+        ],
+        'amp-app-banner' => [
+            'component' => 'amp-app-banner',
+            'version' => '0.1',
+        ],
+        'amp-audio' => [
+            'component' => 'amp-audio',
+            'version' => '0.1',
+        ],
+        'amp-bind' => [
+            'amp-bind',
+        ],
+        'amp-brid-player' => [
+            'component' => 'amp-brid-player',
+            'version' => '0.1',
+        ],
+        'amp-brightcove' => [
+            'component' => 'amp-brightcove',
+            'version' => '0.1',
+        ],
+        'amp-carousel' => [
+            'component' => 'amp-carousel',
+            'version' => '0.1',
+        ],
+        'amp-dailymotion' => [
+            'component' => 'amp-dailymotion',
+            'version' => '0.1',
+        ],
+        'amp-dynamic-css-classes' => [
+            'component' => 'amp-dynamic-css-classes',
+            'version' => '0.1',
+        ],
+        'amp-experiment' => [
+            'component' => 'amp-experiment',
+            'version' => '0.1',
+        ],
+        'amp-facebook' => [
+            'amp-facebook',
+        ],
+        'amp-fit-text' => [
+            'component' => 'amp-fit-text',
+            'version' => '0.1',
+        ],
+        'amp-font' => [
+            'component' => 'amp-font',
+            'version' => '0.1',
+        ],
+        'amp-form' => [
+            'component' => 'amp-form',
+            'version' => '0.1',
+        ],
+        'amp-fx-flying-carpet' => [
+            'component' => 'amp-fx-flying-carpet',
+            'version' => '0.1',
+        ],
+        'amp-gfycat' => [
+            'component' => 'amp-gfycat',
+            'version' => '0.1',
+        ],
+        'amp-google-vrview-image' => [
+            'component' => 'amp-google-vrview-image',
+            'version' => '0.1',
+        ],
+        'amp-hulu' => [
+            'component' => 'amp-hulu',
+            'version' => '0.1',
+        ],
+        'amp-iframe' => [
+            'component' => 'amp-iframe',
+            'version' => '0.1',
+        ],
+        'amp-image-lightbox' => [
+            'component' => 'amp-image-lightbox',
+            'version' => '0.1',
+        ],
+        'amp-instagram' => [
+            'component' => 'amp-instagram',
+            'version' => '0.1',
+        ],
+        'amp-install-serviceworker' => [
+            'component' => 'amp-install-serviceworker',
+            'version' => '0.1',
+        ],
+        'amp-jwplayer' => [
+            'component' => 'amp-jwplayer',
+            'version' => '0.1',
+        ],
+        'amp-kaltura-player' => [
+            'component' => 'amp-kaltura-player',
+            'version' => '0.1',
+        ],
+        'amp-lightbox' => [
+            'component' => 'amp-lightbox',
+            'version' => '0.1',
+        ],
+        'amp-list' => [
+            'component' => 'amp-list',
+            'version' => '0.1',
+        ],
+        'amp-live-list' => [
+            'component' => 'amp-live-list',
+            'version' => '0.1',
+        ],
+        'amp-mustache' => [
+            'component' => 'amp-mustache',
+            'version' => '0.1',
+        ],
+        'amp-o2-player' => [
+            'component' => 'amp-o2-player',
+            'version' => '0.1',
+        ],
+        'amp-ooyala-player' => [
+            'component' => 'amp-ooyala-player',
+            'version' => '0.1',
+        ],
+        'amp-pinterest' => [
+            'component' => 'amp-pinterest',
+            'version' => '0.1',
+        ],
+        'amp-playbuzz' => [
+            'component' => 'amp-playbuzz',
+            'version' => '0.1',
+        ],
+        'amp-reach-player' => [
+            'component' => 'amp-reach-player',
+            'version' => '0.1',
+        ],
+        'amp-reddit' => [
+            'component' => 'amp-reddit',
+            'version' => '0.1',
+        ],
+        'amp-selector' => [
+            'component' => 'amp-selector',
+            'version' => '0.1',
+        ],
+        'amp-share-tracking' => [
+            'component' => 'amp-share-tracking',
+            'version' => '0.1',
+        ],
+        'amp-sidebar' => [
+            'component' => 'amp-sidebar',
+            'version' => '0.1',
+        ],
+        'amp-social-share' => [
+            'component' => 'amp-social-share',
+            'version' => '0.1',
+        ],
+        'amp-soundcloud' => [
+            'component' => 'amp-soundcloud',
+            'version' => '0.1',
+        ],
+        'amp-springboard-player' => [
+            'component' => 'amp-springboard-player',
+            'version' => '0.1',
+        ],
+        'amp-sticky-ad' => [
+            'component' => 'amp-sticky-ad',
+            'version' => '0.1',
+        ],
+        'amp-twitter' => [
+            'component' => 'amp-twitter',
+            'version' => '0.1',
+        ],
+        'amp-user-notification' => [
+            'component' => 'amp-user-notification',
+            'version' => '0.1',
+        ],
+        'amp-video' => [
+            'component' => 'amp-video',
+            'version' => '0.1',
+        ],
+        'amp-vimeo' => [
+            'component' => 'amp-vimeo',
+            'version' => '0.1',
+        ],
+        'amp-vine' => [
+            'component' => 'amp-vine',
+            'version' => '0.1',
+        ],
+        'amp-viz-vega' => [
+            'component' => 'amp-viz-vega',
+            'version' => '0.1',
+        ],
+        'amp-youtube' => [
+            'component' => 'amp-youtube',
+            'version' => '0.1',
+        ],
         /** Additional filter **/
-        'form' => 'amp-form',
+        'form' => [
+            'component' => 'amp-form',
+            'version' => '0.1',
+        ],
     ];
 
     /**
@@ -96,7 +262,7 @@ class ComponentInjection implements IAmplifyDOM
             /** @var DOMNode $subnode */
 
             if (array_key_exists(strtolower($subnode->nodeName), static::$components)) {
-                $comps[] = static::$components[strtolower($subnode->nodeName)];
+                $comps[] = strtolower($subnode->nodeName);
             }
         }
 
@@ -109,8 +275,11 @@ class ComponentInjection implements IAmplifyDOM
                 $compScript = $document->createElement('script');
 
                 $compScript->setAttributeNode(new DOMAttr('async'));
-                $compScript->setAttributeNode(new DOMAttr('custom-element', $comp));
-                $compScript->setAttributeNode(new DOMAttr('src', "https://cdn.ampproject.org/v0/{$comp}-latest.js"));
+                $compScript->setAttributeNode(new DOMAttr('custom-element', static::$components[$comp]['component']));
+                $compScript->setAttributeNode(new DOMAttr(
+                    'src',
+                    "https://cdn.ampproject.org/v0/" . static::$components[$comp]['component'] . "-" . static::$components[$comp]['version'] . ".js"
+                ));
 
                 $head->appendChild($compScript);
             }

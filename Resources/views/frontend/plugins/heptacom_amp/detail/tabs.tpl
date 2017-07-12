@@ -19,7 +19,7 @@
                                     {block name="frontend_detail_tabs_content_description_title"}
                                         <header class="tab--header">
                                             {block name="frontend_detail_tabs_content_description_title_inner"}
-                                                <a href="#" class="tab--title" title="{s name='DetailTabsDescription'}{/s}">{s name='DetailTabsDescription'}{/s}</a>
+                                                <span class="tab--title" title="{s name='DetailTabsDescription'}{/s}">{s name='DetailTabsDescription'}{/s}</span>
                                             {/block}
                                         </header>
                                     {/block}
@@ -47,11 +47,11 @@
                                         {block name="frontend_detail_tabs_rating_title"}
                                             <header class="tab--header">
                                                 {block name="frontend_detail_tabs_rating_title_inner"}
-                                                    <a href="#" class="tab--title" title="{s name='DetailTabsRating'}{/s}">{s name='DetailTabsRating'}{/s}
+                                                    <span class="tab--title" title="{s name='DetailTabsRating'}{/s}">{s name='DetailTabsRating'}{/s}
                                                         {block name="frontend_detail_tabs_rating_title_count"}
                                                             <span class="product--rating-count">{$sArticle.sVoteAverage.count}</span>
                                                         {/block}
-                                                    </a>
+                                                    </span>
                                                 {/block}
                                             </header>
                                         {/block}
