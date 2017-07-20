@@ -77,7 +77,7 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                     }
                 } catch (\Exception $exception) {
                     // TODO: log
-                    $this->pluginLogger->error('Error while amplifying output', [$ex]);
+                    $this->pluginLogger->error('Error while amplifying output', [$exception]);
                 }
             }
 

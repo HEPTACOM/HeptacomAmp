@@ -2,7 +2,6 @@
 
 use HeptacomAmp\Components\PluginDependencies;
 use Shopware\Components\CSRFWhitelistAware;
-use Shopware\Components\Routing\Router;
 
 class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
@@ -19,14 +18,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
             'index',
             'validator',
         ];
-    }
-
-    /**
-     * @return Router
-     */
-    private function getRouter()
-    {
-        return $this->container->get('router');
     }
 
     /**

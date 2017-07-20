@@ -8,7 +8,6 @@ use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Shop\Shop;
-use Shopware\Models\Site\Site;
 
 /**
  * Class Shopware_Controllers_Backend_HeptacomAmpOverviewData
@@ -32,25 +31,9 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     /**
      * @return EntityRepository
      */
-    private function getArticleRepository()
-    {
-        return $this->container->get('models')->getRepository(Article::class);
-    }
-
-    /**
-     * @return EntityRepository
-     */
     private function getShopRepository()
     {
         return $this->container->get('models')->getRepository(Shop::class);
-    }
-
-    /**
-     * @return EntityRepository
-     */
-    private function getCustomRepository()
-    {
-        return $this->container->get('models')->getRepository(Site::class);
     }
 
     /**
@@ -67,6 +50,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function createRouter(Shop $shop)
     {
+        /** @var Router $router */
         $router = $this->container->get('router');
         /** @var $config \Shopware_Components_Config */
         $config = $this->container->get('config');

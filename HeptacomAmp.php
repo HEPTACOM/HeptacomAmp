@@ -4,13 +4,11 @@ namespace HeptacomAmp;
 
 use Enlight_Controller_Request_Request;
 use Enlight_Event_EventArgs;
-use Exception;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
-use Shopware_Components_License;
 
 class HeptacomAmp extends Plugin
 {
@@ -36,14 +34,6 @@ class HeptacomAmp extends Plugin
     public function update(UpdateContext $context)
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
-    }
-
-    /**
-     * @param InstallContext $context
-     */
-    public function install(InstallContext $context)
-    {
-        parent::install($context);
     }
 
     /**
