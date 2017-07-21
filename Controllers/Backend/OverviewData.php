@@ -1,12 +1,13 @@
 <?php
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
 use Shopware\Models\Category\Category;
+use Shopware\Models\Category\Repository as CategoryRepository;
+use Shopware\Models\Shop\Repository as ShopRepository;
 use Shopware\Models\Shop\Shop;
 
 /**
@@ -29,7 +30,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @return EntityRepository
+     * @return ShopRepository
      */
     private function getShopRepository()
     {
@@ -37,7 +38,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @return EntityRepository
+     * @return CategoryRepository
      */
     private function getCategoryRepository()
     {
