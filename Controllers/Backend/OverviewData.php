@@ -4,7 +4,6 @@ use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Logger;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
-use Shopware\Models\Article\Article;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
 use Shopware\Models\Shop\Repository as ShopRepository;
