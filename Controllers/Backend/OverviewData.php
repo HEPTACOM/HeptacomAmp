@@ -1,7 +1,7 @@
 <?php
 
-use Doctrine\ORM\Query;
 use Shopware\Components\CSRFWhitelistAware;
+use Shopware\Components\Logger;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
@@ -124,38 +124,116 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @param Shop $shop
-     * @return bool
+     * @return array
      */
-    private static function discoverableShop(Shop $shop)
+    private function getDiscoverableShops()
     {
-        $newCategories = [$shop->getCategory()];
+        $sql = <<<EOL
+SELECT DISTINCT shops.id, shops.name
+FROM s_core_shops shops
+INNER JOIN s_categories categories ON categories.path LIKE concat('%|',  shops.category_id, '|%') OR shops.category_id = categories.id
+INNER JOIN s_articles_categories article_categories ON article_categories.categoryID = categories.id
+INNER JOIN s_articles articles ON articles.id = article_categories.articleID
+INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
+WHERE articles.active = 1
+AND (articles.available_from IS NULL || articles.available_from <= CURRENT_TIMESTAMP)
+AND (articles.available_to IS NULL || articles.available_to >= CURRENT_TIMESTAMP)
+AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> '';
+EOL;
 
-        while (!empty($newCategories)) {
-            $newerCategories = [];
+        try {
+            $shops = $this->getModelManager()->getConnection()->executeQuery($sql)->fetchAll();
 
-            foreach ($newCategories as $category) {
-                /** @var Category $category */
-
-                if ($category->getActive()) {
-                    if (!$category->getArticles()->isEmpty()) {
-                        foreach ($category->getArticles() as $article) {
-                            if (static::discoverableArticles($article)) {
-                                return true;
-                            }
-                        }
-                    }
-
-                    foreach ($category->getChildren() as $subCategory) {
-                        $newerCategories[] = $subCategory;
-                    }
-                }
+            foreach ($shops as &$shop) {
+                $shop = [
+                    'id' => (int) $shop['id'],
+                    'name' => (string) $shop['name'],
+                ];
             }
 
-            $newCategories = $newerCategories;
-        }
+            return $shops;
+        } catch (Exception $exception) {
+            /** @var Logger $logger */
+            $logger = $this->get('pluginlogger');
+            $logger->error($exception->getMessage());
 
-        return false;
+            return [];
+        }
+    }
+
+    /**
+     * @param Shop $shop
+     * @return array
+     */
+    private function getDiscoverableCategories(Shop $shop)
+    {
+        $sql = <<<EOL
+SELECT DISTINCT categories.id, categories.description name
+FROM s_core_shops shops
+INNER JOIN s_categories categories ON categories.path LIKE concat('%|',  shops.category_id, '|%')
+INNER JOIN s_articles_categories article_categories ON article_categories.categoryID = categories.id
+INNER JOIN s_articles articles ON articles.id = article_categories.articleID
+INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
+WHERE articles.active = 1
+AND (articles.available_from IS NULL || articles.available_from <= CURRENT_TIMESTAMP)
+AND (articles.available_to IS NULL || articles.available_to >= CURRENT_TIMESTAMP)
+AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> ''
+AND shops.id = :shopId;
+EOL;
+
+        try {
+            $categories = $this->getModelManager()->getConnection()->executeQuery($sql, ['shopId' => $shop->getId()])->fetchAll();
+
+            foreach ($categories as &$category) {
+                $category = [
+                    'id' => (int) $category['id'],
+                    'name' => (string) $category['name'],
+                ];
+            }
+
+            return $categories;
+        } catch (Exception $exception) {
+            /** @var Logger $logger */
+            $logger = $this->get('pluginlogger');
+            $logger->error($exception->getMessage());
+
+            return [];
+        }
+    }
+
+    private function getDiscoverableArticles(Category $category)
+    {
+        $sql = <<<EOL
+SELECT DISTINCT article.id, article.name
+FROM s_articles article
+  INNER JOIN s_articles_categories sac ON article.id = sac.articleID
+  INNER JOIN s_categories category ON category.id = sac.categoryID
+  INNER JOIN s_articles_details detail ON detail.id = article.main_detail_id
+WHERE article.active = 1
+  AND (article.available_from IS NULL OR article.available_from <= CURRENT_TIMESTAMP)
+  AND (article.available_to IS NULL OR article.available_to >= CURRENT_TIMESTAMP)
+  AND detail.ordernumber IS NOT NULL AND TRIM(detail.ordernumber) <> ''
+  AND category.id = :categoryId
+EOL;
+
+        try {
+            $articles = $this->getModelManager()->getConnection()->executeQuery($sql, ['categoryId' => $category->getId()])->fetchAll();
+
+            foreach ($articles as &$article) {
+                $article = [
+                    'id' => (int) $article['id'],
+                    'name' => (string) $article['name'],
+                ];
+            }
+
+            return $articles;
+        } catch (Exception $exception) {
+            /** @var Logger $logger */
+            $logger = $this->get('pluginlogger');
+            $logger->error($exception->getMessage());
+
+            return [];
+        }
     }
 
     /**
@@ -163,25 +241,11 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     public function getShopsAction()
     {
-        $shops = $this->getShopRepository()
-                      ->createQueryBuilder('shops')
-                      ->andWhere('shops.active = 1')
-                      ->getQuery()
-                      ->getResult(Query::HYDRATE_OBJECT);
-
-        $rawShops = [];
-        $shops = array_filter($shops, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableShop']);
-
-        foreach ($shops as $shop) {
-            /** @var Shop $shop */
-
-            $rawShops[] = [
-                'id' => $shop->getId(),
-                'name' => $shop->getName(),
-            ];
+        if (empty($shops = $this->getDiscoverableShops())) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+        } else {
+            $this->View()->assign(['success' => true, 'data' => $shops]);
         }
-
-        $this->View()->assign(['success' => true, 'data' => $rawShops]);
     }
 
     /**
@@ -189,40 +253,12 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     public function getCategoriesAction()
     {
-        $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
-
-        $rawCategories = [];
-        $newCategories = [$shop->getCategory()];
-
-        while (!empty($newCategories)) {
-            $newerCategories = [];
-
-            foreach ($newCategories as $category) {
-                /** @var Category $category */
-
-                if ($category->getActive()) {
-                    if (!$category->getArticles()->isEmpty()) {
-                        foreach ($category->getArticles() as $article) {
-                            if (static::discoverableArticles($article)) {
-                                $rawCategories[] = [
-                                    'id' => $category->getId(),
-                                    'name' => $category->getName(),
-                                ];
-                                break;
-                            }
-                        }
-                    }
-
-                    foreach ($category->getChildren() as $subCategory) {
-                        $newerCategories[] = $subCategory;
-                    }
-                }
-            }
-
-            $newCategories = $newerCategories;
+        /** @var Shop $shop */
+        if (($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) === null) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+        } else {
+            $this->View()->assign(['success' => true, 'data' => $this->getDiscoverableCategories($shop)]);
         }
-
-        $this->View()->assign(['success' => true, 'data' => $rawCategories]);
     }
 
     /**
@@ -236,24 +272,25 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $category = $this->getCategoryRepository()->find($this->Request()->getParam('category'));
         $router = $this->createRouter($shop);
 
-        /** @var Article[] $articles */
-        $articles = $category->getArticles()->toArray();
-
-        $filteredArticles = array_filter($articles, [Shopware_Controllers_Backend_HeptacomAmpOverviewData::class, 'discoverableArticles']);
         $result = [];
+        $articles = $this->getDiscoverableArticles($category);
 
-        foreach ($filteredArticles as &$article) {
+        foreach ($articles as &$article) {
             $result[] = [
-                'name' => $article->getName(),
-                'test_url' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId(), 'amp' => 1]),
+                'name' => $article['name'],
+                'test_url' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
                 'urls' => [
-                    'mobile' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId(), 'amp' => 1]),
-                    'desktop' => $this->getUrl($router, 'detail', ['sArticle' => $article->getId()])
+                    'mobile' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
+                    'desktop' => $this->getUrl($router, 'detail', ['sArticle' => $article['id']])
                 ],
             ];
         }
 
-        $this->View()->assign(['success' => true, 'data' => $result]);
+        if (empty($result)) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+        } else {
+            $this->View()->assign(['success' => true, 'data' => $result]);
+        }
     }
 
     /// TODO undo 4037b1c9780ed0faaa18192ee4157bf203981bd4 for customs and categories in cache warming
