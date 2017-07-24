@@ -54,6 +54,11 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         $router = $this->container->get('router');
         /** @var $config \Shopware_Components_Config */
         $config = $this->container->get('config');
+
+        if ($shop->getBaseUrl() === null) {
+            $shop->setBaseUrl($shop->getBasePath());
+        }
+
         // Register the shop (we're to soon)
         $config->setShop($shop);
 
