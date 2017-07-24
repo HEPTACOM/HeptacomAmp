@@ -71,4 +71,7 @@
         <changes lang="de">IonCube-Verschlüsselung entfernt</changes>
         <changes lang="de">Veröffentlichung auf Github</changes>
     </changelog>
+    <changelog version="2.1.5">
+        <changes lang="de">Performance-Optimierungen im Backend-Modul</changes>
+    </changelog>
 </plugin>
