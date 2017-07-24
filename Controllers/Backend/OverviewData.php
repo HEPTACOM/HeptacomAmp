@@ -94,36 +94,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @param Article $article
-     * @return bool
-     */
-    private static function discoverableArticles(Article $article)
-    {
-        if (is_null($article)) {
-            return false;
-        }
-
-        if ($article->getCategories()->count() == 0) {
-            return false;
-        }
-
-        if (!$article->getActive()) {
-            return false;
-        }
-
-        $now = new DateTime();
-        if (!is_null($article->getAvailableFrom()) && $now < $article->getAvailableFrom()) {
-            return false;
-        }
-
-        if (!is_null($article->getAvailableTo()) && $now > $article->getAvailableTo()) {
-            return false;
-        }
-
-        return !is_null($article->getMainDetail()) && !empty($article->getMainDetail()->getNumber());
-    }
-
-    /**
      * @return array
      */
     private function getDiscoverableShops()
