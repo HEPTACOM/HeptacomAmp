@@ -10,3 +10,8 @@ gulp.task('build', ()  => {
         .pipe(source('KskAmpBackendApplication.js'))
         .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/js'));
 });
+
+gulp.task('fonts', () => {
+    return gulp.src('./node_modules/font-awesome/fonts/*')
+        .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/fonts'))
+});

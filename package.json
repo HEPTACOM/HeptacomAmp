@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "build": "node_modules/gulp/bin/gulp.js build",
-    "ksk_build": "node_modules/npm-run-all/bin/npm-run-all/index.js --parallel build"
+    "fonts": "node_modules/gulp/bin/gulp.js fonts",
+    "ksk_build": "node_modules/npm-run-all/bin/npm-run-all/index.js --parallel build fonts"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -10,7 +11,7 @@
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
-    "cross-env": "^3.2.3",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "npm-run-all": "^4.0.2",
