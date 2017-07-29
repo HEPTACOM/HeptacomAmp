@@ -2,8 +2,9 @@
   "private": true,
   "scripts": {
     "build": "node_modules/gulp/bin/gulp.js build",
+    "style": "node_modules/gulp/bin/gulp.js style",
     "fonts": "node_modules/gulp/bin/gulp.js fonts",
-    "ksk_build": "node_modules/npm-run-all/bin/npm-run-all/index.js --parallel build fonts"
+    "ksk_build": "node_modules/npm-run-all/bin/npm-run-all/index.js --parallel build style fonts"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
