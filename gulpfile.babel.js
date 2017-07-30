@@ -13,7 +13,12 @@ gulp.task('build', ()  => {
         .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/js'));
 });
 
-gulp.task('style', () => {
+gulp.task('assets', () => {
+    return gulp.src('./Resources/views/backend/_resources/KskAmp/BackendApplication/assets/*')
+        .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/assets'))
+});
+
+gulp.task('style', ['assets'], () => {
     return gulp.src('./Resources/views/backend/_resources/KskAmp/BackendApplication/less/app.less')
         .pipe(less())
         .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/css'));
