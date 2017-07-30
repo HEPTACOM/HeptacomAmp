@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <link type="text/css" rel="stylesheet" href="{link file="backend/ksk_amp_backend_application/css/KskAmpBackendApplication.css"}" />
+        <link type="text/css" rel="stylesheet" href="{link file="backend/ksk_amp_backend_application/css/app.css"}" />
         <script type="text/javascript" src="{link file="backend/base/frame/postmessage-api.js"}"></script>
     </head>
     <body>

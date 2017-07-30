@@ -5,6 +5,7 @@ import less from "gulp-less";
 
 gulp.task('build', ()  => {
     return browserify([
+        './node_modules/uikit/dist/js/uikit.js',
         './Resources/views/backend/_resources/KskAmp/BackendApplication/js/app.js'
     ])
         .bundle()
@@ -15,7 +16,6 @@ gulp.task('build', ()  => {
 gulp.task('style', () => {
     return gulp.src('./Resources/views/backend/_resources/KskAmp/BackendApplication/less/app.less')
         .pipe(less())
-        .pipe(source('KskAmpBackendApplication.css'))
         .pipe(gulp.dest('./Resources/views/backend/ksk_amp_backend_application/css'));
 });
 
