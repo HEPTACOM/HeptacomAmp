@@ -16,11 +16,15 @@
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "npm-run-all": "^4.0.2",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "vue": "^2.1.10",
+    "vueify": "^9.4.1",
+    "vue-router": "^2.5.3"
   },
   "browserify": {
     "transform": [
-      "babelify"
+      "babelify",
+      "vueify"
     ]
   },
   "babel": {
