@@ -1,6 +1,18 @@
 <template>
     <div>
-        <navigation></navigation>
+        <navigation>
+            <li>
+                <ul class="uk-navbar-item uk-breadcrumb">
+                    <li>
+                        <span>
+                            <i class="fa fa-bolt"></i>
+                            &nbsp;
+                            Übersicht
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </navigation>
         <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match uk-grid-large uk-padding-large" uk-grid>
             <div>
                 <div class="uk-card uk-card-default uk-card-hover">
