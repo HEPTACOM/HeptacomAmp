@@ -36,6 +36,23 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-hover">
+                    <div class="uk-card-header">
+                        <i class="fa fa-tachometer"></i>
+                        &nbsp;
+                        Cache erzeugen
+                    </div>
+                    <div class="uk-card-body">
+                        Zur Schonung der Rechenleistung werden alle Inhalte zwischengespeichert. Sollten Sie gerade Ihren Cache gelöscht haben sollten Sie nun Ihren AMP Zwischenspeicher neuerzeugen.
+                    </div>
+                    <div class="uk-card-footer">
+                        <router-link to="/cache_warmer" class="uk-button uk-button-primary">
+                            Inhalte erzeugen
+                        </router-link>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

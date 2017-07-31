@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Application from './Application.vue';
 import ViewDashboard from './views/Dashboard.vue';
+import ViewCacheWarming from './views/CacheWarming.vue';
 import ViewDependencyOverview from './views/DependencyOverview.vue';
 import ViewValidation from './views/Validation.vue';
 
@@ -11,6 +12,10 @@ const routes = [
     {
         path: '/',
         component: ViewDashboard
+    },
+    {
+        path: '/cache_warmer',
+        component: ViewCacheWarming
     },
     {
         path: '/dependencies',
