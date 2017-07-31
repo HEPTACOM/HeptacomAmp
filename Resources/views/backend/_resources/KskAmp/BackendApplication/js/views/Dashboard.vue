@@ -19,6 +19,23 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-hover">
+                    <div class="uk-card-header">
+                        <i class="fa fa-check"></i>
+                        &nbsp;
+                        Validierung
+                    </div>
+                    <div class="uk-card-body">
+                        Lassen Sie Ihre Seiten auf ihre AMP-Konformität prüfen. Nur valide Seiten werden auch von <i class="fa fa-google"></i>oogle in den Cache aufgenommen.
+                    </div>
+                    <div class="uk-card-footer">
+                        <router-link to="/validation" class="uk-button uk-button-primary">
+                            Inhalte validieren
+                        </router-link>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Application from './Application.vue';
 import ViewDashboard from './views/Dashboard.vue';
 import ViewDependencyOverview from './views/DependencyOverview.vue';
+import ViewValidation from './views/Validation.vue';
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,10 @@ const routes = [
     {
         path: '/dependencies',
         component: ViewDependencyOverview
+    },
+    {
+        path: '/validation',
+        component: ViewValidation
     }
 ];
 
