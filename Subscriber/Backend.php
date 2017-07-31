@@ -17,6 +17,7 @@ class Backend implements SubscriberInterface
     {
         return  [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_KskAmpBackendApplication' => 'onGetKskAmpBackendApplicationController',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_KskAmpBackend' => 'onGetKskAmpBackendController',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverview' => 'onGetBackendOverviewController',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverviewData' => 'onGetBackendOverviewDataController',
         ];
@@ -28,6 +29,14 @@ class Backend implements SubscriberInterface
     public function onGetKskAmpBackendApplicationController()
     {
         return join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Backend', 'KskAmpBackendApplication.php']);
+    }
+
+    /**
+     * @return string
+     */
+    public function onGetKskAmpBackendController()
+    {
+        return join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Controllers', 'Backend', 'KskAmpBackend.php']);
     }
 
     /**

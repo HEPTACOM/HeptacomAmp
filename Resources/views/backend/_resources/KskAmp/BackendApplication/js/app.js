@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Application from './Application.vue';
@@ -5,6 +6,8 @@ import ViewDashboard from './views/Dashboard.vue';
 import ViewCacheWarming from './views/CacheWarming.vue';
 import ViewDependencyOverview from './views/DependencyOverview.vue';
 import ViewValidation from './views/Validation.vue';
+
+Axios.defaults.baseURL = '../KskAmpBackend/';
 
 Vue.use(VueRouter);
 
