@@ -2,11 +2,13 @@
 
 namespace HeptacomAmp\Components\PluginDependencies;
 
+use JsonSerializable;
+
 /**
  * Class Dependency
  * @package HeptacomAmp\Components\PluginDependencies
  */
-class Dependency
+class Dependency implements JsonSerializable
 {
     /**
      * Name of the dependency.
@@ -81,5 +83,24 @@ class Dependency
     public function isOk()
     {
         return $this->ok;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return [
+            'name' => $this->getName(),
+            'valid' => $this->isOk(),
+            'version' => [
+                'current' => $this->getInstalledVersion(),
+                'required' => $this->getRequiredVersion(),
+            ],
+        ];
     }
 }
