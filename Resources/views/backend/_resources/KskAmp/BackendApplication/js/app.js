@@ -1,14 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Application from './Application.vue';
+import ViewDashboard from './views/Dashboard.vue';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter({
-    mode: 'history',
-    routes: []
-});
+const routes = [
+    {
+        path: '/',
+        component: ViewDashboard
+    }
+];
+
 new Vue({
-    router,
+    router: new VueRouter({ routes }),
     render: h => h(Application)
 }).$mount('#ksk_amp_backend_application');
