@@ -20,15 +20,25 @@
                 </ul>
             </li>
         </navigation>
+        <tree nameProperty="name" childrenProperty="categories" v-bind:data="categories"></tree>
     </div>
 </template>
 
 <script type="application/javascript">
+    import KskAmpBackend from '../lib/KskAmpBackend.js';
     import Navigation from '../components/navigation.vue';
+    import Tree from '../components/tree.vue';
 
     export default {
         components: {
-            Navigation
-        }
+            Navigation,
+            Tree
+        },
+        created: function() {
+            KskAmpBackend.categories.then(p => this.categories = p.data.data);
+        },
+        data: () => ({
+            categories: []
+        })
     }
 </script>
