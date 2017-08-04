@@ -5,7 +5,7 @@
                 <ul class="uk-navbar-item uk-breadcrumb">
                     <li>
                         <span>
-                            <i class="fa fa-bolt"></i>
+                            <f-a icon="bolt"></f-a>
                             &nbsp;
                             Übersicht
                         </span>
@@ -17,7 +17,7 @@
             <div>
                 <div class="uk-card uk-card-default uk-card-hover">
                     <div class="uk-card-header">
-                        <i class="fa fa-cog"></i>
+                        <f-a icon="cog"></f-a>
                         &nbsp;
                         Systemprüfung
                     </div>
@@ -34,12 +34,12 @@
             <div>
                 <div class="uk-card uk-card-default uk-card-hover">
                     <div class="uk-card-header">
-                        <i class="fa fa-check"></i>
+                        <f-a icon="check"></f-a>
                         &nbsp;
                         Validierung
                     </div>
                     <div class="uk-card-body">
-                        Lassen Sie Ihre Seiten auf ihre AMP-Konformität prüfen. Nur valide Seiten werden auch von <i class="fa fa-google"></i>oogle in den Cache aufgenommen.
+                        Lassen Sie Ihre Seiten auf ihre AMP-Konformität prüfen. Nur valide Seiten werden auch von <f-a icon="google"></f-a>oogle in den Cache aufgenommen.
                     </div>
                     <div class="uk-card-footer">
                         <router-link to="/validation" class="uk-button uk-button-primary">
@@ -51,7 +51,7 @@
             <div>
                 <div class="uk-card uk-card-default uk-card-hover">
                     <div class="uk-card-header">
-                        <i class="fa fa-tachometer"></i>
+                        <f-a icon="tachometer"></f-a>
                         &nbsp;
                         Cache erzeugen
                     </div>
@@ -70,10 +70,12 @@
 </template>
 
 <script type="application/javascript">
+    import FA from '../components/font-awesome.vue';
     import Navigation from '../components/navigation.vue';
 
     export default {
         components: {
+            FA,
             Navigation
         }
     }

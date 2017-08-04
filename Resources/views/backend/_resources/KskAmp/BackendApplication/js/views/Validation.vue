@@ -5,14 +5,14 @@
                 <ul class="uk-navbar-item uk-breadcrumb">
                     <li>
                         <router-link to="/">
-                            <i class="fa fa-bolt"></i>
+                            <f-a icon="bolt"></f-a>
                             &nbsp;
                             Übersicht
                         </router-link>
                     </li>
                     <li>
                         <span>
-                            <i class="fa fa-check"></i>
+                            <f-a icon="check"></f-a>
                             &nbsp;
                             Validierung
                         </span>
@@ -24,10 +24,12 @@
 </template>
 
 <script type="application/javascript">
+    import FA from '../components/font-awesome.vue';
     import Navigation from '../components/navigation.vue';
 
     export default {
         components: {
+            FA,
             Navigation
         }
     }

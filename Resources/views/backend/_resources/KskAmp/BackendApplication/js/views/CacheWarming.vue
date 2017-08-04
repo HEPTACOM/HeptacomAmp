@@ -5,14 +5,14 @@
                 <ul class="uk-navbar-item uk-breadcrumb">
                     <li>
                         <router-link to="/">
-                            <i class="fa fa-bolt"></i>
+                            <f-a icon="bolt"></f-a>
                             &nbsp;
                             Übersicht
                         </router-link>
                     </li>
                     <li>
                         <span>
-                            <i class="fa fa-tachometer"></i>
+                            <f-a icon="tachometer"></f-a>
                             &nbsp;
                             Cache erzeugen
                         </span>
@@ -29,6 +29,7 @@
 
 <script type="application/javascript">
     import KskAmpBackend from '../lib/KskAmpBackend.js';
+    import FA from '../components/font-awesome.vue';
     import CategoryCacheWarmer from '../components/category-cache-warmer.vue';
     import Dock from '../components/dock.vue';
     import Navigation from '../components/navigation.vue';
@@ -38,6 +39,7 @@
         components: {
             CategoryCacheWarmer,
             Dock,
+            FA,
             Navigation,
             Tree
         },

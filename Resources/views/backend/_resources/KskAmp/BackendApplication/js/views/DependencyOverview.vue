@@ -5,14 +5,14 @@
                 <ul class="uk-navbar-item uk-breadcrumb">
                     <li>
                         <router-link to="/">
-                            <i class="fa fa-bolt"></i>
+                            <f-a icon="bolt"></f-a>
                             &nbsp;
                             Übersicht
                         </router-link>
                     </li>
                     <li>
                         <span>
-                            <i class="fa fa-cog"></i>
+                            <f-a icon="cog"></f-a>
                             &nbsp;
                             Systemprüfung
                         </span>
@@ -49,11 +49,13 @@
 
 <script type="application/javascript">
     import KskAmpBackend from '../lib/KskAmpBackend.js';
+    import FA from '../components/font-awesome.vue';
     import Navigation from '../components/navigation.vue';
     import ResultIcon from '../components/result-icon.vue';
 
     export default {
         components: {
+            FA,
             Navigation,
             ResultIcon
         },
