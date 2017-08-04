@@ -8,7 +8,8 @@ use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
 use Shopware\Models\Category\Category;
-use Shopware\Models\Category\Repository;
+use Shopware\Models\Category\Repository as CategoryRepository;
+use Shopware\Models\Shop\Repository as ShopRepository;
 use Shopware\Models\Shop\Shop;
 
 /**
@@ -53,15 +54,18 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
      * @param Category $category
      * @return array
      */
-    private function hydrateCategory(Category $category)
+    private function hydrateCategory(Category $category, Shop $shop)
     {
         $result = [
             'id' => $category->getId(),
             'name' => $category->getName(),
+            'shop' => $shop->getId(),
         ];
 
         if (!$category->getChildren()->isEmpty()) {
-            $result['categories'] = array_map([$this, 'hydrateCategory'], $category->getChildren()->toArray());
+            $result['categories'] = array_map(function (Category $category) use ($shop) {
+                return $this->hydrateCategory($category, $shop);
+            }, $category->getChildren()->toArray());
         }
 
         return $result;
@@ -72,9 +76,14 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
      */
     private function getCategories()
     {
-        /** @var Repository $categoryRepository */
+        /** @var ShopRepository $categoryRepository */
+        $shopRepository = $this->getModelManager()->getRepository(Shop::class);
+        /** @var CategoryRepository $categoryRepository */
         $categoryRepository = $this->getModelManager()->getRepository(Category::class);
-        return array_map([$this, 'hydrateCategory'], $categoryRepository->findBy(['parent' => null]));
+
+        return array_map(function (Shop $shop) use ($categoryRepository) {
+            return $this->hydrateCategory($shop->getCategory(), $shop);
+        }, $shopRepository->findAll());
     }
 
     /**
