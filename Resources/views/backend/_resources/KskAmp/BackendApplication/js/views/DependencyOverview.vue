@@ -31,8 +31,7 @@
             <tbody>
                 <tr v-for="dependency in dependencies">
                     <td>
-                        <i class="fa fa-check-circle uk-text-success" v-if="dependency.valid"></i>
-                        <i class="fa fa-exclamation-triangle uk-text-danger" v-if="!dependency.valid"></i>
+                        <result-icon v-bind:success="dependency.valid"></result-icon>
                         &nbsp;
                         {{dependency.name}}
                     </td>
@@ -51,10 +50,12 @@
 <script type="application/javascript">
     import KskAmpBackend from '../lib/KskAmpBackend.js';
     import Navigation from '../components/navigation.vue';
+    import ResultIcon from '../components/result-icon.vue';
 
     export default {
         components: {
-            Navigation
+            Navigation,
+            ResultIcon
         },
         data: () => ({
             dependencies: []
