@@ -2,7 +2,7 @@
     <div>
         <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
             <li v-for="child in data">
-                <span v-on:click="clickItem(child)">{{child[nameProperty]}}</span>
+                <a v-on:click="clickItem(child)">{{child[nameProperty]}}</a>
                 <sub-tree v-bind:data="child[childrenProperty]" v-bind:childrenProperty="childrenProperty" v-bind:nameProperty="nameProperty" v-on:click-item="clickItem"></sub-tree>
             </li>
         </ul>
