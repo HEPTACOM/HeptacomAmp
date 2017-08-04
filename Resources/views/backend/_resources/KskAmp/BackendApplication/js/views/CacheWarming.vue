@@ -20,17 +20,21 @@
                 </ul>
             </li>
         </navigation>
-        <tree nameProperty="name" childrenProperty="categories" v-bind:data="categories"></tree>
+        <dock>
+            <tree nameProperty="name" childrenProperty="categories" v-bind:data="categories" slot="left"></tree>
+        </dock>
     </div>
 </template>
 
 <script type="application/javascript">
     import KskAmpBackend from '../lib/KskAmpBackend.js';
+    import Dock from '../components/dock.vue';
     import Navigation from '../components/navigation.vue';
     import Tree from '../components/tree.vue';
 
     export default {
         components: {
+            Dock,
             Navigation,
             Tree
         },
