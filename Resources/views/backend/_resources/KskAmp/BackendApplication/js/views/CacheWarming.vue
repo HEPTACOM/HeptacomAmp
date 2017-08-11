@@ -20,10 +20,9 @@
                 </ul>
             </li>
         </navigation>
-        <dock>
-            <tree nameProperty="name" childrenProperty="categories" v-bind:data="categories" slot="left" v-on:click-item="selectCategory"></tree>
-            <category-cache-warmer v-bind:category="selectedCategory" v-if="selectedCategory"></category-cache-warmer>
-        </dock>
+        <div class="uk-padding-large">
+            <cache-warmer header="Artikel" v-bind:items="articles" v-bind:loading="articlesLoading"></cache-warmer>
+        </div>
     </div>
 </template>
 
@@ -31,29 +30,24 @@
     import KskAmpBackend from '../lib/KskAmpBackend.js';
     import FA from '../components/font-awesome.vue';
     import CategoryCacheWarmer from '../components/category-cache-warmer.vue';
-    import Dock from '../components/dock.vue';
+    import CacheWarmer from '../components/cache-warmer.vue';
     import Navigation from '../components/navigation.vue';
     import Tree from '../components/tree.vue';
 
     export default {
         components: {
+            CacheWarmer,
             CategoryCacheWarmer,
-            Dock,
             FA,
             Navigation,
-            Tree
         },
         created: function() {
-            KskAmpBackend.categories.then(p => this.categories = p.data.data);
+            KskAmpBackend.getArticles(p => this.articles.push(...p.data.data))
+                .then(p => this.articlesLoading = false);
         },
         data: () => ({
-            categories: [],
-            selectedCategory: null
-        }),
-        methods: {
-            selectCategory(item) {
-                this.selectedCategory = item;
-            }
-        }
+            articles: [],
+            articlesLoading: true
+        })
     }
 </script>
