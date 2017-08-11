@@ -18,6 +18,11 @@ use Shopware\Models\Shop\Shop;
 class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Api_Rest implements CSRFWhitelistAware
 {
     /**
+     * @var Router[]
+     */
+    private $shopRouters = [];
+
+    /**
      * Returns a list with actions which should not be validated for CSRF protection
      *
      * @return string[]
@@ -101,34 +106,38 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
      * @param Shop $shop
      * @return Router
      */
-    private function createRouter(Shop $shop)
+    private function getRouter(Shop $shop)
     {
-        /** @var Router $router */
-        $router = $this->container->get('router');
-        /** @var $config \Shopware_Components_Config */
-        $config = $this->container->get('config');
+        if (!array_key_exists($shop->getId(), $this->shopRouters)) {
+            /** @var Router $router */
+            $router = $this->container->get('router');
+            /** @var $config \Shopware_Components_Config */
+            $config = $this->container->get('config');
 
-        if ($shop->getBaseUrl() === null) {
-            $shop->setBaseUrl($shop->getBasePath());
-        }
-
-        // Register the shop (we're to soon)
-        $config->setShop($shop);
-
-        $context = $router->getContext();
-        $newContext = Context::createFromShop($shop, $config);
-        // Reuse the host
-        if ($newContext->getHost() === null) {
-            $newContext->setHost($context->getHost());
-            $newContext->setBaseUrl($context->getBaseUrl());
-            // Reuse https
-            if (!$newContext->isSecure()) {
-                $newContext->setSecure($context->isSecure());
-                $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
+            if ($shop->getBaseUrl() === null) {
+                $shop->setBaseUrl($shop->getBasePath());
             }
+
+            // Register the shop (we're to soon)
+            $config->setShop($shop);
+
+            $context = $router->getContext();
+            $newContext = Context::createFromShop($shop, $config);
+            // Reuse the host
+            if ($newContext->getHost() === null) {
+                $newContext->setHost($context->getHost());
+                $newContext->setBaseUrl($context->getBaseUrl());
+                // Reuse https
+                if (!$newContext->isSecure()) {
+                    $newContext->setSecure($context->isSecure());
+                    $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
+                }
+            }
+            $router->setContext($newContext);
+            return  $this->shopRouters[$shop->getId()] = $router;
         }
-        $router->setContext($newContext);
-        return $router;
+
+        return  $this->shopRouters[$shop->getId()];
     }
 
 
@@ -177,7 +186,7 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
 
         /** @var Shop $shop */
         $shop = $this->getModelManager()->getRepository(Shop::class)->find($shopId);
-        $router = $this->createRouter($shop);
+        $router = $this->getRouter($shop);
 
         /** @var Article $article */
         foreach ($qb->getQuery()->getResult() as &$article) {
