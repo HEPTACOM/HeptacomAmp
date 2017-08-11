@@ -54,5 +54,22 @@ export default {
         };
 
         return fetch(null);
+    },
+
+    getArticlesPage(lastArticle) {
+        return Axios.get('getArticles', {
+            params: {
+                last_article: lastArticle
+            }
+        })
+    },
+
+    getArticles(operation) {
+        let fetch = lastArticle => this.getArticlesPage(lastArticle).then(p => {
+            operation(p);
+            return p.data.success && p.data.data && p.data.data.length ? fetch(p.data.data.slice(-1)[0].id) : p;
+        });
+
+        return fetch(null);
     }
 }

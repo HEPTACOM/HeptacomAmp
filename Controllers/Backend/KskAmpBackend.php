@@ -7,6 +7,7 @@ use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Article\Article;
+use Shopware\Models\Article\Detail;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
 use Shopware\Models\Shop\Repository as ShopRepository;
@@ -33,6 +34,7 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
             'getDependencies',
             'getCategories',
             'getArticlesByShopCategory',
+            'getArticles',
         ];
     }
 
@@ -219,6 +221,108 @@ class Shopware_Controllers_Backend_KskAmpBackend extends Shopware_Controllers_Ap
         $this->View()->assign([
             'success' => false,
             'data' => $this->getArticlesByShopCategory($shopId, $categoryId, $lastArticleId),
+        ]);
+    }
+
+    /**
+     * @param Article $article
+     * @return array
+     */
+    private function getArticleUrls(Article $article)
+    {
+        $urls = [];
+
+        /** @var Detail[] $details */
+        $details = $article->getDetails()->toArray();
+        /** @var Category[] $categories */
+        $categories = $article->getCategories()->toArray();
+        /** @var ShopRepository $shopRepo */
+        $shopRepo = $this->getModelManager()->getRepository(Shop::class);
+
+        /** @var Shop[] $shops */
+        $shopsByCategory = [];
+
+        foreach ($categories as $category) {
+            $categoryIds = array_merge(explode('|', $category->getPath()));
+            $shopQb = $shopRepo->createQueryBuilder('shop');
+            /** @var Shop[] $shops */
+            $shops = $shopQb->where($shopQb->expr()->in('shop.categoryId', $categoryIds))->getQuery()->getResult();
+
+            foreach ($shops as $shop) {
+                foreach ($details as $detail) {
+                    $params = [
+                        'sArticle' => $article->getId(),
+                        'sCategory' => $category->getId(),
+                    ];
+
+                    if ($article->getMainDetail()->getId() !== $detail->getId()) {
+                        $params['number'] = $detail->getNumber();
+                    }
+
+                    $urls[] = [
+                        'ampUrl' => static::getUrl($this->getRouter($shop), 'detail', $params + ['amp' => 1]),
+                        'canonicalUrl' => static::getUrl($this->getRouter($shop), 'detail', $params),
+                    ];
+                }
+            }
+        }
+
+        return $urls;
+    }
+
+    /**
+     * @param int|null $lastArticleId
+     * @return array
+     */
+    private function getArticles($lastArticleId = null)
+    {
+        $results = [];
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->getModelManager()
+            ->getRepository(Article::class)
+            ->createQueryBuilder('article');
+
+        $qb = $qb->orderBy('article.id')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNull('article.availableFrom'),
+                $qb->expr()->gt('article.availableFrom', $qb->expr()->literal('CURRENT_TIMESTAMP')))
+            )
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNull('article.availableTo'),
+                $qb->expr()->lt('article.availableTo', $qb->expr()->literal('CURRENT_TIMESTAMP')))
+            )
+            ->andWhere($qb->expr()->eq('article.active', 1))
+            ->setMaxResults(20);
+
+        if (!empty($lastArticleId)) {
+            $qb = $qb->andWhere($qb->expr()->gt('article.id', $lastArticleId));
+        }
+
+        /** @var Article $article */
+        foreach ($qb->getQuery()->getResult() as &$article) {
+            $articleData = [
+                'id' => $article->getId(),
+                'name' => $article->getName(),
+                'urls' => $this->getArticleUrls($article),
+            ];
+
+            $results[] = $articleData;
+        }
+
+        return $results;
+    }
+
+    /**
+     * Callable via /backend/KskAmpBackend/getArticles
+     */
+    public function getArticlesAction()
+    {
+        $lastArticleId = $this->Request()->getParam('last_article');
+
+        $this->View()->assign([
+            'success' => true,
+            'data' => $this->getArticles($lastArticleId),
         ]);
     }
 }
