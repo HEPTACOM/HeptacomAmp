@@ -5,7 +5,6 @@ namespace HeptacomAmp\Components;
 use Exception;
 use Shopware\Kernel;
 use Shopware\Models\Shop\Shop;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpKernel\Client;
 
@@ -16,25 +15,16 @@ use Symfony\Component\HttpKernel\Client;
 class DispatchSimulator
 {
     /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
      * @var Client
      */
     private $client;
 
     /**
      * DispatchSimulator constructor.
-     * @param ContainerInterface $container
+     * @param Kernel $kernel
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Kernel $kernel)
     {
-        $this->container = $container;
-
-        /** @var Kernel $kernel */
-        $kernel = $this->container->get('kernel');
         $this->client = new Client($kernel);
     }
 
