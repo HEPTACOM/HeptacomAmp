@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.1.6</version>
+    <version>2.1.7</version>
     <license>proprietary</license>
     <link>https://www.ksk-agentur.de/</link>
     <author>KSK-Agentur</author>
@@ -77,5 +77,8 @@
     <changelog version="2.1.6">
         <changes lang="de">Nutzung des obsoleten smarty-Modifiers 'rewrite' entfernt.</changes>
         <changes lang="de">'In den Warenkorb'-Knopf an 5.3 Textbausteinen angepasst.</changes>
+    </changelog>
+    <changelog version="2.1.7">
+        <changes lang="de">Bugfix: SQL-Bedingung beim Vorbereiten des Cache-Warmers</changes>
     </changelog>
 </plugin>
