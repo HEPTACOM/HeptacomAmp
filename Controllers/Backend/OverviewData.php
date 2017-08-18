@@ -110,8 +110,6 @@ INNER JOIN s_articles_categories article_categories ON article_categories.catego
 INNER JOIN s_articles articles ON articles.id = article_categories.articleID
 INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
 WHERE articles.active = 1
-AND (articles.available_from IS NULL || articles.available_from <= CURRENT_TIMESTAMP)
-AND (articles.available_to IS NULL || articles.available_to >= CURRENT_TIMESTAMP)
 AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> '';
 EOL;
 
@@ -149,8 +147,6 @@ INNER JOIN s_articles_categories article_categories ON article_categories.catego
 INNER JOIN s_articles articles ON articles.id = article_categories.articleID
 INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
 WHERE articles.active = 1
-AND (articles.available_from IS NULL || articles.available_from <= CURRENT_TIMESTAMP)
-AND (articles.available_to IS NULL || articles.available_to >= CURRENT_TIMESTAMP)
 AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> ''
 AND shops.id = :shopId;
 EOL;
@@ -184,8 +180,6 @@ FROM s_articles article
   INNER JOIN s_categories category ON category.id = sac.categoryID
   INNER JOIN s_articles_details detail ON detail.id = article.main_detail_id
 WHERE article.active = 1
-  AND (article.available_from IS NULL OR article.available_from <= CURRENT_TIMESTAMP)
-  AND (article.available_to IS NULL OR article.available_to >= CURRENT_TIMESTAMP)
   AND detail.ordernumber IS NOT NULL AND TRIM(detail.ordernumber) <> ''
   AND category.id = :categoryId
 EOL;
