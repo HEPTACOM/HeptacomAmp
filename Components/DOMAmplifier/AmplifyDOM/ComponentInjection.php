@@ -4,6 +4,7 @@ namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
 use DOMAttr;
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
@@ -249,49 +250,85 @@ class ComponentInjection implements IAmplifyDOM
     ];
 
     /**
+     * @param DOMNode $node
+     * @return string[]
+     * @internal param $comps
+     */
+    private static function findUsedComponentsByDOMTree(DOMNode $node)
+    {
+        $comps = [];
+        $nodes = new DOMNodeRecursiveIterator($node->childNodes);
+        foreach ($nodes->getRecursiveIterator() as $subnode) {
+            /** @var DOMNode $subnode */
+            if (array_key_exists(strtolower($subnode->nodeName), static::$components)) {
+                $comps[] = strtolower($subnode->nodeName);
+            }
+        }
+        return $comps;
+    }
+
+    /**
+     * @param DOMDocument $document
+     * @return DOMElement
+     */
+    private static function generateFallbackBoilerplateStyle(DOMDocument $document)
+    {
+        /** @var DOMElement $boilerplateNoscript */
+        $boilerplateNoscript = $document->createElement('noscript');
+        $boilerplateNoscriptStyle = $document->createElement('style', "body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}");
+        $boilerplateNoscriptStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+        $boilerplateNoscript->appendChild($boilerplateNoscriptStyle);
+        return $boilerplateNoscript;
+    }
+
+    /**
+     * @param DOMDocument $document
+     * @return DOMElement
+     */
+    private static function generateBoilerplateStyle(DOMDocument $document)
+    {
+        /** @var DOMElement $boilerplateStyle */
+        $boilerplateStyle = $document->createElement('style', "body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}");
+        $boilerplateStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+        return $boilerplateStyle;
+    }
+
+    /**
+     * @param DOMDocument $document
+     * @param $comp
+     * @return DOMElement
+     */
+    private static function generateComponentScriptTag(DOMDocument $document, $component)
+    {
+        /** @var DOMElement $compScript */
+        $compScript = $document->createElement('script');
+
+        $compScript->setAttributeNode(new DOMAttr('async'));
+        $compScript->setAttributeNode(new DOMAttr('custom-element', $component['component']));
+        $compScript->setAttributeNode(new DOMAttr(
+            'src',
+            "https://cdn.ampproject.org/v0/" . $component['component'] . "-" . $component['version'] . ".js"
+        ));
+        return $compScript;
+    }
+
+    /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
      * @return DOMNode The ⚡lified node.
      */
     public function amplify(DOMNode $node)
     {
-        $comps = [];
-
-        $nodes = new DOMNodeRecursiveIterator($node->childNodes);
-        foreach ($nodes->getRecursiveIterator() as $subnode) {
-            /** @var DOMNode $subnode */
-
-            if (array_key_exists(strtolower($subnode->nodeName), static::$components)) {
-                $comps[] = strtolower($subnode->nodeName);
-            }
-        }
-
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
         /** @var DOMNode $head */
         foreach ($document->getElementsByTagName('head') as $head) {
-            $boilerplateStyle = $document->createElement('style', "body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}");
-            $boilerplateStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
-            $head->appendChild($boilerplateStyle);
+            $head->appendChild(self::generateBoilerplateStyle($document));
+            $head->appendChild(self::generateFallbackBoilerplateStyle($document));
 
-            $boilerplateNoscript = $document->createElement('noscript');
-            $boilerplateNoscriptStyle = $document->createElement('style', "body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}");
-            $boilerplateNoscriptStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
-            $boilerplateNoscript->appendChild($boilerplateNoscriptStyle);
-            $head->appendChild($boilerplateNoscript);
-
-            foreach (array_unique($comps) as $comp) {
-                $compScript = $document->createElement('script');
-
-                $compScript->setAttributeNode(new DOMAttr('async'));
-                $compScript->setAttributeNode(new DOMAttr('custom-element', static::$components[$comp]['component']));
-                $compScript->setAttributeNode(new DOMAttr(
-                    'src',
-                    "https://cdn.ampproject.org/v0/" . static::$components[$comp]['component'] . "-" . static::$components[$comp]['version'] . ".js"
-                ));
-
-                $head->appendChild($compScript);
+            foreach (array_unique(self::findUsedComponentsByDOMTree($node)) as $componentTagName) {
+                $head->appendChild(self::generateComponentScriptTag($document, static::$components[$componentTagName]));
             }
 
             break;
