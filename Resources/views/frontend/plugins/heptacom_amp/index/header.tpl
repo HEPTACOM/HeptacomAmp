@@ -91,8 +91,6 @@
         {* {if $theme.additionalCssData}
             {$theme.additionalCssData}
         {/if} *}
-
-        {include file="frontend/plugins/heptacom_amp/index/amp-boilerplate.tpl"}
     {/block}
 
     {* Print Stylesheets *}

@@ -271,6 +271,16 @@ class ComponentInjection implements IAmplifyDOM
 
         /** @var DOMNode $head */
         foreach ($document->getElementsByTagName('head') as $head) {
+            $boilerplateStyle = $document->createElement('style', "body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}");
+            $boilerplateStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+            $head->appendChild($boilerplateStyle);
+
+            $boilerplateNoscript = $document->createElement('noscript');
+            $boilerplateNoscriptStyle = $document->createElement('style', "body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}");
+            $boilerplateNoscriptStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+            $boilerplateNoscript->appendChild($boilerplateNoscriptStyle);
+            $head->appendChild($boilerplateNoscript);
+
             foreach (array_unique($comps) as $comp) {
                 $compScript = $document->createElement('script');
 
