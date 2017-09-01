@@ -106,17 +106,34 @@ Vue.component('category-list', {
                 response.data.forEach(function (category) {
                     that.fetchingComponents.push(category.id);
                     category.data = createCategory();
+                    category.fetching = true;
                     that.categories.push(category);
                 });
                 that.fetching = false;
+                if (that.fetchingComponents.length)
+                    that.fetchDataCategory(that.fetchingComponents[0])
             });
         },
-        categoryFetchComplete: function (shopId) {
-            var index = this.fetchingComponents.indexOf(shopId);
+        fetchDataCategory: function (categoryId) {
+            var category = this.categories.filter(function (obj) { return obj.id === categoryId })[0];
+            var that = this;
+            heptacom.fetch(this.articlesUrl, { category: category.id, shop: this.shop.id }).done(function (response) {
+                response.data.forEach(function (article) {
+                    category.data.articles.push(article);
+                });
+                category.fetching = false;
+                that.categoryFetchComplete(category.id);
+            });
+        },
+        categoryFetchComplete: function (categoryId) {
+            var index = this.fetchingComponents.indexOf(categoryId);
             this.fetchingComponents.splice(index, 1);
 
-            if (this.fetchingComponents.length == 0 && !this.fetching) {
-                this.$emit('fetchComplete', this.shop.id);
+            if (this.fetchingComponents.length === 0) {
+                if (!this.fetching)
+                    this.$emit('fetchComplete', this.shop.id);
+            } else {
+                this.fetchDataCategory(this.fetchingComponents[0]);
             }
         },
         btnWarmupAll: function (event) {
@@ -164,49 +181,19 @@ Vue.component('category', {
     template: '<div class="row">' +
         '<div class="col-xs-4 text-ellipse">{{category.name}}</div>' +
             '<div class="col-xs-2 text-center">' +
-                '<badge :value="category.data.errors.length + category.data.success" :maximum="category.data.articles.length" :spinning="fetching" :counting="category.data.working"></badge>' +
+                '<badge :value="category.data.errors.length + category.data.success" :maximum="category.data.articles.length" :spinning="category.fetching" :counting="category.data.working"></badge>' +
             '</div>' +
             '<div class="col-xs-6">' +
                 '<progressbar :success="category.data.success" :failure="category.data.errors.length" :maximum="category.data.articles.length" :visible="true"></progressbar>' +
             '</div>' +
         '</div>' +
     '</div>',
-    data: function () {
-        return {
-            visible: false,
-            fetching: false
-        };
-    },
     props: {
         category: {
             type: Object,
-            required: true
+            required: true,
         },
-        shop: {
-            type: Object,
-            required: true
-        },
-        articlesUrl: {
-            type: String,
-            required: true
-        }
     },
-    mounted: function () {
-        this.fetchData();
-    },
-    methods: {
-        fetchData: function () {
-            var that = this;
-            that.fetching = true;
-            heptacom.fetch(that.articlesUrl, { category: that.category.id, shop: that.shop.id }).done(function (response) {
-                response.data.forEach(function (article) {
-                    that.category.data.articles.push(article);
-                });
-                that.fetching = false;
-                that.$emit('fetchComplete', that.category.id);
-            });
-        }
-    }
 });
 
 Vue.component('progressbar', {
