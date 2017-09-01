@@ -40,17 +40,20 @@ Vue.component('shop-list', {
         }
     },
     mounted: function() {
-        var that = this;
-        that.fetching = true;
-        heptacom.fetch(that.shopsUrl, {}).done(function (response) {
-            response.data.forEach(function (shop) {
-                that.shops.push(shop);
-                that.fetchingComponents.push(shop.id);
-            });
-            that.fetching = false;
-        });
+        this.fetchData();
     },
     methods: {
+        fetchData: function() {
+            var that = this;
+            that.fetching = true;
+            heptacom.fetch(that.shopsUrl, {}).done(function (response) {
+                response.data.forEach(function (shop) {
+                    that.shops.push(shop);
+                    that.fetchingComponents.push(shop.id);
+                });
+                that.fetching = false;
+            });
+        },
         shopFetchComplete: function (shopId) {
             var index = this.fetchingComponents.indexOf(shopId);
             this.fetchingComponents.splice(index, 1);
@@ -79,16 +82,7 @@ Vue.component('category-list', {
         }
     },
     mounted: function() {
-        var that = this;
-        that.fetching = true;
-        heptacom.fetch(that.categoriesUrl, { shop: that.shop.id }).done(function (response) {
-            response.data.forEach(function (category) {
-                that.fetchingComponents.push(category.id);
-                category.data = createCategory();
-                that.categories.push(category);
-            });
-            that.fetching = false;
-        });
+        this.fetchData();
     },
     props: {
         shop: {
@@ -105,6 +99,18 @@ Vue.component('category-list', {
         }
     },
     methods: {
+        fetchData: function () {
+            var that = this;
+            that.fetching = true;
+            heptacom.fetch(that.categoriesUrl, { shop: that.shop.id }).done(function (response) {
+                response.data.forEach(function (category) {
+                    that.fetchingComponents.push(category.id);
+                    category.data = createCategory();
+                    that.categories.push(category);
+                });
+                that.fetching = false;
+            });
+        },
         categoryFetchComplete: function (shopId) {
             var index = this.fetchingComponents.indexOf(shopId);
             this.fetchingComponents.splice(index, 1);
