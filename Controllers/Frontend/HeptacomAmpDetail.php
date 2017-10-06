@@ -20,8 +20,8 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
 
     public function indexAction()
     {
-        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'detail', 'index.tpl']));
-
         parent::indexAction();
+
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'detail', 'index.tpl']));
     }
 }
