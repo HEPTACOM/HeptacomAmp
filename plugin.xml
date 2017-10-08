@@ -87,4 +87,8 @@
     <changelog version="2.1.9">
         <changes lang="de">Bugfix: Laden von vielen Kategorien parallel führte zum Neuladen des Shopware Backends.</changes>
     </changelog>
+    <changelog version="2.1.10">
+        <changes lang="de">Bugfix: Kompatibilität für eigene Artikeldetail-Templates hinzugefügt.</changes>
+        <changes lang="de">Bugfix: Bewerten-Link scrollt jetzt zum Bewertungsbereich.</changes>
+    </changelog>
 </plugin>
