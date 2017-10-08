@@ -1,7 +1,9 @@
 <template>
     <div class="uk-card uk-card-default">
         <div class="uk-card-badge uk-badge">
-            {{items.length}}<f-a icon="spinner" class="fa-pulse uk-margin-small-left" v-if="loading"></f-a>
+            <span v-if="processing">{{selectedIndex}}&nbsp;/&nbsp;</span>
+            {{items.length}}
+            <f-a icon="spinner" class="fa-pulse uk-margin-small-left" v-if="loading || processing"></f-a>
         </div>
         <div class="uk-card-header">
             <h3 class="uk-card-title">
@@ -14,7 +16,9 @@
             </p>
         </div>
         <div class="uk-card-footer uk-text-center">
-            <button class="uk-button uk-button-primary" v-bind:disabled="loading">Start</button>
+            <button class="uk-button uk-button-primary" v-bind:disabled="loading || processing" v-on:click="startProcessing">
+                Start
+            </button>
         </div>
     </div>
 </template>
@@ -30,6 +34,18 @@
             items: Array,
             header: String,
             loading: Boolean,
+        },
+        data: () => ({
+            processing: false,
+            processed: [],
+            selectedIndex: 0,
+        }),
+        methods: {
+            startProcessing() {
+                this.processing = true;
+                this.processed = [];
+                this.selectedIndex = 0;
+            }
         }
     }
 </script>
