@@ -4,15 +4,15 @@ class Shopware_Controllers_Frontend_HeptacomAmpListing extends Shopware_Controll
 {
     public function indexAction()
     {
-        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'listing', 'index.tpl']));
-
         parent::indexAction();
+
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'listing', 'index.tpl']));
     }
 
     public function manufacturerAction()
     {
-        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'listing', 'manufacturer.tpl']));
-
         parent::manufacturerAction();
+
+        $this->View()->loadTemplate(implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'listing', 'manufacturer.tpl']));
     }
 }
