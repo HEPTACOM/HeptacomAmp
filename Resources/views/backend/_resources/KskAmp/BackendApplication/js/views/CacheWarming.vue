@@ -29,15 +29,12 @@
 <script type="application/javascript">
     import KskAmpBackend from '../lib/KskAmpBackend.js';
     import FA from '../components/font-awesome.vue';
-    import CategoryCacheWarmer from '../components/category-cache-warmer.vue';
     import CacheWarmer from '../components/cache-warmer.vue';
     import Navigation from '../components/navigation.vue';
-    import Tree from '../components/tree.vue';
 
     export default {
         components: {
             CacheWarmer,
-            CategoryCacheWarmer,
             FA,
             Navigation,
         },
