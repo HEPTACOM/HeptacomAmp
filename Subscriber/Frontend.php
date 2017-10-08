@@ -18,9 +18,9 @@ class Frontend implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Detail' => 'handleAmp',
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'handleAmp',
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
+            'Enlight_Controller_Action_PreDispatch_Frontend_Detail' => 'handleAmp',
+            'Enlight_Controller_Action_PreDispatch_Frontend_Custom' => 'handleAmp',
+            'Enlight_Controller_Action_PreDispatch_Frontend_Listing' => 'handleAmp',
 
             'Enlight_Controller_Action_PostDispatch_Frontend_HeptacomAmpDetail' => 'fakePostDispatch',
             'Enlight_Controller_Action_PostDispatch_Frontend_HeptacomAmpCustom' => 'fakePostDispatch',
