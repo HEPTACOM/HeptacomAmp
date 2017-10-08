@@ -139,7 +139,7 @@
                     {* Product email notification *}
                     {block name="frontend_detail_index_notification"}
                         {if $sArticle.notification && $sArticle.instock <= 0 && $ShowNotification}
-                            {include file="frontend/plugins/notification/index.tpl"}
+                            {include file="frontend/plugins/heptacom_amp/plugins/notification/index.tpl"}
                         {/if}
                     {/block}
 

@@ -6,6 +6,7 @@ use Enlight_Controller_Action;
 use Enlight_Controller_Front;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
+use Enlight_Event_EventManager;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use ShopwarePlugins\SwagCustomProducts\Components\Services\TemplateServiceInterface;
 
@@ -21,6 +22,10 @@ class Frontend implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Custom' => 'handleAmp',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Listing' => 'handleAmp',
 
+            'Enlight_Controller_Action_PostDispatch_Frontend_HeptacomAmpDetail' => 'fakePostDispatch',
+            'Enlight_Controller_Action_PostDispatch_Frontend_HeptacomAmpCustom' => 'fakePostDispatch',
+            'Enlight_Controller_Action_PostDispatch_Frontend_HeptacomAmpListing' => 'fakePostDispatch',
+
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_Overview' => 'getControllerBackendOverview',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_OverviewData' => 'getControllerBackendOverviewData',
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_HeptacomAmpCustom' => 'getControllerFrontendHeptacomAmpCustom',
@@ -34,6 +39,20 @@ class Frontend implements SubscriberInterface
 
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
         ];
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function fakePostDispatch(Enlight_Event_EventArgs $args)
+    {
+        /** @var Enlight_Event_EventManager $events */
+        $events = Shopware()->Container()->get('events');
+
+        $fakeArgs = clone $args;
+        $fakeArgs->setName(str_replace('HeptacomAmp', '', $fakeArgs->getName()));
+
+        $events->notify($fakeArgs->getName(), $fakeArgs);
     }
 
     public function getControllerWidgetsHeptacomAmpListing(Enlight_Event_EventArgs $args)
