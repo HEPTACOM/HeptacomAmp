@@ -71,5 +71,17 @@ export default {
         });
 
         return fetch(null);
+    },
+
+    callHeadUrl(url) {
+        return Axios.head(url, {
+            validateStatus: function (status) {
+                return 200 <= status && status < 400;
+            }
+        });
+    },
+
+    callHeadUrls(urls) {
+        return Axios.all(urls.map(this.callHeadUrl));
     }
 }
