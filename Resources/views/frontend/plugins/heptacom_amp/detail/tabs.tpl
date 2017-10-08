@@ -45,7 +45,7 @@
 
                                         {* Rating title *}
                                         {block name="frontend_detail_tabs_rating_title"}
-                                            <header class="tab--header">
+                                            <header class="tab--header" id="content--product-reviews">
                                                 {block name="frontend_detail_tabs_rating_title_inner"}
                                                     <span class="tab--title" title="{s name='DetailTabsRating'}{/s}">{s name='DetailTabsRating'}{/s}
                                                         {block name="frontend_detail_tabs_rating_title_count"}
