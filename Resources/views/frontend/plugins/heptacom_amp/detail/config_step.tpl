@@ -55,7 +55,7 @@
 {/foreach}
 
 {block name='frontend_detail_configurator_step_reset'}
-    {include file="frontend/detail/config_reset.tpl"}
+    {include file="frontend/plugins/heptacom_amp/detail/config_reset.tpl"}
 {/block}
 
 
