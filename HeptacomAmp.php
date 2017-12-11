@@ -12,6 +12,8 @@ use Shopware\Components\Plugin\Context\UpdateContext;
 
 class HeptacomAmp extends Plugin
 {
+    const PLUGIN_NAME = 'HeptacomAmp';
+
     /**
      * @param ActivateContext $context
      */
