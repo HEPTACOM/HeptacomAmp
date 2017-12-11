@@ -1,13 +1,28 @@
 <?xml version="1.0" ?>
-
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
+        <!-- FACTORIES -->
+        <service id="heptacom_amp.factory.configuration" class="HeptacomAmp\Factory\ConfigurationFactory"/>
+
+        <!-- READERS -->
+        <service id="heptacom_amp.reader.configuration" class="HeptacomAmp\Reader\ConfigurationReader">
+            <argument type="service" id="heptacom_amp.repository.shopware.shop"/>
+            <argument type="service" id="shopware.plugin.config_reader"/>
+        </service>
+
+        <!-- REPOSITORIES -->
+        <service id="heptacom_amp.repository.shopware.shop" class="Shopware\Models\Shop\Repository">
+            <factory service="models" method="getRepository"/>
+            <argument type="string">Shopware\Models\Shop\Shop</argument>
+        </service>
+
         <!-- SUBSCRIBERS -->
         <service id="heptacom_amp.subscriber.frontend" class="HeptacomAmp\Subscriber\Frontend">
             <tag name="shopware.event_subscriber" />
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
         </service>
         <service id="heptacom_amp.subscriber.AMP" class="HeptacomAmp\Subscriber\AMP">
             <tag name="shopware.event_subscriber" />
