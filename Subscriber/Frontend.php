@@ -7,6 +7,8 @@ use Enlight_Controller_Front;
 use Enlight_Event_EventArgs;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventManager;
+use HeptacomAmp\Factory\ConfigurationFactory;
+use HeptacomAmp\Reader\ConfigurationReader;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use ShopwarePlugins\SwagCustomProducts\Components\Services\TemplateServiceInterface;
 
@@ -39,6 +41,27 @@ class Frontend implements SubscriberInterface
 
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_HeptacomAmpDetail' => 'onFrontendHeptacomAmpDetailPostDispatch',
         ];
+    }
+
+    /**
+     * @var ConfigurationReader
+     */
+    private $configurationReader;
+
+    /**
+     * @var ConfigurationFactory
+     */
+    private $configurationFactory;
+
+    /**
+     * Frontend constructor.
+     * @param ConfigurationReader $configurationReader
+     * @param ConfigurationFactory $configurationFactory
+     */
+    public function __construct(ConfigurationReader $configurationReader, ConfigurationFactory $configurationFactory)
+    {
+        $this->configurationReader = $configurationReader;
+        $this->configurationFactory = $configurationFactory;
     }
 
     /**
@@ -90,6 +113,12 @@ class Frontend implements SubscriberInterface
      */
     public function handleAmp(Enlight_Event_EventArgs $args)
     {
+        $config = $this->configurationFactory->hydrate($this->configurationReader->read(Shopware()->Shop()->getId()));
+
+        if (!$config->isActive()) {
+            return;
+        }
+
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $request = $controller->Request();

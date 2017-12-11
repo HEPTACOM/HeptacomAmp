@@ -21,6 +21,8 @@
         <!-- SUBSCRIBERS -->
         <service id="heptacom_amp.subscriber.frontend" class="HeptacomAmp\Subscriber\Frontend">
             <tag name="shopware.event_subscriber" />
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
         </service>
         <service id="heptacom_amp.subscriber.AMP" class="HeptacomAmp\Subscriber\AMP">
             <tag name="shopware.event_subscriber" />
