@@ -97,4 +97,7 @@
     <changelog version="2.1.11">
         <changes lang="de">Bugfix: Kategorie- und Inhaltsseiten waren ohne Inhalt bzw. haben einen Fehler geworfen.</changes>
     </changelog>
+    <changelog version="2.2.0">
+        <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das de- und aktivieren von AMP je Subshop.</changes>
+    </changelog>
 </plugin>
