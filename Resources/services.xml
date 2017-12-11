@@ -3,6 +3,9 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <!-- FACTORIES -->
+        <service id="heptacom_amp.factory.configuration" class="HeptacomAmp\Factory\ConfigurationFactory"/>
+
         <!-- READERS -->
         <service id="heptacom_amp.reader.configuration" class="HeptacomAmp\Reader\ConfigurationReader">
             <argument type="service" id="heptacom_amp.repository.shopware.shop"/>
