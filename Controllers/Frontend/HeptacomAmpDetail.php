@@ -26,4 +26,13 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
         $template = $this->View()->Engine()->createTemplate($templateName, null, null, $this->View()->Template(), false);
         $this->View()->setTemplate($template);
     }
+
+    public function errorAction()
+    {
+        parent::errorAction();
+
+        $templateName = implode(DIRECTORY_SEPARATOR, ['frontend', 'plugins', 'heptacom_amp', 'detail', 'error.tpl']);
+        $template = $this->View()->Engine()->createTemplate($templateName, null, null, $this->View()->Template(), false);
+        $this->View()->setTemplate($template);
+    }
 }
