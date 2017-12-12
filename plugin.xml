@@ -106,4 +106,7 @@
     <changelog version="2.2.2">
         <changes lang="de">Bugfix: Inline-Styles werden nun gefiltert.</changes>
     </changelog>
+    <changelog version="2.2.3">
+        <changes lang="de">Bugfix: Fehlendes Template für nicht verfügbare Artikel hinzugefügt.</changes>
+    </changelog>
 </plugin>
