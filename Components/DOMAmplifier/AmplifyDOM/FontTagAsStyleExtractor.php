@@ -6,6 +6,7 @@ use DOMDocument;
 use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
+use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
 /*
  * Class FontTagAsStyleExtractor
@@ -14,6 +15,20 @@ use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 class FontTagAsStyleExtractor implements IAmplifyDOM
 {
     /**
+     * @var StyleStorage
+     */
+    private $styleStorage;
+
+    /**
+     * StyleExtractor constructor.
+     * @param StyleStorage $styleStorage
+     */
+    public function __construct(StyleStorage $styleStorage)
+    {
+        $this->styleStorage = $styleStorage;
+    }
+
+    /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
      * @return DOMNode The ⚡lified node.
@@ -21,8 +36,6 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
     function amplify(DOMNode $node)
     {
         $cssIndex = 0;
-
-        $styles = [];
 
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
@@ -60,7 +73,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
                 }
                 $style .= " }";
 
-                $styles[] = $style;
+                $this->styleStorage->addStyle($style);
 
                 if (empty($class = $span->getAttribute('class'))) {
                     $span->setAttribute('class', $key);
@@ -72,32 +85,6 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
             $subnode->parentNode->insertBefore($span, $subnode);
             $subnode->parentNode->removeChild($subnode);
         }
-
-        $styleTags = $document->getElementsByTagName('style');
-        $tag = null;
-
-        foreach ($styleTags as $styleTag) {
-            /** @var DOMElement $styleTag */
-            if ($styleTag->hasAttribute('amp-custom')) {
-                $tag = $styleTag;
-                break;
-            }
-        }
-
-        if (is_null($tag)) {
-            foreach ($document->getElementsByTagName('head') as $head) {
-                /** @var DOMElement $head */
-                $tag = $document->createElement('style');
-                $tag->setAttributeNode($document->createAttribute('amp-custom'));
-                $head->appendChild($tag);
-
-                break;
-            }
-
-            $tag->textContent = '';
-        }
-
-        $tag->textContent = $tag->textContent.join($styles);
 
         return $node;
     }
