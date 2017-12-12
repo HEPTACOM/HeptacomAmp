@@ -140,6 +140,7 @@ class AMP implements SubscriberInterface
             $domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
             $domAmplifier->useAmplifier($styleInjector);
             $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
+            $domAmplifier->useAmplifier(new AmplifyDOM\FontTagAsStyleExtractor());
             $domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
 
 
