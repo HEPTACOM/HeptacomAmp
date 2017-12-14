@@ -136,11 +136,11 @@ class AMP implements SubscriberInterface
             $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
             $domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\FontTagAsStyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
             $domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
             $domAmplifier->useAmplifier($styleInjector);
-            $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
-            $domAmplifier->useAmplifier(new AmplifyDOM\FontTagAsStyleExtractor());
             $domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
 
 
