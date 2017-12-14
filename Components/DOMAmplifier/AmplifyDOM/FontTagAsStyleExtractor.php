@@ -44,15 +44,17 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         foreach ($document->getElementsByTagName('font') as $subnode) {
             $styleProps = [];
 
-            if (!is_null($faceAttr = $subnode->getAttributeNode('face'))) {
+            if (($faceAttr = $subnode->getAttributeNode('face')) !== false) {
                 $styleProps['font-family'] = $faceAttr->value;
                 $subnode->removeAttributeNode($faceAttr);
             }
-            if (!is_null($sizeAttr = $subnode->getAttributeNode('size'))) {
+
+            if (($sizeAttr = $subnode->getAttributeNode('size')) !== false) {
                 $styleProps['font-size'] = static::fontSizeNumberToFontSize($sizeAttr->value);
                 $subnode->removeAttributeNode($sizeAttr);
             }
-            if (!is_null($colorAttr = $subnode->getAttributeNode('color'))) {
+
+            if (($colorAttr = $subnode->getAttributeNode('color')) !== false) {
                 $styleProps['color'] = $colorAttr->value;
                 $subnode->removeAttributeNode($colorAttr);
             }
