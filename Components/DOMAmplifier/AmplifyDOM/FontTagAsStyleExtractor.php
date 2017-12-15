@@ -44,12 +44,23 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
+        $attributeClasses = [];
+
         /** @var DOMElement $subnode */
         foreach (iterator_to_array($document->getElementsByTagName('font')) as $subnode) {
+            $attributes = $this->transformArrayToCssString($this->extractAndRemoveFontAttributes($subnode));
+
+            if (array_key_exists($attributes, $attributeClasses)) {
+                $className = $attributeClasses[$attributes];
+            } else {
+                $this->cssIndex++;
+                $attributeClasses[$attributes] = $className = "heptacom-amp-font-$this->cssIndex";
+
+                $this->styleStorage->addStyle(".$className{ $attributes }");
+            }
+
             $subnode->parentNode->insertBefore(
-                $this->generateFontReplacement(
-                    $document, $subnode->childNodes, $this->extractAndRemoveFontAttributes($subnode)
-                ),
+                $this->generateFontReplacement($document, $subnode->childNodes, $className),
                 $subnode
             );
             $subnode->parentNode->removeChild($subnode);
@@ -106,12 +117,12 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
     }
 
     /**
-     * @param $document
-     * @param $subnode
-     * @param $styleProps
+     * @param DOMDocument $document
+     * @param DOMNodeList $subnode
+     * @param string $class
      * @return mixed
      */
-    protected function generateFontReplacement(DOMDocument $document, DOMNodeList $fontChildren, array $styleProps)
+    protected function generateFontReplacement(DOMDocument $document, DOMNodeList $fontChildren, $class)
     {
         /** @var DOMElement $result */
         $result = $document->createElement('span');
@@ -121,15 +132,10 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         }
 
         if (!empty($styleProps)) {
-            $this->cssIndex++;
-            $key = "heptacom-amp-font-$this->cssIndex";
-
-            $this->styleStorage->addStyle(".$key{ " . $this->transformArrayToCssString($styleProps) . " }");
-
-            if (empty($class = $result->getAttribute('class'))) {
-                $result->setAttribute('class', $key);
+            if (empty($prevClass = $result->getAttribute('class'))) {
+                $result->setAttribute('class', $class);
             } else {
-                $result->setAttribute('class', "$class $key");
+                $result->setAttribute('class', "$prevClass $class");
             }
         }
 
