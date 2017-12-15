@@ -5,6 +5,7 @@ namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
+use DOMNodeList;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
@@ -18,6 +19,11 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
      * @var StyleStorage
      */
     private $styleStorage;
+
+    /**
+     * @var int
+     */
+    private $cssIndex = 0;
 
     /**
      * StyleExtractor constructor.
@@ -35,54 +41,17 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
      */
     function amplify(DOMNode $node)
     {
-        $cssIndex = 0;
-
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
         /** @var DOMElement $subnode */
-        foreach ($document->getElementsByTagName('font') as $subnode) {
-            $styleProps = [];
-
-            if (!is_null($faceAttr = $subnode->getAttributeNode('face'))) {
-                $styleProps['font-family'] = $faceAttr->value;
-                $subnode->removeAttributeNode($faceAttr);
-            }
-            if (!is_null($sizeAttr = $subnode->getAttributeNode('size'))) {
-                $styleProps['font-size'] = static::fontSizeNumberToFontSize($sizeAttr->value);
-                $subnode->removeAttributeNode($sizeAttr);
-            }
-            if (!is_null($colorAttr = $subnode->getAttributeNode('color'))) {
-                $styleProps['color'] = $colorAttr->value;
-                $subnode->removeAttributeNode($colorAttr);
-            }
-
-            $span = $document->createElement('span');
-
-            foreach ($subnode->childNodes as $childNode) {
-                $span->appendChild($childNode);
-            }
-
-            if (!empty($styleProps)) {
-                $cssIndex++;
-                $key = "heptacom-amp-font-$cssIndex";
-
-                $style = ".$key{ ";
-                foreach ($styleProps as $propName => $propValue) {
-                    $style .= "$propName: $propValue;";
-                }
-                $style .= " }";
-
-                $this->styleStorage->addStyle($style);
-
-                if (empty($class = $span->getAttribute('class'))) {
-                    $span->setAttribute('class', $key);
-                } else {
-                    $span->setAttribute('class', "$class $key");
-                }
-            }
-
-            $subnode->parentNode->insertBefore($span, $subnode);
+        foreach (iterator_to_array($document->getElementsByTagName('font')) as $subnode) {
+            $subnode->parentNode->insertBefore(
+                $this->generateFontReplacement(
+                    $document, $subnode->childNodes, $this->extractAndRemoveFontAttributes($subnode)
+                ),
+                $subnode
+            );
             $subnode->parentNode->removeChild($subnode);
         }
 
@@ -108,5 +77,77 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         ];
 
         return $numbers[$number];
+    }
+
+    /**
+     * @param DOMElement $subnode
+     * @return array
+     */
+    protected function extractAndRemoveFontAttributes($subnode)
+    {
+        $result = [];
+
+        if (($faceAttr = $subnode->getAttributeNode('face')) !== false) {
+            $result['font-family'] = $faceAttr->value;
+            $subnode->removeAttributeNode($faceAttr);
+        }
+
+        if (($sizeAttr = $subnode->getAttributeNode('size')) !== false) {
+            $result['font-size'] = static::fontSizeNumberToFontSize($sizeAttr->value);
+            $subnode->removeAttributeNode($sizeAttr);
+        }
+
+        if (($colorAttr = $subnode->getAttributeNode('color')) !== false) {
+            $result['color'] = $colorAttr->value;
+            $subnode->removeAttributeNode($colorAttr);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $document
+     * @param $subnode
+     * @param $styleProps
+     * @return mixed
+     */
+    protected function generateFontReplacement(DOMDocument $document, DOMNodeList $fontChildren, array $styleProps)
+    {
+        /** @var DOMElement $result */
+        $result = $document->createElement('span');
+
+        foreach ($fontChildren as $childNode) {
+            $result->appendChild($childNode);
+        }
+
+        if (!empty($styleProps)) {
+            $this->cssIndex++;
+            $key = "heptacom-amp-font-$this->cssIndex";
+
+            $this->styleStorage->addStyle(".$key{ " . $this->transformArrayToCssString($styleProps) . " }");
+
+            if (empty($class = $result->getAttribute('class'))) {
+                $result->setAttribute('class', $key);
+            } else {
+                $result->setAttribute('class', "$class $key");
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $styleProps
+     * @return string
+     */
+    protected function transformArrayToCssString(array $styleProps)
+    {
+        $result = '';
+
+        foreach ($styleProps as $propName => $propValue) {
+            $result .= "$propName: $propValue;";
+        }
+
+        return $result;
     }
 }
