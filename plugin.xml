@@ -99,14 +99,8 @@
     </changelog>
     <changelog version="2.2.0">
         <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das de- und aktivieren von AMP je Subshop.</changes>
-    </changelog>
-    <changelog version="2.2.1">
         <changes lang="de">Bugfix: Benutzung von verbotenem font-Tag in amp-valides HTML umgewandeln.</changes>
-    </changelog>
-    <changelog version="2.2.2">
         <changes lang="de">Bugfix: Inline-Styles werden nun gefiltert.</changes>
-    </changelog>
-    <changelog version="2.2.3">
         <changes lang="de">Bugfix: Fehlendes Template für nicht verfügbare Artikel hinzugefügt.</changes>
     </changelog>
 </plugin>
