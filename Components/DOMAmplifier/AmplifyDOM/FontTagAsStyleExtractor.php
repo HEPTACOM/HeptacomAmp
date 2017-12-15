@@ -99,7 +99,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         $result = [];
 
         if (($faceAttr = $subnode->getAttributeNode('face')) !== false) {
-            $result['font-family'] = $faceAttr->value;
+            $result['font-family'] = "\"$faceAttr->value\"";
             $subnode->removeAttributeNode($faceAttr);
         }
 
