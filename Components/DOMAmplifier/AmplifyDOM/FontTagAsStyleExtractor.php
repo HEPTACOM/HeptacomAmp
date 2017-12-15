@@ -45,7 +45,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
         /** @var DOMElement $subnode */
-        foreach ($document->getElementsByTagName('font') as $subnode) {
+        foreach (iterator_to_array($document->getElementsByTagName('font')) as $subnode) {
             $subnode->parentNode->insertBefore(
                 $this->generateFontReplacement(
                     $document, $subnode->childNodes, $this->extractAndRemoveFontAttributes($subnode)
