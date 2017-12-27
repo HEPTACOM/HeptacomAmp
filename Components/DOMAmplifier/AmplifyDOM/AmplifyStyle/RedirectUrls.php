@@ -35,6 +35,12 @@ class RedirectUrls implements IAmplifyStyle
             if ($value instanceof URL) {
                 /** @var URL $value */
                 $origPath = trim($value->getURL(), '"');
+
+                if (stripos($origPath, '://') !== false) {
+                    // file is referenced absolute, not relative
+                    continue;
+                }
+
                 $exploded = explode('?', $origPath);
                 $origPath = array_shift($exploded);
                 $params = empty($exploded) ? '' : '?' . array_shift($exploded);
