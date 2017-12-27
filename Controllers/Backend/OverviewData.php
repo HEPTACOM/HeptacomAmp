@@ -1,5 +1,9 @@
 <?php
 
+use Shopware\Bundle\SearchBundle\ProductSearchInterface;
+use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
+use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
+use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Logger;
 use Shopware\Components\Routing\Context;
@@ -171,30 +175,28 @@ EOL;
         }
     }
 
-    private function getDiscoverableArticles(Category $category)
+    /**
+     * @param Category $category
+     * @return array|bool|mixed
+     */
+    private function getDiscoverableArticles(Shop $shop, Category $category)
     {
-        $sql = <<<EOL
-SELECT DISTINCT article.id, article.name
-FROM s_articles article
-  INNER JOIN s_articles_categories sac ON article.id = sac.articleID
-  INNER JOIN s_categories category ON category.id = sac.categoryID
-  INNER JOIN s_articles_details detail ON detail.id = article.main_detail_id
-WHERE article.active = 1
-  AND detail.ordernumber IS NOT NULL AND TRIM(detail.ordernumber) <> ''
-  AND category.id = :categoryId
-EOL;
-
         try {
-            $articles = $this->getModelManager()->getConnection()->executeQuery($sql, ['categoryId' => $category->getId()])->fetchAll();
+            /** @var ContextServiceInterface $shopService */
+            $shopService = $this->container->get('shopware_storefront.context_service');
+            $context = $shopService->createShopContext($shop->getId());
+            /** @var StoreFrontCriteriaFactoryInterface $criteriaFactory */
+            $criteriaFactory = $this->container->get('shopware_search.store_front_criteria_factory');
+            $criteria = $criteriaFactory->createBaseCriteria([$category->getId()], $context);
+            /** @var ProductSearchInterface $productSearch */
+            $productSearch = $this->container->get('shopware_search.product_search');
 
-            foreach ($articles as &$article) {
-                $article = [
-                    'id' => (int) $article['id'],
-                    'name' => (string) $article['name'],
+            return array_map(function (ListProduct $listProduct) {
+                return [
+                    'id' => $listProduct->getId(),
+                    'name' => $listProduct->getName(),
                 ];
-            }
-
-            return $articles;
+            }, $productSearch->search($criteria, $context)->getProducts());
         } catch (Exception $exception) {
             /** @var Logger $logger */
             $logger = $this->get('pluginlogger');
@@ -241,7 +243,7 @@ EOL;
         $router = $this->createRouter($shop);
 
         $result = [];
-        $articles = $this->getDiscoverableArticles($category);
+        $articles = $this->getDiscoverableArticles($shop, $category);
 
         foreach ($articles as &$article) {
             $result[] = [
