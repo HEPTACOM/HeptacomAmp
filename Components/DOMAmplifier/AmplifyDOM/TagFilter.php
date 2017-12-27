@@ -67,6 +67,7 @@ class TagFilter implements IAmplifyDOM
                         return (stripos($node->getAttribute('href'), '//fonts.googleapis.com/css?') !== false) ||
                         (stripos($node->getAttribute('href'), '//cloud.typography.com/') !== false) ||
                         (stripos($node->getAttribute('href'), '//fast.fonts.net/') !== false) ||
+                        (stripos($node->getAttribute('href'), '//use.typekit.net/') !== false) ||
                         (stripos($node->getAttribute('href'), '//maxcdn.bootstrapcdn.com') !== false);
                     }
 
