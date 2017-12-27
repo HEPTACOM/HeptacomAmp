@@ -7,11 +7,21 @@ use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 
 /**
- * Class RemoveMicrosoftAtRules
+ * Class RemoveForbiddenAtRules
  * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle
  */
-class RemoveMicrosoftAtRules implements IAmplifyStyle
+class RemoveForbiddenAtRules implements IAmplifyStyle
 {
+    /**
+     * @var string[]
+     */
+    protected static $allowedAtRules = [
+        'font-face',
+        'keyframes',
+        'media',
+        'supports',
+    ];
+
     /**
      * Process and ⚡lifies the given node and style.
      * @param Document $styleDocument The style to ⚡lify.
@@ -22,8 +32,7 @@ class RemoveMicrosoftAtRules implements IAmplifyStyle
 
         foreach ($styleDocument->getAllRuleSets() as $ruleSet) {
             if ($ruleSet instanceof AtRuleSet) {
-                /** @var AtRuleSet $ruleSet */
-                if (stripos($ruleSet->atRuleName(), '-ms-') === 0) {
+                if (!in_array(strtolower($ruleSet->atRuleName()), self::$allowedAtRules)) {
                     $toRemove[] = $ruleSet;
                 }
             }

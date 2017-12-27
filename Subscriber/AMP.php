@@ -134,7 +134,7 @@ class AMP implements SubscriberInterface
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
             $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
             $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
-            $styleInjector->useAmplifier(new AmplifyStyle\RemoveMicrosoftAtRules());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveForbiddenAtRules());
             $domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
