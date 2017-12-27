@@ -46,6 +46,12 @@ class RedirectUrls implements IAmplifyStyle
                 $params = empty($exploded) ? '' : '?' . array_shift($exploded);
 
                 $path = realpath(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'web', 'cache', $origPath]));
+
+                if ($path === false) {
+                    // file does not exist
+                    continue;
+                }
+
                 $path = implode(DIRECTORY_SEPARATOR, [
                     Shopware()->Front()->Request()->getBaseUrl(),
                     substr($path, strlen(Shopware()->DocPath()))
