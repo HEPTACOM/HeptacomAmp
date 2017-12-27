@@ -56,11 +56,8 @@ class RedirectUrls implements IAmplifyStyle
                     Shopware()->Front()->Request()->getBaseUrl(),
                     substr($path, strlen(Shopware()->DocPath()))
                 ]);
-                if (strpos($path,
-                        implode(DIRECTORY_SEPARATOR, ['frontend', '_public', 'src', 'fonts', 'shopware'])) !== false
-                ) {
-                    $value->setURL(new CSSString($path . $params));
-                }
+
+                $value->setURL(new CSSString($path . $params));
             }
         }
     }
