@@ -47,7 +47,7 @@ class InlineStyleExtractor implements IAmplifyDOM
                 $subnode->hasAttributes() &&
                 !empty($styleAttr = $subnode->getAttribute(self::STYLE_ATTRIBUTE_KEY))) {
                 $cssIndex++;
-                $key = "heptacom-amp-inline-$cssIndex";
+                $key = "kskamp-inline-$cssIndex";
 
                 $this->styleStorage->addStyle(".$key{ $styleAttr }");
 

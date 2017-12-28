@@ -133,7 +133,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
                 $key = $this->generatedClasses[$props];
             } else {
                 $this->cssIndex++;
-                $this->generatedClasses[$props] = $key = "heptacom-amp-font-$this->cssIndex";
+                $this->generatedClasses[$props] = $key = "kskamp-font-$this->cssIndex";
                 $this->styleStorage->addStyle(".$key{ $props }");
             }
 
