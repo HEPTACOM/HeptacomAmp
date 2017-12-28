@@ -1,5 +1,7 @@
 <?php
 
+use HeptacomAmp\Factory\ConfigurationFactory;
+use HeptacomAmp\Reader\ConfigurationReader;
 use Shopware\Bundle\SearchBundle\ProductSearchInterface;
 use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
@@ -106,28 +108,23 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function getDiscoverableShops()
     {
-        $sql = <<<EOL
-SELECT DISTINCT shops.id, shops.name
-FROM s_core_shops shops
-INNER JOIN s_categories categories ON categories.path LIKE concat('%|',  shops.category_id, '|%') OR shops.category_id = categories.id
-INNER JOIN s_articles_categories article_categories ON article_categories.categoryID = categories.id
-INNER JOIN s_articles articles ON articles.id = article_categories.articleID
-INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
-WHERE articles.active = 1
-AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> '';
-EOL;
-
         try {
-            $shops = $this->getModelManager()->getConnection()->executeQuery($sql)->fetchAll();
+            /** @var ConfigurationFactory $configurationFactory */
+            $configurationFactory = $this->container->get('heptacom_amp.factory.configuration');
+            /** @var ConfigurationReader $configurationReader */
+            $configurationReader = $this->container->get('heptacom_amp.reader.configuration');
 
-            foreach ($shops as &$shop) {
-                $shop = [
-                    'id' => (int) $shop['id'],
-                    'name' => (string) $shop['name'],
+            /** @var Shop[] $shops */
+            $shops = $this->getShopRepository()->findAll();
+            $shops = array_filter($shops, function (Shop $shop) use ($configurationFactory, $configurationReader) {
+                return $configurationFactory->hydrate($configurationReader->read($shop->getId()))->isActive();
+            });
+            return array_map(function (Shop $shop) {
+                return [
+                    'id' => $shop->getId(),
+                    'name' => $shop->getName(),
                 ];
-            }
-
-            return $shops;
+            }, $shops);
         } catch (Exception $exception) {
             /** @var Logger $logger */
             $logger = $this->get('pluginlogger');
