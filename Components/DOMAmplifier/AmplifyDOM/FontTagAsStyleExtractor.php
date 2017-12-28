@@ -26,6 +26,11 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
     private $cssIndex = 0;
 
     /**
+     * @var array
+     */
+    private $generatedClasses = [];
+
+    /**
      * StyleExtractor constructor.
      * @param StyleStorage $styleStorage
      */
@@ -44,23 +49,12 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
 
-        $attributeClasses = [];
-
         /** @var DOMElement $subnode */
         foreach (iterator_to_array($document->getElementsByTagName('font')) as $subnode) {
-            $attributes = $this->transformArrayToCssString($this->extractAndRemoveFontAttributes($subnode));
-
-            if (array_key_exists($attributes, $attributeClasses)) {
-                $className = $attributeClasses[$attributes];
-            } else {
-                $this->cssIndex++;
-                $attributeClasses[$attributes] = $className = "heptacom-amp-font-$this->cssIndex";
-
-                $this->styleStorage->addStyle(".$className{ $attributes }");
-            }
-
             $subnode->parentNode->insertBefore(
-                $this->generateFontReplacement($document, $subnode->childNodes, $className),
+                $this->generateFontReplacement(
+                    $document, $subnode->childNodes, $this->extractAndRemoveFontAttributes($subnode)
+                ),
                 $subnode
             );
             $subnode->parentNode->removeChild($subnode);
@@ -94,7 +88,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
      * @param DOMElement $subnode
      * @return array
      */
-    protected function extractAndRemoveFontAttributes($subnode)
+    protected function extractAndRemoveFontAttributes(DOMElement $subnode)
     {
         $result = [];
 
@@ -118,11 +112,11 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
 
     /**
      * @param DOMDocument $document
-     * @param DOMNodeList $subnode
-     * @param string $class
+     * @param DOMNodeList $fontChildren
+     * @param array $styleProps
      * @return mixed
      */
-    protected function generateFontReplacement(DOMDocument $document, DOMNodeList $fontChildren, $class)
+    protected function generateFontReplacement(DOMDocument $document, DOMNodeList $fontChildren, array $styleProps)
     {
         /** @var DOMElement $result */
         $result = $document->createElement('span');
@@ -132,10 +126,19 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
         }
 
         if (!empty($styleProps)) {
-            if (empty($prevClass = $result->getAttribute('class'))) {
-                $result->setAttribute('class', $class);
+            $props = $this->transformArrayToCssString($styleProps);
+            if (array_key_exists($props, $this->generatedClasses)) {
+                $key = $this->generatedClasses[$props];
             } else {
-                $result->setAttribute('class', "$prevClass $class");
+                $this->cssIndex++;
+                $this->generatedClasses[$props] = $key = "heptacom-amp-font-$this->cssIndex";
+                $this->styleStorage->addStyle(".$key{ $props }");
+            }
+
+            if (empty($class = $result->getAttribute('class'))) {
+                $result->setAttribute('class', $key);
+            } else {
+                $result->setAttribute('class', "$class $key");
             }
         }
 
