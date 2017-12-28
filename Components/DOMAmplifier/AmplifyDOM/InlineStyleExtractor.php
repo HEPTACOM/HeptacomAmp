@@ -14,6 +14,10 @@ use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
  */
 class InlineStyleExtractor implements IAmplifyDOM
 {
+    const CLASS_ATTRIBUTE_KEY = 'class';
+
+    const STYLE_ATTRIBUTE_KEY = 'style';
+
     /**
      * @var StyleStorage
      */
@@ -41,18 +45,18 @@ class InlineStyleExtractor implements IAmplifyDOM
         foreach ($nodes->getRecursiveIterator() as $subnode) {
             if ($subnode instanceof DOMElement &&
                 $subnode->hasAttributes() &&
-                !empty($styleAttr = $subnode->getAttribute('style'))) {
+                !empty($styleAttr = $subnode->getAttribute(self::STYLE_ATTRIBUTE_KEY))) {
                 $cssIndex++;
                 $key = "heptacom-amp-inline-$cssIndex";
 
                 $this->styleStorage->addStyle(".$key{ $styleAttr }");
 
-                $subnode->removeAttribute('style');
+                $subnode->removeAttribute(self::STYLE_ATTRIBUTE_KEY);
 
-                if (empty($class = $subnode->getAttribute('class'))) {
-                    $subnode->setAttribute('class', $key);
+                if (empty($class = $subnode->getAttribute(self::CLASS_ATTRIBUTE_KEY))) {
+                    $subnode->setAttribute(self::CLASS_ATTRIBUTE_KEY, $key);
                 } else {
-                    $subnode->setAttribute('class', "$class $key");
+                    $subnode->setAttribute(self::CLASS_ATTRIBUTE_KEY, "$class $key");
                 }
             }
         }
