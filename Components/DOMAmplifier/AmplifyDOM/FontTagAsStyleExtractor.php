@@ -15,6 +15,8 @@ use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
  */
 class FontTagAsStyleExtractor implements IAmplifyDOM
 {
+    const CLASS_ATTRIBUTE_KEY = 'class';
+
     /**
      * @var StyleStorage
      */
@@ -135,10 +137,10 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
                 $this->styleStorage->addStyle(".$key{ $props }");
             }
 
-            if (empty($class = $result->getAttribute('class'))) {
-                $result->setAttribute('class', $key);
+            if (empty($class = $result->getAttribute(self::CLASS_ATTRIBUTE_KEY))) {
+                $result->setAttribute(self::CLASS_ATTRIBUTE_KEY, $key);
             } else {
-                $result->setAttribute('class', "$class $key");
+                $result->setAttribute(self::CLASS_ATTRIBUTE_KEY, "$class $key");
             }
         }
 
