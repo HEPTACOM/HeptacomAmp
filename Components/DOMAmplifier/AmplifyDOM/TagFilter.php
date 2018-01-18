@@ -2,7 +2,7 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
-use Closure;
+use DOMDocument;
 use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
@@ -19,6 +19,26 @@ class TagFilter implements IAmplifyDOM
     private static $whitelist;
 
     /**
+     * @param DOMNode $node
+     */
+    private static function hasChildNode(DOMNode &$node)
+    {
+        if ($node->hasChildNodes()) {
+            $removables = [];
+
+            foreach ($node->childNodes as $childNode) {
+                if (!static::filterNode($childNode)) {
+                    $removables[] = $childNode;
+                }
+            }
+
+            foreach ($removables as $childNode) {
+                $node->removeChild($childNode);
+            }
+        }
+    }
+
+    /**
      * @return array
      */
     private static function getWhitelist() {
@@ -31,12 +51,150 @@ class TagFilter implements IAmplifyDOM
                  */
                 function (DOMNode $node) {
                     return in_array(strtolower($node->nodeName), [
-                        'amp-img',
-                        'amp-video',
-                        'amp-audio',
-                        'amp-iframe',
-                        'amp-form',
-                        'svg'
+                        "html",
+                        "head",
+                        "title",
+                        "link",
+                        "meta",
+                        "style",
+                        "body",
+                        "article",
+                        "section",
+                        "nav",
+                        "aside",
+                        "h1", "h2", "h3", "h4", "h5", "h6",
+                        "header",
+                        "footer",
+                        "address",
+                        "p",
+                        "hr",
+                        "pre",
+                        "blockquote",
+                        "ol",
+                        "ul",
+                        "li",
+                        "dl",
+                        "dt",
+                        "dd",
+                        "figure",
+                        "figcaption",
+                        "div",
+                        "main",
+                        "a",
+                        "em",
+                        "strong",
+                        "small",
+                        "s",
+                        "cite",
+                        "q",
+                        "dfn",
+                        "abbr",
+                        "data",
+                        "time",
+                        "code",
+                        "var",
+                        "samp",
+                        "kbd",
+                        "sub",
+                        "sup",
+                        "i",
+                        "b",
+                        "u",
+                        "mark",
+                        "ruby",
+                        "rb",
+                        "rt",
+                        "rtc",
+                        "rp",
+                        "bdi",
+                        "bdo",
+                        "span",
+                        "br",
+                        "wbr",
+                        "ins",
+                        "del",
+                        "svg",
+                        "g",
+                        "path",
+                        "glyph",
+                        "glyphref",
+                        "marker",
+                        "view",
+                        "circle",
+                        "line",
+                        "polygon",
+                        "polyline",
+                        "rect",
+                        "text",
+                        "textpath",
+                        "tref",
+                        "tspan",
+                        "clippath",
+                        "filter",
+                        "lineargradient",
+                        "radialgradient",
+                        "mask",
+                        "pattern",
+                        "vkern",
+                        "hkern",
+                        "defs",
+                        "use",
+                        "symbol",
+                        "desc",
+                        "title",
+                        "table",
+                        "caption",
+                        "colgroup",
+                        "col",
+                        "tbody",
+                        "thead",
+                        "tfoot",
+                        "tr",
+                        "td",
+                        "th",
+                        "button",
+                        "script",
+                        "noscript",
+                        "acronym",
+                        "center",
+                        "dir",
+                        "hgroup",
+                        "listing",
+                        "multicol",
+                        "nextid",
+                        "nobr",
+                        "spacer",
+                        "strike",
+                        "tt",
+                        "xmp",
+                        "amp-img",
+                        "amp-video",
+                        "amp-ad",
+                        "amp-fit-text",
+                        "amp-font",
+                        "amp-carousel",
+                        "amp-anim",
+                        "amp-youtube",
+                        "amp-twitter",
+                        "amp-vine",
+                        "amp-instagram",
+                        "amp-iframe",
+                        "amp-pixel",
+                        "amp-audio",
+                        "amp-lightbox",
+                        "amp-image-lightbox",
+                        "amp-accordion",
+                        "amp-sidebar",
+
+                        // not in HTML5 Whitelist
+                        /* manuell */
+                        "#text",
+                        "textarea",
+                        "form",
+                        "input",
+                        "option",
+                        "select",
+                        /* manuell */
                     ]);
                 },
 
@@ -47,10 +205,10 @@ class TagFilter implements IAmplifyDOM
                  */
                 function (DOMNode $node) {
                     return strtolower($node->nodeName) == 'link' &&
-                    $node->hasAttributes() &&
-                    $node instanceof DOMElement &&
-                    !is_null($attr = $node->getAttribute('href')) &&
-                    stripos($attr, 'microformats.org/') !== false;
+                        $node->hasAttributes() &&
+                        $node instanceof DOMElement &&
+                        !is_null($attr = $node->getAttribute('href')) &&
+                        stripos($attr, 'microformats.org/') !== false;
                 },
 
                 /**
@@ -65,10 +223,10 @@ class TagFilter implements IAmplifyDOM
                         $node->getAttribute('rel') === 'stylesheet') {
 
                         return (stripos($node->getAttribute('href'), '//fonts.googleapis.com/css?') !== false) ||
-                        (stripos($node->getAttribute('href'), '//cloud.typography.com/') !== false) ||
-                        (stripos($node->getAttribute('href'), '//fast.fonts.net/') !== false) ||
-                        (stripos($node->getAttribute('href'), '//use.typekit.net/') !== false) ||
-                        (stripos($node->getAttribute('href'), '//maxcdn.bootstrapcdn.com') !== false);
+                            (stripos($node->getAttribute('href'), '//cloud.typography.com/') !== false) ||
+                            (stripos($node->getAttribute('href'), '//fast.fonts.net/') !== false) ||
+                            (stripos($node->getAttribute('href'), '//use.typekit.net/') !== false) ||
+                            (stripos($node->getAttribute('href'), '//maxcdn.bootstrapcdn.com') !== false);
                     }
 
                     return false;
@@ -81,9 +239,9 @@ class TagFilter implements IAmplifyDOM
                  */
                 function (DOMNode $node) {
                     return strtolower($node->nodeName) == 'script' &&
-                    $node->hasAttributes() &&
-                    $node instanceof DOMElement &&
-                    stripos($node->getAttribute('src'), '//cdn.ampproject.org/') !== false;
+                        $node->hasAttributes() &&
+                        $node instanceof DOMElement &&
+                        stripos($node->getAttribute('src'), '//cdn.ampproject.org/') !== false;
                 },
 
                 /**
@@ -97,7 +255,7 @@ class TagFilter implements IAmplifyDOM
                         $node->hasAttributes() &&
                         $node instanceof DOMElement) {
                         return !is_null($node->getAttributeNode('amp-boilerplate')) ||
-                        !is_null($node->getAttributeNode('amp-custom'));
+                            !is_null($node->getAttributeNode('amp-custom'));
                     }
 
                     return false;
@@ -109,94 +267,6 @@ class TagFilter implements IAmplifyDOM
     }
 
     /**
-     * @var Closure[]
-     */
-    private static $blacklist;
-
-    /**
-     * @return Closure[]
-     */
-    private static function getBlacklist() {
-        if (empty(static::$blacklist)) {
-            static::$blacklist = [
-                /**
-                 * Forbids all these tags.
-                 * @param DOMNode $node The node to validate.
-                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
-                 */
-                function (DOMNode $node) {
-                    return in_array(strtolower($node->nodeName), [
-                        'img',
-                        'video',
-                        'audio',
-                        'iframe',
-                        'script',
-                        'style',
-                        'base',
-                        'frame',
-                        'frameset',
-                        'object',
-                        'param',
-                        'applet',
-                        'embed',
-                        'include',
-                    ]);
-                },
-
-                /**
-                 * Forbids style[amp-custom] with more than 50k bytes of content.
-                 * @param DOMNode $node The node to validate.
-                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
-                 */
-                function (DOMNode $node) {
-                    return strtolower($node->nodeName) == 'style' &&
-                    $node->hasAttributes() &&
-                    $node instanceof DOMElement &&
-                    !is_null($node->getAttributeNode('amp-custom')) &&
-                    strlen($node->textContent) > 50000;
-                },
-
-                /**
-                 * Forbids every input tag of type image, password, button or file.
-                 * @param DOMNode $node The node to validate.
-                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
-                 */
-                function (DOMNode $node) {
-                    return strtolower($node->nodeName) == 'input' &&
-                    $node->hasAttributes() &&
-                    $node instanceof DOMElement &&
-                    !is_null($attr = $node->getAttribute('type')) &&
-                    in_array(strtolower($attr), [
-                        'image',
-                        'password',
-                        'button',
-                        'file'
-                    ]);
-                },
-
-                /**
-                 * Forbids links with external stylesheets.
-                 * @param DOMNode $node The node to validate.
-                 * @return boolean True, if the node is blacklisted by this rule, otherwise false.
-                 */
-                function (DOMNode $node) {
-                    return strtolower($node->nodeName) == 'link' &&
-                        $node instanceof DOMElement &&
-                        in_array(strtolower($node->getAttribute('rel')), [
-                            'stylesheet',
-                            'preconnect',
-                            'prefetch',
-                            'preload',
-                            'prerender'
-                        ]);
-                }
-            ];
-        }
-
-        return static::$blacklist;
-    }
-
-    /**
      * Validates the given node and its children against the whitelist and blacklist.
      * @param DOMNode $node The node to validate.
      * @return bool True, if the node is valid, otherwise false.
@@ -205,31 +275,11 @@ class TagFilter implements IAmplifyDOM
     {
         foreach (static::getWhitelist() as $white) {
             if ($white($node)) {
+                self::hasChildNode($node);
                 return true;
             }
         }
-
-        foreach (static::getBlacklist() as $black) {
-            if ($black($node)) {
-                return false;
-            }
-        }
-
-        if ($node->hasChildNodes()) {
-            $removables = [];
-
-            foreach ($node->childNodes as $childNode) {
-                if (!static::filterNode($childNode)) {
-                    $removables[] = $childNode;
-                }
-            }
-
-            foreach ($removables as $childNode) {
-                $node->removeChild($childNode);
-            }
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -239,7 +289,7 @@ class TagFilter implements IAmplifyDOM
      */
     public function amplify(DOMNode $node)
     {
-        static::filterNode($node);
+        static::filterNode($node instanceof DOMDocument ? $node->lastChild : $node);
         return $node;
     }
 }
