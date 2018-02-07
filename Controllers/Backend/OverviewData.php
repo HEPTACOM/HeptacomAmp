@@ -1,8 +1,7 @@
 <?php
 
-use HeptacomAmp\Factory\ConfigurationFactory;
-use HeptacomAmp\Reader\ConfigurationReader;
 use HeptacomAmp\Factory\UrlFactory;
+use HeptacomAmp\Services\Searcher\UrlSearcher;
 use Shopware\Bundle\SearchBundle\ProductSearchInterface;
 use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
@@ -26,6 +25,11 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private $urlFactory;
 
     /**
+     * @var UrlSearcher
+     */
+    private $urlSearcher;
+
+    /**
      * @return string[]
      */
     public function getWhitelistedCSRFActions()
@@ -43,6 +47,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     {
         parent::preDispatch();
         $this->urlFactory = $this->container->get('heptacom_amp.factory.url');
+        $this->urlSearcher = $this->container->get('heptacom_amp.services.searcher.url');
     }
 
     /**
@@ -59,56 +64,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private function getCategoryRepository()
     {
         return $this->container->get('models')->getRepository(Category::class);
-    }
-
-    /**
-     * @param Router $router
-     * @param string $controller
-     * @param string[] $params
-     * @param string $action
-     * @return string
-     */
-    private function getUrl(Router $router, $controller, array $params, $action = 'index')
-    {
-        return str_replace(
-            'http://',
-            'https://',
-            $router->assemble(array_merge([
-                    'module' => 'frontend',
-                    'controller' => $controller,
-                    'action' => $action
-                ], $params)));
-    }
-
-    /**
-     * @return array
-     */
-    private function getDiscoverableShops()
-    {
-        try {
-            /** @var ConfigurationFactory $configurationFactory */
-            $configurationFactory = $this->container->get('heptacom_amp.factory.configuration');
-            /** @var ConfigurationReader $configurationReader */
-            $configurationReader = $this->container->get('heptacom_amp.reader.configuration');
-
-            /** @var Shop[] $shops */
-            $shops = $this->getShopRepository()->findAll();
-            $shops = array_filter($shops, function (Shop $shop) use ($configurationFactory, $configurationReader) {
-                return $configurationFactory->hydrate($configurationReader->read($shop->getId()))->isActive();
-            });
-            return array_map(function (Shop $shop) {
-                return [
-                    'id' => $shop->getId(),
-                    'name' => $shop->getName(),
-                ];
-            }, $shops);
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
     }
 
     /**
@@ -185,7 +140,7 @@ EOL;
      */
     public function getShopsAction()
     {
-        if (empty($shops = $this->getDiscoverableShops())) {
+        if (empty($shops = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findShops()))) {
             $this->View()->assign(['success' => false, 'data' => []]);
         } else {
             $this->View()->assign(['success' => true, 'data' => $shops]);
