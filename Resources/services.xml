@@ -51,6 +51,9 @@
             <argument type="service" id="heptacom_amp.repository.shopware.shop"/>
             <argument type="service" id="heptacom_amp.repository.shopware.category"/>
             <argument type="service" id="heptacom_amp.factory.url"/>
+            <argument type="service" id="shopware_storefront.context_service"/>
+            <argument type="service" id="shopware_search.store_front_criteria_factory"/>
+            <argument type="service" id="shopware_search.product_search"/>
         </service>
     </services>
 </container>

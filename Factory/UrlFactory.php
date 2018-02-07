@@ -3,8 +3,10 @@
 namespace HeptacomAmp\Factory;
 
 use HeptacomAmp\Struct\UrlStruct;
+use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
+use Shopware\Models\Article\Detail;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Shop\Shop;
 use Shopware_Components_Config;
@@ -104,6 +106,43 @@ class UrlFactory
         ];
 
         return $this->getUrl($shop, 'frontend', 'listing', 'index', $extra);
+    }
+
+    /**
+     * @param Shop $shop
+     * @param ListProduct $listProduct
+     * @return UrlStruct
+     */
+    public function hydrateFromProduct(Shop $shop, ListProduct $listProduct)
+    {
+        return (new UrlStruct())
+            ->setId($listProduct->getId())
+            ->setName($listProduct->getName())
+            ->setUrls([
+                'canonical' => $this->getProductUrl($shop, $listProduct, false),
+                'amp' => $this->getProductUrl($shop, $listProduct, true),
+            ]);
+    }
+
+    /**
+     * @param Shop $shop
+     * @param ListProduct $listProduct
+     * @param bool $amp
+     * @return string
+     */
+    protected function getProductUrl(Shop $shop, ListProduct $listProduct, $amp)
+    {
+        $extra = [
+            'sArticle' => $listProduct->getId(),
+        ];
+
+        if ($amp) {
+            $extra = array_merge($extra, [
+                'amp' => 1,
+            ]);
+        }
+
+        return $this->getUrl($shop, 'frontend', 'detail', 'index', $extra);
     }
 
     /**
