@@ -97,9 +97,8 @@ class UrlSearcher
      */
     public function findShops()
     {
-        // TODO get only active ones
         /** @var Shop[] $shops */
-        $shops = $this->shopRepository->findAll();
+        $shops = $this->shopRepository->getActiveShops();
         $shops = array_filter($shops, [$this, 'hasShopAmpEnabled']);
         return array_map([$this->urlFactory, 'hydrateFromShop'], $shops);
     }
