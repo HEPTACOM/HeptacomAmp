@@ -5,6 +5,10 @@
     <services>
         <!-- FACTORIES -->
         <service id="heptacom_amp.factory.configuration" class="HeptacomAmp\Factory\ConfigurationFactory"/>
+        <service id="heptacom_amp.factory.url" class="HeptacomAmp\Factory\UrlFactory">
+            <argument type="service" id="router"/>
+            <argument type="service" id="config"/>
+        </service>
 
         <!-- READERS -->
         <service id="heptacom_amp.reader.configuration" class="HeptacomAmp\Reader\ConfigurationReader">
