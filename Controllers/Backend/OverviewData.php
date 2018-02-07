@@ -2,13 +2,13 @@
 
 use HeptacomAmp\Factory\ConfigurationFactory;
 use HeptacomAmp\Reader\ConfigurationReader;
+use HeptacomAmp\Factory\UrlFactory;
 use Shopware\Bundle\SearchBundle\ProductSearchInterface;
 use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Logger;
-use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
@@ -21,6 +21,11 @@ use Shopware\Models\Shop\Shop;
 class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Controllers_Api_Rest implements CSRFWhitelistAware
 {
     /**
+     * @var UrlFactory
+     */
+    private $urlFactory;
+
+    /**
      * @return string[]
      */
     public function getWhitelistedCSRFActions()
@@ -32,6 +37,12 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             'getCategories',
             'getCustoms',
         ];
+    }
+
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->urlFactory = $this->container->get('heptacom_amp.factory.url');
     }
 
     /**
@@ -48,40 +59,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private function getCategoryRepository()
     {
         return $this->container->get('models')->getRepository(Category::class);
-    }
-
-    /**
-     * @param Shop $shop
-     * @return Router
-     */
-    private function createRouter(Shop $shop)
-    {
-        /** @var Router $router */
-        $router = $this->container->get('router');
-        /** @var $config \Shopware_Components_Config */
-        $config = $this->container->get('config');
-
-        if ($shop->getBaseUrl() === null) {
-            $shop->setBaseUrl($shop->getBasePath());
-        }
-
-        // Register the shop (we're to soon)
-        $config->setShop($shop);
-
-        $context = $router->getContext();
-        $newContext = Context::createFromShop($shop, $config);
-        // Reuse the host
-        if ($newContext->getHost() === null) {
-            $newContext->setHost($context->getHost());
-            $newContext->setBaseUrl($context->getBaseUrl());
-            // Reuse https
-            if (!$newContext->isSecure()) {
-                $newContext->setSecure($context->isSecure());
-                $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
-            }
-        }
-        $router->setContext($newContext);
-        return $router;
     }
 
     /**
@@ -237,7 +214,6 @@ EOL;
         $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
         /** @var Category $category */
         $category = $this->getCategoryRepository()->find($this->Request()->getParam('category'));
-        $router = $this->createRouter($shop);
 
         $result = [];
         $articles = $this->getDiscoverableArticles($shop, $category);
@@ -245,10 +221,10 @@ EOL;
         foreach ($articles as &$article) {
             $result[] = [
                 'name' => $article['name'],
-                'test_url' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
+                'test_url' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id'], 'amp' => 1]),
                 'urls' => [
-                    'mobile' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
-                    'desktop' => $this->getUrl($router, 'detail', ['sArticle' => $article['id']])
+                    'mobile' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id'], 'amp' => 1]),
+                    'desktop' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id']])
                 ],
             ];
         }
