@@ -2,12 +2,7 @@
 
 use HeptacomAmp\Factory\UrlFactory;
 use HeptacomAmp\Services\Searcher\UrlSearcher;
-use Shopware\Bundle\SearchBundle\ProductSearchInterface;
-use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
-use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
-use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\CSRFWhitelistAware;
-use Shopware\Components\Logger;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
 use Shopware\Models\Shop\Repository as ShopRepository;
@@ -47,6 +42,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         parent::preDispatch();
         $this->urlFactory = $this->container->get('heptacom_amp.factory.url');
         $this->urlSearcher = $this->container->get('heptacom_amp.services.searcher.url');
+        $this->View()->assign(['success' => false, 'data' => []]);
     }
 
     /**
@@ -54,7 +50,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function getShopRepository()
     {
-        return $this->container->get('models')->getRepository(Shop::class);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getModelManager()->getRepository(Shop::class);
     }
 
     /**
@@ -62,7 +59,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function getCategoryRepository()
     {
-        return $this->container->get('models')->getRepository(Category::class);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getModelManager()->getRepository(Category::class);
     }
 
     /**
@@ -70,10 +68,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     public function getShopsAction()
     {
-        if (empty($shops = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findShops()))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $shops]);
+        if (!empty($shops = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findShops()))) {
+            $this->returnSuccess($shops);
         }
     }
 
@@ -83,15 +79,9 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     public function getCategoriesAction()
     {
         /** @var Shop $shop */
-        if (is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop')))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-            return;
-        }
-
-        if (empty($categories = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findCategoriesOfShop($shop)))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $categories]);
+        if (!is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) &&
+            !empty($categories = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findCategoriesOfShop($shop)))) {
+            $this->returnSuccess($categories);
         }
     }
 
@@ -101,22 +91,23 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     public function getArticlesAction()
     {
         /** @var Shop $shop */
-        if (is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop')))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-            return;
-        }
-
         /** @var Category $category */
-        if (is_null($category = $this->getCategoryRepository()->find($this->Request()->getParam('category')))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-            return;
+        if (!is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) &&
+            !is_null($category = $this->getCategoryRepository()->find($this->Request()->getParam('category'))) &&
+            !empty($articles = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findArticlesOfCategory($shop, $category)))) {
+            $this->returnSuccess($articles);
         }
+    }
 
-        if (empty($articles = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findArticlesOfCategory($shop, $category)))) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $articles]);
-        }
+    /**
+     * @param array $data
+     */
+    protected function returnSuccess(array $data)
+    {
+        $this->View()->assign([
+            'success' => true,
+            'data' => $data,
+        ]);
     }
 
     /// TODO undo 4037b1c9780ed0faaa18192ee4157bf203981bd4 for customs and categories in cache warming
