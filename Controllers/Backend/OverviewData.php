@@ -2,6 +2,7 @@
 
 use HeptacomAmp\Factory\UrlFactory;
 use HeptacomAmp\Services\Searcher\UrlSearcher;
+use HeptacomAmp\Services\WebRequest;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
@@ -24,6 +25,11 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     private $urlSearcher;
 
     /**
+     * @var WebRequest
+     */
+    private $webRequest;
+
+    /**
      * @return string[]
      */
     public function getWhitelistedCSRFActions()
@@ -34,6 +40,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             'getArticles',
             'getCategories',
             'getCustoms',
+            'pingUrl',
+            'getUrl',
         ];
     }
 
@@ -42,6 +50,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
         parent::preDispatch();
         $this->urlFactory = $this->container->get('heptacom_amp.factory.url');
         $this->urlSearcher = $this->container->get('heptacom_amp.services.searcher.url');
+        $this->webRequest = $this->container->get('heptacom_amp.services.web_request');
         $this->View()->assign(['success' => false, 'data' => []]);
     }
 
@@ -97,6 +106,31 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             !empty($articles = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findArticlesOfCategory($shop, $category)))) {
             $this->returnSuccess($articles);
         }
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/pingUrl
+     */
+    public function pingUrlAction()
+    {
+        $url = $this->Request()->getParam('url');
+        $code = $this->webRequest->ping($url);
+        $this->returnSuccess([
+            'code' => $code,
+            'url' => $url,
+        ]);
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getUrl
+     */
+    public function getUrlAction()
+    {
+        $url = $this->Request()->getParam('url');
+        $html = $this->webRequest->get($url);
+        $this->returnSuccess([
+            'html' => $html,
+        ]);
     }
 
     /**

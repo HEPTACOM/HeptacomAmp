@@ -45,7 +45,7 @@ class WebRequest
     public function get($url)
     {
         try {
-            return $this->guzzleHttpClient->get($url)->getBody()->getContents();
+            return $this->guzzleHttpClient->get($url)->getBody();
         } catch (RequestException $e) {
             return '';
         }
