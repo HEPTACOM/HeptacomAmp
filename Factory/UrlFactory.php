@@ -5,6 +5,7 @@ namespace HeptacomAmp\Factory;
 use HeptacomAmp\Struct\UrlStruct;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
+use Shopware\Models\Category\Category;
 use Shopware\Models\Shop\Shop;
 use Shopware_Components_Config;
 
@@ -69,6 +70,40 @@ class UrlFactory
     protected function getShopUrl(Shop $shop)
     {
         return $this->getUrl($shop, 'frontend', 'index', 'index');
+    }
+
+    /**
+     * @param Shop $shop
+     * @param Category $category
+     * @return UrlStruct
+     */
+    public function hydrateFromCategory(Shop $shop, Category $category)
+    {
+        return (new UrlStruct())
+            ->setId($category->getId())
+            ->setName($category->getName())
+            ->setUrls([
+                'canonical' => $this->getCategoryUrl($shop, $category, false),
+                'amp' => $this->getCategoryUrl($shop, $category, true),
+            ]);
+    }
+
+    /**
+     * @param Shop $shop
+     * @param Category $category
+     * @param bool $amp
+     * @return string
+     */
+    protected function getCategoryUrl(Shop $shop, Category $category, $amp)
+    {
+        $extra = $amp ? [
+            'sCategory' => $category->getId(),
+            'amp' => 1,
+        ] : [
+            'sCategory' => $category->getId(),
+        ];
+
+        return $this->getUrl($shop, 'frontend', 'listing', 'index', $extra);
     }
 
     /**
