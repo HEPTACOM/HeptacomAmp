@@ -98,12 +98,15 @@ class UrlFactory
      */
     protected function getCategoryUrl(Shop $shop, Category $category, $amp)
     {
-        $extra = $amp ? [
-            'sCategory' => $category->getId(),
-            'amp' => 1,
-        ] : [
+        $extra = [
             'sCategory' => $category->getId(),
         ];
+
+        if ($amp) {
+            $extra = array_merge($extra, [
+                'amp' => 1,
+            ]);
+        }
 
         return $this->getUrl($shop, 'frontend', 'listing', 'index', $extra);
     }
