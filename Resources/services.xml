@@ -41,5 +41,11 @@
         <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
             <argument type="service" id="PluginLogger" />
         </service>
+        <service id="heptacom_amp.services.searcher.url" class="HeptacomAmp\Services\Searcher\UrlSearcher">
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="heptacom_amp.repository.shopware.shop"/>
+            <argument type="service" id="heptacom_amp.factory.url"/>
+        </service>
     </services>
 </container>
