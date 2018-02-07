@@ -157,7 +157,7 @@ Vue.component('category-list', {
                         var article = that.categories[categoryId].data.articles[articleId];
 
                         heptacom.validate(
-                            article.test_url,
+                            article.urls.amp,
                             function () {
                                 ++that.successes;
                                 ++that.categories[categoryId].data.success;

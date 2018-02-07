@@ -155,8 +155,8 @@ Vue.component('category-list', {
                     if (articleId < that.categories[categoryId].data.articles.length) {
                         that.categories[categoryId].data.working = true;
                         var article = that.categories[categoryId].data.articles[articleId];
-                        heptacom.getRequest(article.test_url).done(function() {
-                            heptacom.sendUpdatePing(article.test_url);
+                        heptacom.getRequest(article.urls.amp).done(function() {
+                            heptacom.sendUpdatePing(article.urls.amp);
                             ++that.successes;
                             ++that.categories[categoryId].data.success;
                         }).fail(function() {

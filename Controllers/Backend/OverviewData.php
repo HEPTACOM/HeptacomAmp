@@ -66,37 +66,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @param Category $category
-     * @return array|bool|mixed
-     */
-    private function getDiscoverableArticles(Shop $shop, Category $category)
-    {
-        try {
-            /** @var ContextServiceInterface $shopService */
-            $shopService = $this->container->get('shopware_storefront.context_service');
-            $context = $shopService->createShopContext($shop->getId());
-            /** @var StoreFrontCriteriaFactoryInterface $criteriaFactory */
-            $criteriaFactory = $this->container->get('shopware_search.store_front_criteria_factory');
-            $criteria = $criteriaFactory->createBaseCriteria([$category->getId()], $context);
-            /** @var ProductSearchInterface $productSearch */
-            $productSearch = $this->container->get('shopware_search.product_search');
-
-            return array_map(function (ListProduct $listProduct) {
-                return [
-                    'id' => $listProduct->getId(),
-                    'name' => $listProduct->getName(),
-                ];
-            }, $productSearch->search($criteria, $context)->getProducts());
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
-    }
-
-    /**
      * Callable via /backend/HeptacomAmpOverviewData/getShops
      */
     public function getShopsAction()
@@ -132,28 +101,21 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     public function getArticlesAction()
     {
         /** @var Shop $shop */
-        $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
-        /** @var Category $category */
-        $category = $this->getCategoryRepository()->find($this->Request()->getParam('category'));
-
-        $result = [];
-        $articles = $this->getDiscoverableArticles($shop, $category);
-
-        foreach ($articles as &$article) {
-            $result[] = [
-                'name' => $article['name'],
-                'test_url' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id'], 'amp' => 1]),
-                'urls' => [
-                    'mobile' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id'], 'amp' => 1]),
-                    'desktop' => $this->urlFactory->getUrl($shop, 'frontend', 'detail', 'index', ['sArticle' => $article['id']])
-                ],
-            ];
+        if (is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop')))) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+            return;
         }
 
-        if (empty($result)) {
+        /** @var Category $category */
+        if (is_null($category = $this->getCategoryRepository()->find($this->Request()->getParam('category')))) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+            return;
+        }
+
+        if (empty($articles = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findArticlesOfCategory($shop, $category)))) {
             $this->View()->assign(['success' => false, 'data' => []]);
         } else {
-            $this->View()->assign(['success' => true, 'data' => $result]);
+            $this->View()->assign(['success' => true, 'data' => $articles]);
         }
     }
 
