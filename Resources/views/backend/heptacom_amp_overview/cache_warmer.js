@@ -12,7 +12,7 @@ Vue.component('shop-list', {
     '<h2><slot name="caption"></slot></h2>' +
         '<div v-for="shop in shops">' +
             '<h3>{{shop.name}}</h3>' +
-            '<category-list :categories-url="categoriesUrl" :articles-url="articlesUrl" :shop="shop" @fetchComplete="shopFetchComplete">' +
+            '<category-list :categories-url="categoriesUrl" :articles-url="articlesUrl" :ping-url="pingUrl" :shop="shop" @fetchComplete="shopFetchComplete">' +
                 '<template slot="button"><slot name="button"></slot></template>' +
                 '<template slot="error"><slot name="error"></slot></template>' +
             '</category-list>' +
@@ -35,6 +35,10 @@ Vue.component('shop-list', {
             required: true
         },
         articlesUrl: {
+            type: String,
+            required: true
+        },
+        pingUrl: {
             type: String,
             required: true
         }
@@ -96,6 +100,10 @@ Vue.component('category-list', {
         articlesUrl: {
             type: String,
             required: true
+        },
+        pingUrl: {
+            type: String,
+            required: true
         }
     },
     methods: {
@@ -155,7 +163,7 @@ Vue.component('category-list', {
                     if (articleId < that.categories[categoryId].data.articles.length) {
                         that.categories[categoryId].data.working = true;
                         var article = that.categories[categoryId].data.articles[articleId];
-                        heptacom.getRequest(article.urls.amp).done(function() {
+                        heptacom.pingRequest(that.pingUrl, article.urls.amp).done(function() {
                             heptacom.sendUpdatePing(article.urls.amp);
                             ++that.successes;
                             ++that.categories[categoryId].data.success;
@@ -285,6 +293,16 @@ Vue.component('error-list', {
 });
 
 heptacom = {
+    pingRequest: function (ping, url) {
+        return $.ajax({
+            type: 'post',
+            url: ping,
+            data: {
+                url: url
+            }
+        });
+    },
+
     getRequest: function (url) {
         return $.ajax({
             type: 'get',
