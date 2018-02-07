@@ -55,5 +55,8 @@
             <argument type="service" id="shopware_search.store_front_criteria_factory"/>
             <argument type="service" id="shopware_search.product_search"/>
         </service>
+        <service id="heptacom_amp.services.web_request" class="HeptacomAmp\Services\WebRequest">
+            <argument type="service" id="http_client"/>
+        </service>
     </services>
 </container>
