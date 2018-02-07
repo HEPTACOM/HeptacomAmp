@@ -8,7 +8,6 @@ use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Components\Logger;
-use Shopware\Components\Routing\Router;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
 use Shopware\Models\Shop\Repository as ShopRepository;
@@ -67,44 +66,6 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
     }
 
     /**
-     * @param Shop $shop
-     * @return array
-     */
-    private function getDiscoverableCategories(Shop $shop)
-    {
-        $sql = <<<EOL
-SELECT DISTINCT categories.id, categories.description name
-FROM s_core_shops shops
-INNER JOIN s_categories categories ON categories.path LIKE concat('%|',  shops.category_id, '|%')
-INNER JOIN s_articles_categories article_categories ON article_categories.categoryID = categories.id
-INNER JOIN s_articles articles ON articles.id = article_categories.articleID
-INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
-WHERE articles.active = 1
-AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> ''
-AND shops.id = :shopId;
-EOL;
-
-        try {
-            $categories = $this->getModelManager()->getConnection()->executeQuery($sql, ['shopId' => $shop->getId()])->fetchAll();
-
-            foreach ($categories as &$category) {
-                $category = [
-                    'id' => (int) $category['id'],
-                    'name' => (string) $category['name'],
-                ];
-            }
-
-            return $categories;
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
-    }
-
-    /**
      * @param Category $category
      * @return array|bool|mixed
      */
@@ -153,10 +114,15 @@ EOL;
     public function getCategoriesAction()
     {
         /** @var Shop $shop */
-        if (($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) === null) {
+        if (is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop')))) {
+            $this->View()->assign(['success' => false, 'data' => []]);
+            return;
+        }
+
+        if (empty($categories = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findCategoriesOfShop($shop)))) {
             $this->View()->assign(['success' => false, 'data' => []]);
         } else {
-            $this->View()->assign(['success' => true, 'data' => $this->getDiscoverableCategories($shop)]);
+            $this->View()->assign(['success' => true, 'data' => $categories]);
         }
     }
 
