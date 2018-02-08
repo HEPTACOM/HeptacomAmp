@@ -45,6 +45,7 @@
                             shops-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getShops'}"
                             categories-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getCategories'}"
                             articles-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticles'}"
+                            ping-url="{url module='backend' controller='HeptacomAmpOverviewData' action='pingUrl'}"
                     >
                         <span slot="caption">Artikeldetailseiten</span>
                         <span slot="button"><i class="fa fa-refresh"></i> Cache erzeugen</span>

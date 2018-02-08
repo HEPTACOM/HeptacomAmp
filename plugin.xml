@@ -105,5 +105,6 @@
         <changes lang="de">Bugfix: AMP Backend listet keine "nicht verfügbaren" Artikel auf.</changes>
         <changes lang="de">Bugfix: Relative URLs im Stylesheet werden alle korrigiert.</changes>
         <changes lang="de">Bugfix: Alle eigene Schriftarten erlaubt.</changes>
+        <changes lang="de">Bugfix: Aktueller Kundenlogin beim Validieren ignoriert.</changes>
     </changelog>
 </plugin>

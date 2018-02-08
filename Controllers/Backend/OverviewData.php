@@ -1,15 +1,9 @@
 <?php
 
-use HeptacomAmp\Factory\ConfigurationFactory;
-use HeptacomAmp\Reader\ConfigurationReader;
-use Shopware\Bundle\SearchBundle\ProductSearchInterface;
-use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
-use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
-use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
+use HeptacomAmp\Factory\UrlFactory;
+use HeptacomAmp\Services\Searcher\UrlSearcher;
+use HeptacomAmp\Services\WebRequest;
 use Shopware\Components\CSRFWhitelistAware;
-use Shopware\Components\Logger;
-use Shopware\Components\Routing\Context;
-use Shopware\Components\Routing\Router;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Category\Repository as CategoryRepository;
 use Shopware\Models\Shop\Repository as ShopRepository;
@@ -21,6 +15,21 @@ use Shopware\Models\Shop\Shop;
 class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Controllers_Api_Rest implements CSRFWhitelistAware
 {
     /**
+     * @var UrlFactory
+     */
+    private $urlFactory;
+
+    /**
+     * @var UrlSearcher
+     */
+    private $urlSearcher;
+
+    /**
+     * @var WebRequest
+     */
+    private $webRequest;
+
+    /**
      * @return string[]
      */
     public function getWhitelistedCSRFActions()
@@ -31,7 +40,18 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
             'getArticles',
             'getCategories',
             'getCustoms',
+            'pingUrl',
+            'getUrl',
         ];
+    }
+
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->urlFactory = $this->container->get('heptacom_amp.factory.url');
+        $this->urlSearcher = $this->container->get('heptacom_amp.services.searcher.url');
+        $this->webRequest = $this->container->get('heptacom_amp.services.web_request');
+        $this->View()->assign(['success' => false, 'data' => []]);
     }
 
     /**
@@ -39,7 +59,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function getShopRepository()
     {
-        return $this->container->get('models')->getRepository(Shop::class);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getModelManager()->getRepository(Shop::class);
     }
 
     /**
@@ -47,160 +68,8 @@ class Shopware_Controllers_Backend_HeptacomAmpOverviewData extends Shopware_Cont
      */
     private function getCategoryRepository()
     {
-        return $this->container->get('models')->getRepository(Category::class);
-    }
-
-    /**
-     * @param Shop $shop
-     * @return Router
-     */
-    private function createRouter(Shop $shop)
-    {
-        /** @var Router $router */
-        $router = $this->container->get('router');
-        /** @var $config \Shopware_Components_Config */
-        $config = $this->container->get('config');
-
-        if ($shop->getBaseUrl() === null) {
-            $shop->setBaseUrl($shop->getBasePath());
-        }
-
-        // Register the shop (we're to soon)
-        $config->setShop($shop);
-
-        $context = $router->getContext();
-        $newContext = Context::createFromShop($shop, $config);
-        // Reuse the host
-        if ($newContext->getHost() === null) {
-            $newContext->setHost($context->getHost());
-            $newContext->setBaseUrl($context->getBaseUrl());
-            // Reuse https
-            if (!$newContext->isSecure()) {
-                $newContext->setSecure($context->isSecure());
-                $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
-            }
-        }
-        $router->setContext($newContext);
-        return $router;
-    }
-
-    /**
-     * @param Router $router
-     * @param string $controller
-     * @param string[] $params
-     * @param string $action
-     * @return string
-     */
-    private function getUrl(Router $router, $controller, array $params, $action = 'index')
-    {
-        return str_replace(
-            'http://',
-            'https://',
-            $router->assemble(array_merge([
-                    'module' => 'frontend',
-                    'controller' => $controller,
-                    'action' => $action
-                ], $params)));
-    }
-
-    /**
-     * @return array
-     */
-    private function getDiscoverableShops()
-    {
-        try {
-            /** @var ConfigurationFactory $configurationFactory */
-            $configurationFactory = $this->container->get('heptacom_amp.factory.configuration');
-            /** @var ConfigurationReader $configurationReader */
-            $configurationReader = $this->container->get('heptacom_amp.reader.configuration');
-
-            /** @var Shop[] $shops */
-            $shops = $this->getShopRepository()->findAll();
-            $shops = array_filter($shops, function (Shop $shop) use ($configurationFactory, $configurationReader) {
-                return $configurationFactory->hydrate($configurationReader->read($shop->getId()))->isActive();
-            });
-            return array_map(function (Shop $shop) {
-                return [
-                    'id' => $shop->getId(),
-                    'name' => $shop->getName(),
-                ];
-            }, $shops);
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
-    }
-
-    /**
-     * @param Shop $shop
-     * @return array
-     */
-    private function getDiscoverableCategories(Shop $shop)
-    {
-        $sql = <<<EOL
-SELECT DISTINCT categories.id, categories.description name
-FROM s_core_shops shops
-INNER JOIN s_categories categories ON categories.path LIKE concat('%|',  shops.category_id, '|%')
-INNER JOIN s_articles_categories article_categories ON article_categories.categoryID = categories.id
-INNER JOIN s_articles articles ON articles.id = article_categories.articleID
-INNER JOIN s_articles_details details ON details.id = articles.main_detail_id
-WHERE articles.active = 1
-AND details.ordernumber IS NOT NULL AND TRIM(details.ordernumber) <> ''
-AND shops.id = :shopId;
-EOL;
-
-        try {
-            $categories = $this->getModelManager()->getConnection()->executeQuery($sql, ['shopId' => $shop->getId()])->fetchAll();
-
-            foreach ($categories as &$category) {
-                $category = [
-                    'id' => (int) $category['id'],
-                    'name' => (string) $category['name'],
-                ];
-            }
-
-            return $categories;
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
-    }
-
-    /**
-     * @param Category $category
-     * @return array|bool|mixed
-     */
-    private function getDiscoverableArticles(Shop $shop, Category $category)
-    {
-        try {
-            /** @var ContextServiceInterface $shopService */
-            $shopService = $this->container->get('shopware_storefront.context_service');
-            $context = $shopService->createShopContext($shop->getId());
-            /** @var StoreFrontCriteriaFactoryInterface $criteriaFactory */
-            $criteriaFactory = $this->container->get('shopware_search.store_front_criteria_factory');
-            $criteria = $criteriaFactory->createBaseCriteria([$category->getId()], $context);
-            /** @var ProductSearchInterface $productSearch */
-            $productSearch = $this->container->get('shopware_search.product_search');
-
-            return array_map(function (ListProduct $listProduct) {
-                return [
-                    'id' => $listProduct->getId(),
-                    'name' => $listProduct->getName(),
-                ];
-            }, $productSearch->search($criteria, $context)->getProducts());
-        } catch (Exception $exception) {
-            /** @var Logger $logger */
-            $logger = $this->get('pluginlogger');
-            $logger->error($exception->getMessage());
-
-            return [];
-        }
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getModelManager()->getRepository(Category::class);
     }
 
     /**
@@ -208,10 +77,8 @@ EOL;
      */
     public function getShopsAction()
     {
-        if (empty($shops = $this->getDiscoverableShops())) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $shops]);
+        if (!empty($shops = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findShops()))) {
+            $this->returnSuccess($shops);
         }
     }
 
@@ -221,10 +88,9 @@ EOL;
     public function getCategoriesAction()
     {
         /** @var Shop $shop */
-        if (($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) === null) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $this->getDiscoverableCategories($shop)]);
+        if (!is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) &&
+            !empty($categories = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findCategoriesOfShop($shop)))) {
+            $this->returnSuccess($categories);
         }
     }
 
@@ -234,30 +100,48 @@ EOL;
     public function getArticlesAction()
     {
         /** @var Shop $shop */
-        $shop = $this->getShopRepository()->find($this->Request()->getParam('shop'));
         /** @var Category $category */
-        $category = $this->getCategoryRepository()->find($this->Request()->getParam('category'));
-        $router = $this->createRouter($shop);
-
-        $result = [];
-        $articles = $this->getDiscoverableArticles($shop, $category);
-
-        foreach ($articles as &$article) {
-            $result[] = [
-                'name' => $article['name'],
-                'test_url' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
-                'urls' => [
-                    'mobile' => $this->getUrl($router, 'detail', ['sArticle' => $article['id'], 'amp' => 1]),
-                    'desktop' => $this->getUrl($router, 'detail', ['sArticle' => $article['id']])
-                ],
-            ];
+        if (!is_null($shop = $this->getShopRepository()->find($this->Request()->getParam('shop'))) &&
+            !is_null($category = $this->getCategoryRepository()->find($this->Request()->getParam('category'))) &&
+            !empty($articles = array_map([$this->urlFactory, 'dehydrate'], $this->urlSearcher->findArticlesOfCategory($shop, $category)))) {
+            $this->returnSuccess($articles);
         }
+    }
 
-        if (empty($result)) {
-            $this->View()->assign(['success' => false, 'data' => []]);
-        } else {
-            $this->View()->assign(['success' => true, 'data' => $result]);
-        }
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/pingUrl
+     */
+    public function pingUrlAction()
+    {
+        $url = $this->Request()->getParam('url');
+        $code = $this->webRequest->ping($url);
+        $this->returnSuccess([
+            'code' => $code,
+            'url' => $url,
+        ]);
+    }
+
+    /**
+     * Callable via /backend/HeptacomAmpOverviewData/getUrl
+     */
+    public function getUrlAction()
+    {
+        $url = $this->Request()->getParam('url');
+        $html = $this->webRequest->get($url);
+        $this->returnSuccess([
+            'html' => $html,
+        ]);
+    }
+
+    /**
+     * @param array $data
+     */
+    protected function returnSuccess(array $data)
+    {
+        $this->View()->assign([
+            'success' => true,
+            'data' => $data,
+        ]);
     }
 
     /// TODO undo 4037b1c9780ed0faaa18192ee4157bf203981bd4 for customs and categories in cache warming
