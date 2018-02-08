@@ -5,6 +5,10 @@
     <services>
         <!-- FACTORIES -->
         <service id="heptacom_amp.factory.configuration" class="HeptacomAmp\Factory\ConfigurationFactory"/>
+        <service id="heptacom_amp.factory.url" class="HeptacomAmp\Factory\UrlFactory">
+            <argument type="service" id="router"/>
+            <argument type="service" id="config"/>
+        </service>
 
         <!-- READERS -->
         <service id="heptacom_amp.reader.configuration" class="HeptacomAmp\Reader\ConfigurationReader">
@@ -16,6 +20,10 @@
         <service id="heptacom_amp.repository.shopware.shop" class="Shopware\Models\Shop\Repository">
             <factory service="models" method="getRepository"/>
             <argument type="string">Shopware\Models\Shop\Shop</argument>
+        </service>
+        <service id="heptacom_amp.repository.shopware.category" class="Shopware\Models\Category\Repository">
+            <factory service="models" method="getRepository"/>
+            <argument type="string">Shopware\Models\Category\Category</argument>
         </service>
 
         <!-- SUBSCRIBERS -->
@@ -36,6 +44,19 @@
         <!-- SERVICES -->
         <service id="heptacom_amp.components.file_cache" class="HeptacomAmp\Components\FileCache">
             <argument type="service" id="PluginLogger" />
+        </service>
+        <service id="heptacom_amp.services.searcher.url" class="HeptacomAmp\Services\Searcher\UrlSearcher">
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="heptacom_amp.repository.shopware.shop"/>
+            <argument type="service" id="heptacom_amp.repository.shopware.category"/>
+            <argument type="service" id="heptacom_amp.factory.url"/>
+            <argument type="service" id="shopware_storefront.context_service"/>
+            <argument type="service" id="shopware_search.store_front_criteria_factory"/>
+            <argument type="service" id="shopware_search.product_search"/>
+        </service>
+        <service id="heptacom_amp.services.web_request" class="HeptacomAmp\Services\WebRequest">
+            <argument type="service" id="http_client"/>
         </service>
     </services>
 </container>

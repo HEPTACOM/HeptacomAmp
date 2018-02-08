@@ -2,11 +2,11 @@
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
-use DOMDocument;
 use DOMElement;
 use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
+use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
 /**
  * Class InlineStyleExtractor
@@ -14,6 +14,24 @@ use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
  */
 class InlineStyleExtractor implements IAmplifyDOM
 {
+    const CLASS_ATTRIBUTE_KEY = 'class';
+
+    const STYLE_ATTRIBUTE_KEY = 'style';
+
+    /**
+     * @var StyleStorage
+     */
+    private $styleStorage;
+
+    /**
+     * StyleExtractor constructor.
+     * @param StyleStorage $styleStorage
+     */
+    public function __construct(StyleStorage $styleStorage)
+    {
+        $this->styleStorage = $styleStorage;
+    }
+
     /**
      * Process and ⚡lifies the given node.
      * @param DOMNode $node The node to ⚡lify.
@@ -23,53 +41,25 @@ class InlineStyleExtractor implements IAmplifyDOM
     {
         $cssIndex = 0;
 
-        $styles = [];
-
         $nodes = new DOMNodeRecursiveIterator($node->childNodes);
         foreach ($nodes->getRecursiveIterator() as $subnode) {
             if ($subnode instanceof DOMElement &&
                 $subnode->hasAttributes() &&
-                !empty($styleAttr = $subnode->getAttribute('style'))) {
+                !empty($styleAttr = $subnode->getAttribute(self::STYLE_ATTRIBUTE_KEY))) {
                 $cssIndex++;
-                $key = "heptacom-amp-inline-$cssIndex";
-                $styles[] = ".$key{ $styleAttr }";
+                $key = "kskamp-inline-$cssIndex";
 
-                $subnode->removeAttribute('style');
+                $this->styleStorage->addStyle(".$key{ $styleAttr }");
 
-                if (empty($class = $subnode->getAttribute('class'))) {
-                    $subnode->setAttribute('class', $key);
+                $subnode->removeAttribute(self::STYLE_ATTRIBUTE_KEY);
+
+                if (empty($class = $subnode->getAttribute(self::CLASS_ATTRIBUTE_KEY))) {
+                    $subnode->setAttribute(self::CLASS_ATTRIBUTE_KEY, $key);
                 } else {
-                    $subnode->setAttribute('class', "$class $key");
+                    $subnode->setAttribute(self::CLASS_ATTRIBUTE_KEY, "$class $key");
                 }
             }
         }
-
-        $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
-        $styleTags = $document->getElementsByTagName('style');
-        $tag = null;
-
-        foreach ($styleTags as $styleTag) {
-            /** @var DOMElement $styleTag */
-            if ($styleTag->hasAttribute('amp-custom')) {
-                $tag = $styleTag;
-                break;
-            }
-        }
-
-        if (is_null($tag)) {
-            foreach ($document->getElementsByTagName('head') as $head) {
-                /** @var DOMElement $head */
-                $tag = $document->createElement('style');
-                $tag->setAttributeNode($document->createAttribute('amp-custom'));
-                $head->appendChild($tag);
-
-                break;
-            }
-
-            $tag->textContent = '';
-        }
-
-        $tag->textContent = $tag->textContent.join($styles);
 
         return $node;
     }

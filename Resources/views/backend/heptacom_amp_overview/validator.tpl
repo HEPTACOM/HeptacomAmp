@@ -46,6 +46,7 @@
                             shops-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getShops'}"
                             categories-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getCategories'}"
                             articles-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getArticles'}"
+                            get-url="{url module='backend' controller='HeptacomAmpOverviewData' action='getUrl'}"
                     >
                         <span slot="caption">Artikeldetailseiten</span>
                         <span slot="button"><i class="fa fa-refresh"></i> Artikel validieren</span>

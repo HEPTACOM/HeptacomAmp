@@ -121,7 +121,7 @@ class AMP implements SubscriberInterface
             $domAmplifier = new DOMAmplifier($this->fileCache);
             $styleStorage = new DOMAmplifier\StyleStorage();
             $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage, $this->fileCache);
-            $styleInjector->useAmplifier(new AmplifyStyle\RemoveFontsExceptShopware());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveImports());
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveVendorPrefixedItems());
@@ -134,12 +134,14 @@ class AMP implements SubscriberInterface
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveUnitsOnNullValues());
             $styleInjector->useAmplifier(new AmplifyStyle\ShortenRulesToKnownShorthands());
             $styleInjector->useAmplifier(new AmplifyStyle\RenameFontWeightUnits());
+            $styleInjector->useAmplifier(new AmplifyStyle\RemoveForbiddenAtRules());
             $domAmplifier->useAmplifier(new AmplifyDOM\StyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\FontTagAsStyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
             $domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
             $domAmplifier->useAmplifier($styleInjector);
-            $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor());
             $domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
 
 

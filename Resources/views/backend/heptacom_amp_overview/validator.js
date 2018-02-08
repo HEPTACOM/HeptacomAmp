@@ -12,7 +12,7 @@ Vue.component('shop-list', {
         '<h2><slot name="caption"></slot></h2>' +
         '<div v-for="shop in shops">' +
             '<h3>{{shop.name}}</h3>' +
-            '<category-list :categories-url="categoriesUrl" :articles-url="articlesUrl" :shop="shop" @fetchComplete="shopFetchComplete">' +
+            '<category-list :categories-url="categoriesUrl" :articles-url="articlesUrl" :get-url="getUrl" :shop="shop" @fetchComplete="shopFetchComplete">' +
                 '<template slot="button"><slot name="button"></slot></template>' +
                 '<template slot="error"><slot name="error"></slot></template>' +
             '</category-list>' +
@@ -35,6 +35,10 @@ Vue.component('shop-list', {
             required: true
         },
         articlesUrl: {
+            type: String,
+            required: true
+        },
+        getUrl: {
             type: String,
             required: true
         }
@@ -94,6 +98,10 @@ Vue.component('category-list', {
             required: true
         },
         articlesUrl: {
+            type: String,
+            required: true
+        },
+        getUrl: {
             type: String,
             required: true
         }
@@ -157,7 +165,8 @@ Vue.component('category-list', {
                         var article = that.categories[categoryId].data.articles[articleId];
 
                         heptacom.validate(
-                            article.test_url,
+                            that.getUrl,
+                            article.urls.amp,
                             function () {
                                 ++that.successes;
                                 ++that.categories[categoryId].data.success;
@@ -315,12 +324,15 @@ heptacom = {
         });
     },
 
-    validate: function(url, success, error) {
+    validate: function(getUrl, url, success, error) {
         return $.ajax({
-            type: 'get',
-            url: url,
+            type: 'post',
+            url: getUrl,
+            data: {
+                url: url
+            },
             success: function(data) {
-                var validationResult = amp.validator.validateString(data);
+                var validationResult = amp.validator.validateString(data.data.html);
                 (validationResult.status == 'PASS' ? success : error)(validationResult);
             }
         });

@@ -96,7 +96,7 @@
                                 <a href="{$information.link}"
                                    target="{if $information.target}{$information.target}{else}_blank{/if}"
                                    class="content--link link--further-links"
-                                   title="{$information.description}">
+                                   title="{$information.description|escape}">
                                     <i class="icon--arrow-right"></i> {$information.description}
                                 </a>
                             </li>
