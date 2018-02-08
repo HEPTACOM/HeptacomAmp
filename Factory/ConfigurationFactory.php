@@ -12,6 +12,8 @@ class ConfigurationFactory
 {
     const ACTIVE = 'active';
 
+    const THEME = 'theme';
+
     /**
      * @param array $data
      * @return ConfigurationStruct
@@ -19,6 +21,7 @@ class ConfigurationFactory
     public function hydrate(array $data)
     {
         return (new ConfigurationStruct())
-            ->setActive(boolval($data[self::ACTIVE]));
+            ->setActive(boolval($data[self::ACTIVE]))
+            ->setTheme($data[self::THEME] ?: '');
     }
 }

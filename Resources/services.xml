@@ -2,6 +2,9 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="heptacom_amp.view_dir">%heptacom_amp.plugin_dir%/Resources/views</parameter>
+    </parameters>
     <services>
         <!-- FACTORIES -->
         <service id="heptacom_amp.factory.configuration" class="HeptacomAmp\Factory\ConfigurationFactory"/>
@@ -31,11 +34,15 @@
             <tag name="shopware.event_subscriber" />
             <argument type="service" id="heptacom_amp.reader.configuration"/>
             <argument type="service" id="heptacom_amp.factory.configuration"/>
+            <argument type="string">%heptacom_amp.view_dir%</argument>
         </service>
         <service id="heptacom_amp.subscriber.AMP" class="HeptacomAmp\Subscriber\AMP">
             <tag name="shopware.event_subscriber" />
             <argument type="service" id="PluginLogger" index="0" />
             <argument type="service" id="heptacom_amp.components.file_cache" index="1" />
+            <argument type="string">%heptacom_amp.view_dir%</argument>
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
         </service>
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />

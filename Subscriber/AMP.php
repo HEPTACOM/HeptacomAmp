@@ -10,6 +10,9 @@ use HeptacomAmp\Components\DOMAmplifier;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 use HeptacomAmp\Components\FileCache;
+use HeptacomAmp\Factory\ConfigurationFactory;
+use HeptacomAmp\Reader\ConfigurationReader;
+use HeptacomAmp\Template\HeptacomAmp as HeptacomAmpTemplate;
 use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 
@@ -44,14 +47,35 @@ class AMP implements SubscriberInterface
     private $fileCache;
 
     /**
+     * @var string
+     */
+    private $viewDirectory;
+
+    /**
+     * @var ConfigurationFactory
+     */
+    private $configurationFactory;
+
+    /**
+     * @var ConfigurationReader
+     */
+    private $configurationReader;
+
+    /**
      * Detail constructor.
      * @param Logger $pluginLogger
      * @param FileCache $fileCache
+     * @param string $viewDirectory
+     * @param ConfigurationFactory $configurationFactory
+     * @param ConfigurationReader $configurationReader
      */
-    public function __construct(Logger $pluginLogger, FileCache $fileCache)
+    public function __construct(Logger $pluginLogger, FileCache $fileCache, $viewDirectory, ConfigurationFactory $configurationFactory, ConfigurationReader $configurationReader)
     {
         $this->pluginLogger = $pluginLogger;
         $this->fileCache = $fileCache;
+        $this->viewDirectory = $viewDirectory;
+        $this->configurationFactory = $configurationFactory;
+        $this->configurationReader = $configurationReader;
     }
 
     /**
@@ -61,10 +85,7 @@ class AMP implements SubscriberInterface
     public function addLessFiles(Enlight_Event_EventArgs $args)
     {
         return new LessDefinition([], [implode(DIRECTORY_SEPARATOR, [
-            __DIR__,
-            '..',
-            'Resources',
-            'views',
+            $this->viewDirectory,
             'frontend',
             '_public',
             'src',
@@ -81,22 +102,26 @@ class AMP implements SubscriberInterface
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
 
-        $controller->View()->Engine()->addPluginsDir(realpath(
-            implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views', 'frontend', '_private', 'smarty'])
-        ));
+        $ampConfiguration = $this->configurationFactory->hydrate($this->configurationReader->read(Shopware()->Shop()->getId()));
 
-        $controller->View()->Engine()->template_class = 'HeptacomAmp\\Template\\HeptacomAmp';
+        $frontendThemeDirectory = Shopware()->DocPath('themes'.DIRECTORY_SEPARATOR.'Frontend');
 
-        $controller->View()->setTemplateDir([
-            implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Bare']),
-            implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Responsive']),
-            realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views'])),
-        ]);
-        if (file_exists(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp']))) {
-            $controller->View()->addTemplateDir(
-                implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp'])
-            );
+        $templateDirs = [
+            $frontendThemeDirectory.'Bare',
+            $frontendThemeDirectory.'Responsive',
+            $this->viewDirectory,
+        ];
+
+        if (!empty($ampConfiguration->getTheme())) {
+            $templateDirs[] = $frontendThemeDirectory.$ampConfiguration->getTheme();
         }
+
+        $controller->View()->Engine()->template_class = HeptacomAmpTemplate::class;
+        $controller->View()->setTemplateDir(array_filter($templateDirs, 'file_exists'));
+
+        $controller->View()->Engine()->addPluginsDir(realpath(
+            implode(DIRECTORY_SEPARATOR, [$this->viewDirectory, 'frontend', '_private', 'smarty'])
+        ));
 
         $controller->Response()->setHeader('Access-Control-Allow-Origin', '*');
     }
