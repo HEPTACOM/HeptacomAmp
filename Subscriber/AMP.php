@@ -10,6 +10,7 @@ use HeptacomAmp\Components\DOMAmplifier;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 use HeptacomAmp\Components\FileCache;
+use HeptacomAmp\Template\HeptacomAmp as HeptacomAmpTemplate;
 use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 
@@ -44,14 +45,21 @@ class AMP implements SubscriberInterface
     private $fileCache;
 
     /**
+     * @var string
+     */
+    private $viewDirectory;
+
+    /**
      * Detail constructor.
      * @param Logger $pluginLogger
      * @param FileCache $fileCache
+     * @param string $viewDirectory
      */
-    public function __construct(Logger $pluginLogger, FileCache $fileCache)
+    public function __construct(Logger $pluginLogger, FileCache $fileCache, $viewDirectory)
     {
         $this->pluginLogger = $pluginLogger;
         $this->fileCache = $fileCache;
+        $this->viewDirectory = $viewDirectory;
     }
 
     /**
@@ -61,10 +69,7 @@ class AMP implements SubscriberInterface
     public function addLessFiles(Enlight_Event_EventArgs $args)
     {
         return new LessDefinition([], [implode(DIRECTORY_SEPARATOR, [
-            __DIR__,
-            '..',
-            'Resources',
-            'views',
+            $this->viewDirectory,
             'frontend',
             '_public',
             'src',
@@ -82,15 +87,15 @@ class AMP implements SubscriberInterface
         $controller = $args->get('subject');
 
         $controller->View()->Engine()->addPluginsDir(realpath(
-            implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views', 'frontend', '_private', 'smarty'])
+            implode(DIRECTORY_SEPARATOR, [$this->viewDirectory, 'frontend', '_private', 'smarty'])
         ));
 
-        $controller->View()->Engine()->template_class = 'HeptacomAmp\\Template\\HeptacomAmp';
+        $controller->View()->Engine()->template_class = HeptacomAmpTemplate::class;
 
         $controller->View()->setTemplateDir([
             implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Bare']),
             implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'Responsive']),
-            realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views'])),
+            $this->viewDirectory,
         ]);
         if (file_exists(implode(DIRECTORY_SEPARATOR, [Shopware()->DocPath(), 'themes', 'Frontend', 'HeptacomAmp']))) {
             $controller->View()->addTemplateDir(

@@ -54,14 +54,21 @@ class Frontend implements SubscriberInterface
     private $configurationFactory;
 
     /**
+     * @var string
+     */
+    private $viewDirectory;
+
+    /**
      * Frontend constructor.
      * @param ConfigurationReader $configurationReader
      * @param ConfigurationFactory $configurationFactory
+     * @param string $viewDirectory
      */
-    public function __construct(ConfigurationReader $configurationReader, ConfigurationFactory $configurationFactory)
+    public function __construct(ConfigurationReader $configurationReader, ConfigurationFactory $configurationFactory, $viewDirectory)
     {
         $this->configurationReader = $configurationReader;
         $this->configurationFactory = $configurationFactory;
+        $this->viewDirectory = $viewDirectory;
     }
 
     /**
@@ -131,7 +138,7 @@ class Frontend implements SubscriberInterface
                 $request->getModuleName()
             );
         } else {
-            $view->addTemplateDir(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'views']));
+            $view->addTemplateDir($this->viewDirectory);
         }
     }
 
