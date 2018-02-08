@@ -41,6 +41,8 @@
             <argument type="service" id="PluginLogger" index="0" />
             <argument type="service" id="heptacom_amp.components.file_cache" index="1" />
             <argument type="string">%heptacom_amp.view_dir%</argument>
+            <argument type="service" id="heptacom_amp.factory.configuration"/>
+            <argument type="service" id="heptacom_amp.reader.configuration"/>
         </service>
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
