@@ -8,5 +8,11 @@
             <label lang="de">Aktiv</label>
             <value>1</value>
         </element>
+        <element scope="shop" type="text">
+            <name>theme</name>
+            <label>Theme</label>
+            <label lang="de">Theme</label>
+            <value>HeptacomAmp</value>
+        </element>
     </elements>
 </config>
