@@ -164,6 +164,7 @@ class AMP implements SubscriberInterface
             $domAmplifier->useAmplifier(new AmplifyDOM\ReferencedStylesheetExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\InlineStyleExtractor($styleStorage));
             $domAmplifier->useAmplifier(new AmplifyDOM\FontTagAsStyleExtractor($styleStorage));
+            $domAmplifier->useAmplifier(new AmplifyDOM\ConvertIframeToYoutube());
             $domAmplifier->useAmplifier(new AmplifyDOM\TagFilter());
             $domAmplifier->useAmplifier(new AmplifyDOM\AttributeFilter());
             $domAmplifier->useAmplifier($styleInjector);

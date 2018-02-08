@@ -100,6 +100,7 @@
     <changelog version="2.2.0">
         <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das de- und aktivieren von AMP je Subshop.</changes>
         <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das Wählen eines AMP Themes je Subshop.</changes>
+        <changes lang="de">Feature: YouTube Einbettung unterstützt.</changes>
         <changes lang="de">Bugfix: Benutzung von verbotenem font-Tag in amp-valides HTML umgewandeln.</changes>
         <changes lang="de">Bugfix: Inline-Styles werden nun gefiltert.</changes>
         <changes lang="de">Bugfix: Fehlendes Template für nicht verfügbare Artikel hinzugefügt.</changes>
