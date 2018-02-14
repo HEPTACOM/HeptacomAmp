@@ -142,6 +142,10 @@ class AMP implements SubscriberInterface
             return;
         }
 
+        if ($bootstrap->Front()->Request()->has('kskAmpRaw')) {
+            return;
+        }
+
         try {
             $domAmplifier = new DOMAmplifier($this->fileCache);
             $styleStorage = new DOMAmplifier\StyleStorage();
