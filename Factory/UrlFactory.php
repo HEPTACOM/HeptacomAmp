@@ -16,11 +16,13 @@ use Shopware_Components_Config;
  */
 class UrlFactory
 {
-    const URL_MODE_CANONICAL = 0;
+    const URL_MODE_CANONICAL = 'canonical';
 
-    const URL_MODE_AMP = 1;
+    const URL_MODE_AMP = 'amp';
 
-    const URL_MODE_RAW_AMP = 2;
+    const URL_MODE_RAW_AMP = 'debug';
+
+    const DEFAULT_ACTION = 'index';
 
     /**
      * @var Router
@@ -85,7 +87,7 @@ class UrlFactory
             ->setId($shop->getId())
             ->setName($shop->getName())
             ->setUrls([
-                'canonical' => $this->getShopUrl($shop),
+                self::URL_MODE_CANONICAL => $this->getShopUrl($shop),
             ]);
     }
 
@@ -95,7 +97,7 @@ class UrlFactory
      */
     protected function getShopUrl(Shop $shop)
     {
-        return $this->getUrl($shop, 'frontend', 'index', 'index');
+        return $this->getFrontendUrl($shop, 'index', self::DEFAULT_ACTION);
     }
 
     /**
@@ -109,9 +111,9 @@ class UrlFactory
             ->setId($category->getId())
             ->setName($category->getName())
             ->setUrls([
-                'canonical' => $this->getCategoryUrl($shop, $category, self::URL_MODE_CANONICAL),
-                'amp' => $this->getCategoryUrl($shop, $category, self::URL_MODE_AMP),
-                'debug' => $this->getCategoryUrl($shop, $category, self::URL_MODE_RAW_AMP),
+                self::URL_MODE_CANONICAL => $this->getCategoryUrl($shop, $category, self::URL_MODE_CANONICAL),
+                self::URL_MODE_AMP => $this->getCategoryUrl($shop, $category, self::URL_MODE_AMP),
+                self::URL_MODE_RAW_AMP => $this->getCategoryUrl($shop, $category, self::URL_MODE_RAW_AMP),
             ]);
     }
 
@@ -127,7 +129,7 @@ class UrlFactory
             'sCategory' => $category->getId(),
         ];
 
-        return $this->getUrl($shop, 'frontend', 'listing', 'index', self::appendUrlMode($urlMode, $extra));
+        return $this->getFrontendUrl($shop, 'listing', self::DEFAULT_ACTION, self::appendUrlMode($urlMode, $extra));
     }
 
     /**
@@ -141,9 +143,9 @@ class UrlFactory
             ->setId($listProduct->getId())
             ->setName($listProduct->getName())
             ->setUrls([
-                'canonical' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_CANONICAL),
-                'amp' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_AMP),
-                'debug' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_RAW_AMP),
+                self::URL_MODE_CANONICAL => $this->getProductUrl($shop, $listProduct, self::URL_MODE_CANONICAL),
+                self::URL_MODE_AMP => $this->getProductUrl($shop, $listProduct, self::URL_MODE_AMP),
+                self::URL_MODE_RAW_AMP => $this->getProductUrl($shop, $listProduct, self::URL_MODE_RAW_AMP),
             ]);
     }
 
@@ -159,24 +161,23 @@ class UrlFactory
             'sArticle' => $listProduct->getId(),
         ];
 
-        return $this->getUrl($shop, 'frontend', 'detail', 'index', self::appendUrlMode($urlMode, $extra));
+        return $this->getFrontendUrl($shop, 'detail', self::DEFAULT_ACTION, self::appendUrlMode($urlMode, $extra));
     }
 
     /**
      * @param Shop $shop
-     * @param $module
      * @param $controller
      * @param $action
      * @param array $params
      * @return string
      */
-    public function getUrl(Shop $shop, $module, $controller, $action, $params = [])
+    public function getFrontendUrl(Shop $shop, $controller, $action, $params = [])
     {
         return str_replace(
             'http://',
             'https://',
             $this->createRouter($shop)->assemble(array_merge([
-                'module' => $module,
+                'module' => 'frontend',
                 'controller' => $controller,
                 'action' => $action
             ], $params)));
