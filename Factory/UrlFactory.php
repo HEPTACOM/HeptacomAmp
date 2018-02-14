@@ -6,7 +6,6 @@ use HeptacomAmp\Struct\UrlStruct;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Components\Routing\Context;
 use Shopware\Components\Routing\Router;
-use Shopware\Models\Article\Detail;
 use Shopware\Models\Category\Category;
 use Shopware\Models\Shop\Shop;
 use Shopware_Components_Config;
@@ -17,6 +16,12 @@ use Shopware_Components_Config;
  */
 class UrlFactory
 {
+    const URL_MODE_CANONICAL = 0;
+
+    const URL_MODE_AMP = 1;
+
+    const URL_MODE_RAW_AMP = 2;
+
     /**
      * @var Router
      */
@@ -36,6 +41,25 @@ class UrlFactory
     {
         $this->router = $router;
         $this->config = $config;
+    }
+
+    /**
+     * @param int $urlMode
+     * @param array $extra
+     * @return array
+     */
+    protected static function appendUrlMode($urlMode, $extra)
+    {
+        switch ($urlMode) {
+            /** @noinspection PhpMissingBreakStatementInspection */
+            case self::URL_MODE_RAW_AMP:
+                $extra['kskAmpRaw'] = 1;
+            case self::URL_MODE_AMP:
+                $extra['amp'] = 1;
+                break;
+        }
+
+        return $extra;
     }
 
     /**
@@ -85,30 +109,25 @@ class UrlFactory
             ->setId($category->getId())
             ->setName($category->getName())
             ->setUrls([
-                'canonical' => $this->getCategoryUrl($shop, $category, false),
-                'amp' => $this->getCategoryUrl($shop, $category, true),
+                'canonical' => $this->getCategoryUrl($shop, $category, self::URL_MODE_CANONICAL),
+                'amp' => $this->getCategoryUrl($shop, $category, self::URL_MODE_AMP),
+                'debug' => $this->getCategoryUrl($shop, $category, self::URL_MODE_RAW_AMP),
             ]);
     }
 
     /**
      * @param Shop $shop
      * @param Category $category
-     * @param bool $amp
+     * @param int $urlMode
      * @return string
      */
-    protected function getCategoryUrl(Shop $shop, Category $category, $amp)
+    protected function getCategoryUrl(Shop $shop, Category $category, $urlMode)
     {
         $extra = [
             'sCategory' => $category->getId(),
         ];
 
-        if ($amp) {
-            $extra = array_merge($extra, [
-                'amp' => 1,
-            ]);
-        }
-
-        return $this->getUrl($shop, 'frontend', 'listing', 'index', $extra);
+        return $this->getUrl($shop, 'frontend', 'listing', 'index', self::appendUrlMode($urlMode, $extra));
     }
 
     /**
@@ -122,30 +141,25 @@ class UrlFactory
             ->setId($listProduct->getId())
             ->setName($listProduct->getName())
             ->setUrls([
-                'canonical' => $this->getProductUrl($shop, $listProduct, false),
-                'amp' => $this->getProductUrl($shop, $listProduct, true),
+                'canonical' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_CANONICAL),
+                'amp' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_AMP),
+                'debug' => $this->getProductUrl($shop, $listProduct, self::URL_MODE_RAW_AMP),
             ]);
     }
 
     /**
      * @param Shop $shop
      * @param ListProduct $listProduct
-     * @param bool $amp
+     * @param int $urlMode
      * @return string
      */
-    protected function getProductUrl(Shop $shop, ListProduct $listProduct, $amp)
+    protected function getProductUrl(Shop $shop, ListProduct $listProduct, $urlMode)
     {
         $extra = [
             'sArticle' => $listProduct->getId(),
         ];
 
-        if ($amp) {
-            $extra = array_merge($extra, [
-                'amp' => 1,
-            ]);
-        }
-
-        return $this->getUrl($shop, 'frontend', 'detail', 'index', $extra);
+        return $this->getUrl($shop, 'frontend', 'detail', 'index', self::appendUrlMode($urlMode, $extra));
     }
 
     /**
