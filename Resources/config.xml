@@ -13,6 +13,8 @@
             <label>Debug mode</label>
             <label lang="de">Untersuchungsmodus</label>
             <value>0</value>
+            <description>Adds debug output that is visible in the browser and simplifies debugging errors. The debug output reveals theme structures. This does not need to be enabled if not required for solving a problem.</description>
+            <description lang="de">Fügt Untersuchungsausgaben der Webbrowserausgabe hinzu und vereinfacht damit das Suchen von Fehlern. Die Ausgaben enthalten Informationen über die Strukturen im Theme. Dies muss nicht aktiviert werden, wenn es nicht notwendig für die Fehleruntersuchung ist.</description>
         </element>
         <element scope="shop" type="text">
             <name>theme</name>
