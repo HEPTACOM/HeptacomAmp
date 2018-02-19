@@ -112,5 +112,6 @@
     <changelog version="2.3.0">
         <changes lang="de">Feature: Optionaler Debugmodus. Für Untersuchungen kann die AMP-Ansicht generiert werden, die für uns zu Untersuchungszwecken notwendig ist.</changes>
         <changes lang="de">Bugfix: Fälschlicherweise script-Tag als AMP-valide eingestuft.</changes>
+        <changes lang="de">Bugfix: Fehlende strukturierte Information zum Preis nachgetragen.</changes>
     </changelog>
 </plugin>
