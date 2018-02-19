@@ -43,6 +43,8 @@
             <argument type="string">%heptacom_amp.view_dir%</argument>
             <argument type="service" id="heptacom_amp.factory.configuration"/>
             <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="config"/>
+            <argument type="service" id="heptacom_amp.smarty.block_annotator"/>
         </service>
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
@@ -65,5 +67,9 @@
         <service id="heptacom_amp.services.web_request" class="HeptacomAmp\Services\WebRequest">
             <argument type="service" id="http_client"/>
         </service>
+        <service id="heptacom_amp.smarty.block_annotator" class="HeptacomAmp\Services\Smarty\BlockAnnotator">
+            <argument type="service" id="heptacom_amp.smarty.block_splitter" />
+        </service>
+        <service id="heptacom_amp.smarty.block_splitter" class="HeptacomAmp\Services\Smarty\BlockSplitter"/>
     </services>
 </container>

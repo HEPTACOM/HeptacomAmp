@@ -109,4 +109,7 @@
         <changes lang="de">Bugfix: Alle eigene Schriftarten erlaubt.</changes>
         <changes lang="de">Bugfix: Aktueller Kundenlogin beim Validieren ignoriert.</changes>
     </changelog>
+    <changelog version="2.3.0">
+        <changes lang="de">Feature: Optionaler Debugmodus. Für Untersuchungen kann die AMP-Ansicht generiert werden, die für uns zu Untersuchungszwecken notwendig ist.</changes>
+    </changelog>
 </plugin>
