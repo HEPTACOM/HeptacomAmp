@@ -153,7 +153,6 @@ class TagFilter implements IAmplifyDOM
                         "td",
                         "th",
                         "button",
-                        "script",
                         "noscript",
                         "acronym",
                         "center",
@@ -195,6 +194,9 @@ class TagFilter implements IAmplifyDOM
                         "option",
                         "select",
                         /* manuell */
+
+                        // has special whitelist
+                        // "script",
                     ]);
                 },
 
