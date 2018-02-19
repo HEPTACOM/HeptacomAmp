@@ -43,6 +43,8 @@
             <argument type="string">%heptacom_amp.view_dir%</argument>
             <argument type="service" id="heptacom_amp.factory.configuration"/>
             <argument type="service" id="heptacom_amp.reader.configuration"/>
+            <argument type="service" id="config"/>
+            <argument type="service" id="heptacom_amp.smarty.block_annotator"/>
         </service>
         <service id="heptacom_amp.subscriber.backend" class="HeptacomAmp\Subscriber\Backend">
             <tag name="shopware.event_subscriber" />
