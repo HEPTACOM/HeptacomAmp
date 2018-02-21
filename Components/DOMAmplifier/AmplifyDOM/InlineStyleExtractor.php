@@ -49,7 +49,7 @@ class InlineStyleExtractor implements IAmplifyDOM
                 $cssIndex++;
                 $key = "kskamp-inline-$cssIndex";
 
-                $this->styleStorage->addStyle(".$key{ $styleAttr }");
+                $this->styleStorage->addStyle(".$key{ $styleAttr }", 'inline');
 
                 $subnode->removeAttribute(self::STYLE_ATTRIBUTE_KEY);
 

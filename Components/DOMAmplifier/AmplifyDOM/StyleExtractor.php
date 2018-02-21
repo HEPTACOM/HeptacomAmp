@@ -40,7 +40,7 @@ class StyleExtractor implements IAmplifyDOM
         foreach ($document->getElementsByTagName('style') as $style) {
             /** @var DOMNode $style */
             if (is_null($style->attributes->getNamedItem('amp-boilerplate'))) {
-                $this->styleStorage->addStyle($style->textContent);
+                $this->styleStorage->addStyle($style->textContent, 'styleTag');
                 $style->parentNode->removeChild($style);
             }
         }

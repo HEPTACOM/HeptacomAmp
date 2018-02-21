@@ -9,7 +9,7 @@ namespace HeptacomAmp\Components\DOMAmplifier;
 class StyleStorage
 {
     /**
-     * @var string[]
+     * @var string[][]
      */
     private $styles = [];
 
@@ -18,9 +18,12 @@ class StyleStorage
      * @param string $style
      * @return $this
      */
-    public function addStyle($style)
+    public function addStyle($style, $origin = null)
     {
-        $this->styles[] = $style;
+        $this->styles[] = [
+            'content' => $style,
+            'origin' => $origin
+        ];
         return $this;
     }
 
@@ -32,12 +35,12 @@ class StyleStorage
     public function addStylesheet($stylesheetUrl)
     {
         if (is_file(realpath($stylesheetUrl))) {
-            $this->styles[] = file_get_contents($stylesheetUrl);
+            $this->addStyle(file_get_contents($stylesheetUrl), 'externalStylesheet');
         } else {
-            $this->styles[] = file_get_contents(realpath(implode(DIRECTORY_SEPARATOR, [
+            $this->addStyle(file_get_contents(realpath(implode(DIRECTORY_SEPARATOR, [
                 Shopware()->DocPath(),
                 substr($stylesheetUrl, strlen(Shopware()->Front()->Request()->getBaseUrl()))
-            ])));
+            ]))), 'externalStylesheet');
         }
 
         return $this;
@@ -49,15 +52,35 @@ class StyleStorage
      */
     public function getContent()
     {
-        $customCss = join(' ', $this->styles);
-
         $themeVariables = Shopware()->Template()->getTemplateVars('theme');
         if (is_array($themeVariables)
             && array_key_exists('HeptacomAmpCustomCss', $themeVariables)
             && !empty($themeVariables['HeptacomAmpCustomCss'])) {
-            $customCss = $themeVariables['HeptacomAmpCustomCss'];
+            $css = join(' ', [
+                $themeVariables['HeptacomAmpCustomCss'],
+                $this->getContentByOrigin(['fontTag', 'inline']),
+            ]);
+        } else {
+            $css = $this->getContentByOrigin();
         }
 
-        return $customCss;
+        return $css;
+    }
+
+    /**
+     * @param array $origins
+     * @return string
+     */
+    private function getContentByOrigin(array $origins = [])
+    {
+        $css = [];
+
+        foreach ($this->styles as $style) {
+            if (in_array($style['origin'], $origins) || empty($origins)) {
+                $css[] = $style['content'];
+            }
+        }
+
+        return join(' ', $css);
     }
 }

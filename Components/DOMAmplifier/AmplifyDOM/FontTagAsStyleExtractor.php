@@ -134,7 +134,7 @@ class FontTagAsStyleExtractor implements IAmplifyDOM
             } else {
                 $this->cssIndex++;
                 $this->generatedClasses[$props] = $key = "kskamp-font-$this->cssIndex";
-                $this->styleStorage->addStyle(".$key{ $props }");
+                $this->styleStorage->addStyle(".$key{ $props }", 'fontTag');
             }
 
             if (empty($class = $result->getAttribute(self::CLASS_ATTRIBUTE_KEY))) {
