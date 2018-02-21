@@ -49,6 +49,15 @@ class StyleStorage
      */
     public function getContent()
     {
-        return join(' ', $this->styles);
+        $customCss = join(' ', $this->styles);
+
+        $themeVariables = Shopware()->Template()->getTemplateVars('theme');
+        if (is_array($themeVariables)
+            && array_key_exists('HeptacomAmpCustomCss', $themeVariables)
+            && !empty($themeVariables['HeptacomAmpCustomCss'])) {
+            $customCss = $themeVariables['HeptacomAmpCustomCss'];
+        }
+
+        return $customCss;
     }
 }
