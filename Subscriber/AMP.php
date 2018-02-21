@@ -206,6 +206,7 @@ class AMP implements SubscriberInterface
             $domAmplifier = new DOMAmplifier($this->fileCache);
             $styleStorage = new DOMAmplifier\StyleStorage();
             $styleInjector = new AmplifyDOM\CustomStyleInjector($styleStorage, $this->fileCache);
+            // TODO if custom css exists, add it to the $styleStorage and set allowedOrigins in $styleStorage
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveImports());
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveKeyFrames());
             $styleInjector->useAmplifier(new AmplifyStyle\RemoveResponsiveMediaRules());
