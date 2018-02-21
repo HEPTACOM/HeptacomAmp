@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.2.0</version>
+    <version>2.3.0</version>
     <license>proprietary</license>
     <link>https://www.ksk-agentur.de/</link>
     <author>KSK-Agentur</author>
@@ -111,6 +111,7 @@
     </changelog>
     <changelog version="2.3.0">
         <changes lang="de">Feature: Optionaler Debugmodus. Für Untersuchungen kann die AMP-Ansicht generiert werden, die für uns zu Untersuchungszwecken notwendig ist.</changes>
+        <changes lang="de">Feature: Neues Feld in der Theme-Konfiguration für eigenes CSS. (überschreibt das übrige CSS auf AMP-Seiten)</changes>
         <changes lang="de">Bugfix: Fälschlicherweise script-Tag als AMP-valide eingestuft.</changes>
         <changes lang="de">Bugfix: Fehlende strukturierte Information zum Preis nachgetragen.</changes>
     </changelog>
