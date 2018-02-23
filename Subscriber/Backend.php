@@ -27,36 +27,46 @@ class Backend implements SubscriberInterface
         ];
     }
 
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
     public function addThemeConfigurationField(Enlight_Event_EventArgs $args)
     {
         /** @var TabContainer $container */
         $container = $args->get('container');
 
-        /** @var Tab[] $tabs */
-        $tabs = $container->getElements();
+        $ampTab = new Tab('heptacom_amp', 'AMP');
+        $ampTab->setAttributes([
+            'layout' => 'anchor',
+            'autoScroll' => true,
+            'padding' => '0',
+            'defaults' => [
+                'anchor' => '100%',
+            ],
+        ]);
 
-        foreach ($tabs as $tab) {
-            if ($tab->getName() !== 'responsiveMain') {
-                continue;
-            }
+        $fieldset = new FieldSet('global', 'Globale Konfiguration');
+        $fieldset->setAttributes([
+            'layout' => 'anchor',
+            'autoScroll' => true,
+            'padding' => '10',
+            'margin' => '5',
+            'defaults' => [
+                'labelWidth' => 155,
+                'anchor' => '100%',
+            ],
+        ]);
 
-            $element = new TextArea('HeptacomAmpCustomCss');
-            $element->setLabel('AMP Custom CSS');
-            $element->setAttributes([
-                'xtype' => 'textarea',
-                'lessCompatible' => false,
-            ]);
+        $element = new TextArea('HeptacomAmpCustomCss');
+        $element->setLabel('AMP Custom CSS');
+        $element->setAttributes([
+            'xtype' => 'textarea',
+            'lessCompatible' => false,
+        ]);
 
-            foreach ($tab->getElements() as $fieldset) {
-                if (!$fieldset instanceof FieldSet) {
-                    continue;
-                }
-
-                if ($fieldset->getName() === 'responsiveGlobal') {
-                    $fieldset->addElement($element);
-                }
-            }
-        }
+        $fieldset->addElement($element);
+        $ampTab->addElement($fieldset);
+        $container->addElement($ampTab);
     }
 
     /**
