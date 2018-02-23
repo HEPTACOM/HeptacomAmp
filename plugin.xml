@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.3.0</version>
+    <version>2.3.1</version>
     <license>proprietary</license>
     <link>https://www.ksk-agentur.de/</link>
     <author>KSK-Agentur</author>
@@ -137,5 +137,9 @@
         <changes lang="de">Feature: Neues Feld in der Theme-Konfiguration für eigenes CSS. (überschreibt das übrige CSS auf AMP-Seiten)</changes>
         <changes lang="de">Bugfix: Fälschlicherweise script-Tag als AMP-valide eingestuft.</changes>
         <changes lang="de">Bugfix: Fehlende strukturierte Information zum Preis nachgetragen.</changes>
+    </changelog>
+    <changelog>
+        <changes lang="en">Improvement: Moved new field for custom css to a separate tab to support themes that do not include the default tabs.</changes>
+        <changes lang="de">Verbesserung: Neues Feld für Custom CSS in einen eigenen Tab ausgelagert, um Themes zu unterstützen, die die Standard-Tabs nicht einbinden.</changes>
     </changelog>
 </plugin>
