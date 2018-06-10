@@ -2,6 +2,7 @@
 
 namespace HeptacomAmp\Services;
 
+use Shopware\Components\HttpClient\GuzzleFactory;
 use Shopware\Components\HttpClient\GuzzleHttpClient;
 use Shopware\Components\HttpClient\RequestException;
 
@@ -18,11 +19,11 @@ class WebRequest
 
     /**
      * WebRequest constructor.
-     * @param GuzzleHttpClient $guzzleHttpClient
+     * @param GuzzleHttpClient $guzzleFactory
      */
-    public function __construct(GuzzleHttpClient $guzzleHttpClient)
+    public function __construct(GuzzleFactory $guzzleFactory)
     {
-        $this->guzzleHttpClient = $guzzleHttpClient;
+        $this->guzzleHttpClient = $guzzleFactory->createClient();
     }
 
     /**
@@ -44,10 +45,9 @@ class WebRequest
      */
     public function get($url)
     {
-        try {
-            return $this->guzzleHttpClient->get($url)->getBody();
-        } catch (RequestException $e) {
-            return '';
-        }
+        $request = $this->guzzleHttpClient->createRequest('GET', $url, [
+            'verify' => false,
+        ]);
+        return $this->guzzleHttpClient->send($request)->getBody()->getContents();
     }
 }

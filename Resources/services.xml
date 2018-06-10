@@ -65,7 +65,7 @@
             <argument type="service" id="shopware_search.product_search"/>
         </service>
         <service id="heptacom_amp.services.web_request" class="HeptacomAmp\Services\WebRequest">
-            <argument type="service" id="http_client"/>
+            <argument type="service" id="guzzle_http_client_factory"/>
         </service>
         <service id="heptacom_amp.smarty.block_annotator" class="HeptacomAmp\Services\Smarty\BlockAnnotator">
             <argument type="service" id="heptacom_amp.smarty.block_splitter" />

@@ -203,7 +203,7 @@ class UrlFactory
             $newContext->setHost($context->getHost());
             $newContext->setBaseUrl($context->getBaseUrl());
             // Reuse https
-            if (!$newContext->isSecure()) {
+            if (method_exists($newContext, 'setSecureBaseUrl') && !$newContext->isSecure()) {
                 $newContext->setSecure($context->isSecure());
                 $newContext->setSecureBaseUrl($context->getSecureBaseUrl());
             }
