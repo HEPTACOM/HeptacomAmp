@@ -3,7 +3,7 @@
     <label lang="de">AMP</label>
     <label lang="en">AMP</label>
 
-    <version>2.2.0</version>
+    <version>2.3.1</version>
     <license>proprietary</license>
     <link>https://www.ksk-agentur.de/</link>
     <author>KSK-Agentur</author>
@@ -79,15 +79,23 @@
         <changes lang="de">'In den Warenkorb'-Knopf an 5.3 Textbausteinen angepasst.</changes>
     </changelog>
     <changelog version="2.1.7">
+        <changes lang="en">Bugfix: SQL-condition for cache-warmer preparation</changes>
         <changes lang="de">Bugfix: SQL-Bedingung beim Vorbereiten des Cache-Warmers</changes>
     </changelog>
     <changelog version="2.1.8">
+        <changes lang="en">Bugfix: Fixed incorrect article urls in the listing.</changes>
         <changes lang="de">Inkorrekte Artikel-URLs in Kategorieseiten behoben</changes>
     </changelog>
     <changelog version="2.1.9">
+        <changes lang="en">Bugfix: Loading several categories in parallel led to a unexpected reload of the Shopware backend</changes>
         <changes lang="de">Bugfix: Laden von vielen Kategorien parallel führte zum Neuladen des Shopware Backends.</changes>
     </changelog>
     <changelog version="2.1.10">
+        <changes lang="en">Feature: Added support for core plugin "Notification".</changes>
+        <changes lang="en">Bugfix: Added missing support for customized article detail templates.</changes>
+        <changes lang="en">Bugfix: Rate link scrolls down to rating section.</changes>
+        <changes lang="en">Bugfix: Fixed issue where it was not possible to select multiple configurators (Github Issue #1)</changes>
+        <changes lang="en">Bugfix: Fixed issue about resetting configurator selection (Github Issue #2).</changes>
         <changes lang="de">Feature: Support für das Core-Plugin "Notification".</changes>
         <changes lang="de">Bugfix: Kompatibilität für eigene Artikeldetail-Templates hinzugefügt.</changes>
         <changes lang="de">Bugfix: Bewerten-Link scrollt jetzt zum Bewertungsbereich.</changes>
@@ -95,9 +103,20 @@
         <changes lang="de">Bugfix: Konfiguration zurücksetzen ermöglicht (Github Issue #2).</changes>
     </changelog>
     <changelog version="2.1.11">
+        <changes lang="en">Bugfix: Category and custom pages had no content or threw an exception.</changes>
         <changes lang="de">Bugfix: Kategorie- und Inhaltsseiten waren ohne Inhalt bzw. haben einen Fehler geworfen.</changes>
     </changelog>
     <changelog version="2.2.0">
+        <changes lang="en">Feature Multishopsupport. The plugin can be activated for each subshop separately.</changes>
+        <changes lang="en">Feature Multishopsupport. The used AMP theme can be set for each subshop separately.</changes>
+        <changes lang="en">Feature Embed YouTube videos are converted to AMP.</changes>
+        <changes lang="en">Bugfix Deprecated font-tag is now converted into valid styles.</changes>
+        <changes lang="en">Bugfix Inline styles were not cleansed and could become invalid AMP style.</changes>
+        <changes lang="en">Bugfix There is now a template for missing products.</changes>
+        <changes lang="en">Bugfix Backend listed products that were not available.</changes>
+        <changes lang="en">Bugfix Adjusted relative URIs in stylesheets.</changes>
+        <changes lang="en">Bugfix Convert custom fonts into AMP valid styles.</changes>
+        <changes lang="en">Bugfix Ignore store login while validating/cache warming the AMP pages.</changes>
         <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das de- und aktivieren von AMP je Subshop.</changes>
         <changes lang="de">Feature: Multishopsupport. Die Pluginkonfiguration ermöglicht das Wählen eines AMP Themes je Subshop.</changes>
         <changes lang="de">Feature: YouTube Einbettung unterstützt.</changes>
@@ -108,5 +127,19 @@
         <changes lang="de">Bugfix: Relative URLs im Stylesheet werden alle korrigiert.</changes>
         <changes lang="de">Bugfix: Alle eigene Schriftarten erlaubt.</changes>
         <changes lang="de">Bugfix: Aktueller Kundenlogin beim Validieren ignoriert.</changes>
+    </changelog>
+    <changelog version="2.3.0">
+        <changes lang="en">Feature: Optional debug mode. Now there is a debug AMP view useful for inspection.</changes>
+        <changes lang="en">Feature: New field in the theme configuration for custom css. (overrides all other css on AMP pages)</changes>
+        <changes lang="en">Bugfix: Script tags used to be consideres AMP valid by mistake.</changes>
+        <changes lang="en">Bugfix: Added missing structured data for prices.</changes>
+        <changes lang="de">Feature: Optionaler Debugmodus. Für Untersuchungen kann die AMP-Ansicht generiert werden, die für uns zu Untersuchungszwecken notwendig ist.</changes>
+        <changes lang="de">Feature: Neues Feld in der Theme-Konfiguration für eigenes CSS. (überschreibt das übrige CSS auf AMP-Seiten)</changes>
+        <changes lang="de">Bugfix: Fälschlicherweise script-Tag als AMP-valide eingestuft.</changes>
+        <changes lang="de">Bugfix: Fehlende strukturierte Information zum Preis nachgetragen.</changes>
+    </changelog>
+    <changelog>
+        <changes lang="en">Improvement: Moved new field for custom css to a separate tab to support themes that do not include the default tabs.</changes>
+        <changes lang="de">Verbesserung: Neues Feld für Custom CSS in einen eigenen Tab ausgelagert, um Themes zu unterstützen, die die Standard-Tabs nicht einbinden.</changes>
     </changelog>
 </plugin>

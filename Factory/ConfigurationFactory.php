@@ -14,6 +14,8 @@ class ConfigurationFactory
 
     const THEME = 'theme';
 
+    const DEBUG = 'debug';
+
     /**
      * @param array $data
      * @return ConfigurationStruct
@@ -22,6 +24,7 @@ class ConfigurationFactory
     {
         return (new ConfigurationStruct())
             ->setActive(boolval($data[self::ACTIVE]))
+            ->setDebug(boolval($data[self::DEBUG]))
             ->setTheme($data[self::THEME] ?: '');
     }
 }
