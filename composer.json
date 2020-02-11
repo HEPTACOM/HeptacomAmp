@@ -1,7 +1,7 @@
 {
     "name": "heptacom/shopware-heptacom-amp",
     "license": "GPL-3.0-or-later",
-    "description": "OpenApi based api client to communicate to DigiStore24",
+    "description": "Shopware plugin to add a second storefront with AMP support",
     "type": "shopware-plugin",
     "keywords": [
         "ecommerce",
