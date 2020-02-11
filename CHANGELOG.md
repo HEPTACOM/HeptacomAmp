@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.3
+
+- Packagist Release
+
 ## 2.3.2
 
 - Bugfix: Fixed bugs related to changes from Shopware 5.3 to 5.4
