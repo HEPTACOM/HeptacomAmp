@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Subscriber;
 
@@ -9,10 +9,6 @@ use Shopware\Components\Form\Container\Tab;
 use Shopware\Components\Form\Container\TabContainer;
 use Shopware\Components\Form\Field\TextArea;
 
-/**
- * Class Backend
- * @package HeptacomAmp\Subscriber
- */
 class Backend implements SubscriberInterface
 {
     /**
@@ -20,16 +16,13 @@ class Backend implements SubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return  [
+        return [
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverview' => 'onGetBackendOverviewController',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_HeptacomAmpOverviewData' => 'onGetBackendOverviewDataController',
             'Theme_Configurator_Theme_Config_Created' => 'addThemeConfigurationField',
         ];
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function addThemeConfigurationField(Enlight_Event_EventArgs $args)
     {
         /** @var TabContainer $container */

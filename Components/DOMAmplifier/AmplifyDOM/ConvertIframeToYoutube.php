@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
@@ -8,17 +8,18 @@ use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 
 /*
- * Class ConvertIframeToYoutube
  * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
  */
 class ConvertIframeToYoutube implements IAmplifyDOM
 {
     /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
-    function amplify(DOMNode $node)
+    public function amplify(DOMNode $node)
     {
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;
@@ -46,10 +47,7 @@ class ConvertIframeToYoutube implements IAmplifyDOM
     }
 
     /**
-     * @param DOMDocument $document
      * @param string $youtubeId
-     * @param DOMElement $iframe
-     * @return mixed
      */
     protected function generateIframeReplacement(DOMDocument $document, $youtubeId, DOMElement $iframe, array $iframeQueryParams)
     {
@@ -58,8 +56,8 @@ class ConvertIframeToYoutube implements IAmplifyDOM
 
         $result->setAttribute('data-videoid', $youtubeId);
         $result->setAttribute('layout', 'responsive');
-        $result->setAttribute('width',  $iframe->hasAttribute('width') ? $iframe->getAttribute('width') : 480);
-        $result->setAttribute('height',  $iframe->hasAttribute('height') ? $iframe->getAttribute('height') : 270);
+        $result->setAttribute('width', $iframe->hasAttribute('width') ? $iframe->getAttribute('width') : 480);
+        $result->setAttribute('height', $iframe->hasAttribute('height') ? $iframe->getAttribute('height') : 270);
         if (array_key_exists('autoplay', $iframeQueryParams)) {
             $result->setAttribute('autoplay', '');
         }
@@ -81,7 +79,7 @@ class ConvertIframeToYoutube implements IAmplifyDOM
 
         foreach ($youtubeQueryParams as $queryParam) {
             if (array_key_exists($queryParam, $iframeQueryParams)) {
-                $result->setAttribute('data-param-'.$queryParam, $iframeQueryParams[$queryParam]);
+                $result->setAttribute('data-param-' . $queryParam, $iframeQueryParams[$queryParam]);
             }
         }
 

@@ -1,20 +1,54 @@
 {
-  "require": {
-    "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
-    "symfony/css-selector": "~2.0,>=2.0.5|~3.0.0"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "sabberworm/php-cs-parser",
-        "version": "v9.0.0",
-        "source": {
-          "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-          "type": "git",
-          "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
+    "name": "heptacom/shopware-heptacom-amp",
+    "license": "GPL-3.0-or-later",
+    "description": "OpenApi based api client to communicate to DigiStore24",
+    "type": "shopware-plugin",
+    "keywords": [
+        "ecommerce",
+        "shopware"
+    ],
+    "authors": [
+        {
+            "name": "HEPTACOM GmbH",
+            "role": "Manufacturer"
+        },
+        {
+            "name": "Julian Krzefski",
+            "role": "Developer"
         }
-      }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "sabberworm/php-cs-parser",
+                "version": "v9.0.0",
+                "source": {
+                    "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+                    "type": "git",
+                    "reference": "2ddbdefcf174ed3245c1ff2eec768d1a7c74413e"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": ">= 7.2",
+        "sabberworm/php-css-parser": "dev-master#2ddbdefcf174ed3245c1ff2eec768d1a7c74413e",
+        "symfony/css-selector": "~2.0,>=2.0.5|~3.0.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^1.17"
+    },
+    "extra": {
+        "installer-name": "HeptacomAmp"
+    },
+    "scripts": {
+        "php-lint": [
+            "php-cs-fixer fix --allow-risky=yes --dry-run"
+        ],
+        "php-lint-fix": [
+            "php-cs-fixer fix --allow-risky=yes"
+        ]
     }
-  ]
 }

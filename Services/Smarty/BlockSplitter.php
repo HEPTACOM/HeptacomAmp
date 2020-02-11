@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Services\Smarty;
 
@@ -6,6 +6,7 @@ namespace HeptacomAmp\Services\Smarty;
  * BlockSplitter splits a given template string into smarty blocks.
  *
  * @author Daniel Nögel <d.noegel@shopware.com>
+ *
  * @internal Taken from https://github.com/shyim/shopware-profiler/ and modified
  */
 class BlockSplitter
@@ -16,17 +17,17 @@ class BlockSplitter
     /**
      * Split $template into smary blocks and return an array with info about all the blocks.
      *
-     * @param $template
+     * @param mixed $template
      *
      * @return array
      */
     public function split($template)
     {
-        $matches = array();
+        $matches = [];
         preg_match_all('#' . self::BLOCK_START . '|' . self::BLOCK_END . '#', $template, $matches, PREG_OFFSET_CAPTURE);
 
-        $openStack = array();
-        $closedStack = array();
+        $openStack = [];
+        $closedStack = [];
 
         // Iterate all matches and build the result array
         foreach ($matches[0] as $key => $match) {
@@ -38,10 +39,10 @@ class BlockSplitter
             if ($isStart) {
                 // iterate all currently open blocks and increase the child counter
                 foreach ($openStack as &$parentElement) {
-                    $parentElement['children'] += 1;
+                    ++$parentElement['children'];
                 }
                 // push the open block to the stack
-                $openStack[] = array('name' => $name, 'start' => $offset, 'startContent' => $offset + strlen($value), 'children' => 0);
+                $openStack[] = ['name' => $name, 'start' => $offset, 'startContent' => $offset + strlen($value), 'children' => 0];
             } else {
                 // remove the closed block from `open` stack, collect some info and push it to `close` stack
                 $element = array_pop($openStack);
@@ -57,7 +58,7 @@ class BlockSplitter
         }
 
         // sort by children - the replaccement later will go from the deepest child towards the main parent
-        usort($closedStack, array($this, 'sortByChildren'));
+        usort($closedStack, [$this, 'sortByChildren']);
 
         return $closedStack;
     }
@@ -65,9 +66,9 @@ class BlockSplitter
     /**
      * Will to a substr() - and automatically takes care of transforming the absolute $end to a relative $length.
      *
-     * @param $string
-     * @param $start
-     * @param $end
+     * @param mixed $string
+     * @param mixed $start
+     * @param mixed $end
      *
      * @return string
      */
@@ -77,8 +78,8 @@ class BlockSplitter
     }
 
     /**
-     * @param $a
-     * @param $b
+     * @param mixed $a
+     * @param mixed $b
      *
      * @return int
      */

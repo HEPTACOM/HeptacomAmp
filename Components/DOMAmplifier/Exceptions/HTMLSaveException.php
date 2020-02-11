@@ -1,13 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\Exceptions;
 
 use Zend_Exception;
 
-/**
- * Class HTMLSaveException
- * @package HeptacomAmp\Components\DOMAmplifier\Exceptions
- */
 class HTMLSaveException extends Zend_Exception
 {
 }

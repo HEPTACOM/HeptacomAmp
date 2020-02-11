@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
@@ -12,10 +12,6 @@ use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Shopware\Components\Logger;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-/**
- * Class RemoveUnusedTagSelectors
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle
- */
 class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
 {
     /**
@@ -38,9 +34,6 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
      */
     private $pluginLogger;
 
-    /**
-     * RemoveUnusedTagSelectors constructor.
-     */
     public function __construct()
     {
         $this->xpathConverter = new CssSelectorConverter();
@@ -49,10 +42,11 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
 
     /**
      * Process and ⚡lifies the given node and style.
-     * @param DOMNode $domNode The node to ⚡lify.
-     * @param Document $styleDocument The style to ⚡lify.
+     *
+     * @param DOMNode  $domNode       the node to ⚡lify
+     * @param Document $styleDocument the style to ⚡lify
      */
-    function amplify(DOMNode& $domNode, Document& $styleDocument)
+    public function amplify(DOMNode &$domNode, Document &$styleDocument)
     {
         foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
             /** @var DeclarationBlock $declarationBlock */
@@ -60,7 +54,6 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
             $selectorsToRemove = [];
             foreach ($declarationBlock->getSelectors() as $selector) {
                 /** @var Selector $selector */
-
                 if (static::isWhitelisted($selector)) {
                     continue;
                 }
@@ -81,7 +74,6 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                 }
             }
 
-
             if (count($selectorsToRemove) == count($declarationBlock->getSelectors())) {
                 $styleDocument->remove($declarationBlock);
             } else {
@@ -91,7 +83,8 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
     }
 
     /**
-     * @param $selector
+     * @param mixed $selector
+     *
      * @return bool
      */
     private static function isWhitelisted($selector)
@@ -101,6 +94,7 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
@@ -9,17 +9,14 @@ use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\ValueList;
 
-/**
- * Class ShortenRulesToKnownShorthands
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle
- */
 class ShortenRulesToKnownShorthands implements IAmplifyStyle
 {
     /**
      * Process and ⚡lifies the given node and style.
-     * @param Document $styleDocument The style to ⚡lify.
+     *
+     * @param Document $styleDocument the style to ⚡lify
      */
-    function amplify(Document& $styleDocument)
+    public function amplify(Document &$styleDocument)
     {
         /** @var DeclarationBlock[] $declarationBlocks */
         $declarationBlocks = $styleDocument->getAllDeclarationBlocks();
@@ -30,7 +27,7 @@ class ShortenRulesToKnownShorthands implements IAmplifyStyle
                 if (in_array($rule->getRule(), [
                     'margin',
                     'padding',
-                    'border-width'
+                    'border-width',
                 ])) {
                     $values = $rule->getValue();
                     if ($values instanceof ValueList) {
@@ -56,8 +53,6 @@ class ShortenRulesToKnownShorthands implements IAmplifyStyle
     }
 
     /**
-     * @param Size $a
-     * @param Size $b
      * @return bool
      */
     private static function equalSizes(Size $a, Size $b)
@@ -66,7 +61,6 @@ class ShortenRulesToKnownShorthands implements IAmplifyStyle
     }
 
     /**
-     * @param mixed $value
      * @return bool
      */
     private static function filterSizeValues($value)

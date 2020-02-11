@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
@@ -9,10 +9,6 @@ use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 
-/**
- * Class ComponentInjection
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
- */
 class ComponentInjection implements IAmplifyDOM
 {
     /**
@@ -242,7 +238,7 @@ class ComponentInjection implements IAmplifyDOM
             'component' => 'amp-youtube',
             'version' => '0.1',
         ],
-        /** Additional filter **/
+        /* Additional filter **/
         'form' => [
             'component' => 'amp-form',
             'version' => '0.1',
@@ -250,72 +246,11 @@ class ComponentInjection implements IAmplifyDOM
     ];
 
     /**
-     * @param DOMNode $node
-     * @return string[]
-     * @internal param $comps
-     */
-    private static function findUsedComponentsByDOMTree(DOMNode $node)
-    {
-        $comps = [];
-        $nodes = new DOMNodeRecursiveIterator($node->childNodes);
-        foreach ($nodes->getRecursiveIterator() as $subnode) {
-            /** @var DOMNode $subnode */
-            if (array_key_exists(strtolower($subnode->nodeName), static::$components)) {
-                $comps[] = strtolower($subnode->nodeName);
-            }
-        }
-        return $comps;
-    }
-
-    /**
-     * @param DOMDocument $document
-     * @return DOMElement
-     */
-    private static function generateFallbackBoilerplateStyle(DOMDocument $document)
-    {
-        /** @var DOMElement $boilerplateNoscript */
-        $boilerplateNoscript = $document->createElement('noscript');
-        $boilerplateNoscriptStyle = $document->createElement('style', "body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}");
-        $boilerplateNoscriptStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
-        $boilerplateNoscript->appendChild($boilerplateNoscriptStyle);
-        return $boilerplateNoscript;
-    }
-
-    /**
-     * @param DOMDocument $document
-     * @return DOMElement
-     */
-    private static function generateBoilerplateStyle(DOMDocument $document)
-    {
-        /** @var DOMElement $boilerplateStyle */
-        $boilerplateStyle = $document->createElement('style', "body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}");
-        $boilerplateStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
-        return $boilerplateStyle;
-    }
-
-    /**
-     * @param DOMDocument $document
-     * @param $comp
-     * @return DOMElement
-     */
-    private static function generateComponentScriptTag(DOMDocument $document, $component)
-    {
-        /** @var DOMElement $compScript */
-        $compScript = $document->createElement('script');
-
-        $compScript->setAttributeNode(new DOMAttr('async'));
-        $compScript->setAttributeNode(new DOMAttr('custom-element', $component['component']));
-        $compScript->setAttributeNode(new DOMAttr(
-            'src',
-            "https://cdn.ampproject.org/v0/" . $component['component'] . "-" . $component['version'] . ".js"
-        ));
-        return $compScript;
-    }
-
-    /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
     public function amplify(DOMNode $node)
     {
@@ -335,5 +270,68 @@ class ComponentInjection implements IAmplifyDOM
         }
 
         return $node;
+    }
+
+    /**
+     * @return string[]
+     *
+     * @internal param $comps
+     */
+    private static function findUsedComponentsByDOMTree(DOMNode $node)
+    {
+        $comps = [];
+        $nodes = new DOMNodeRecursiveIterator($node->childNodes);
+        foreach ($nodes->getRecursiveIterator() as $subnode) {
+            /** @var DOMNode $subnode */
+            if (array_key_exists(strtolower($subnode->nodeName), static::$components)) {
+                $comps[] = strtolower($subnode->nodeName);
+            }
+        }
+
+        return $comps;
+    }
+
+    /**
+     * @return DOMElement
+     */
+    private static function generateFallbackBoilerplateStyle(DOMDocument $document)
+    {
+        /** @var DOMElement $boilerplateNoscript */
+        $boilerplateNoscript = $document->createElement('noscript');
+        $boilerplateNoscriptStyle = $document->createElement('style', 'body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}');
+        $boilerplateNoscriptStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+        $boilerplateNoscript->appendChild($boilerplateNoscriptStyle);
+
+        return $boilerplateNoscript;
+    }
+
+    /**
+     * @return DOMElement
+     */
+    private static function generateBoilerplateStyle(DOMDocument $document)
+    {
+        /** @var DOMElement $boilerplateStyle */
+        $boilerplateStyle = $document->createElement('style', 'body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}');
+        $boilerplateStyle->setAttributeNode(new DOMAttr('amp-boilerplate'));
+
+        return $boilerplateStyle;
+    }
+
+    /**
+     * @return DOMElement
+     */
+    private static function generateComponentScriptTag(DOMDocument $document, $component)
+    {
+        /** @var DOMElement $compScript */
+        $compScript = $document->createElement('script');
+
+        $compScript->setAttributeNode(new DOMAttr('async'));
+        $compScript->setAttributeNode(new DOMAttr('custom-element', $component['component']));
+        $compScript->setAttributeNode(new DOMAttr(
+            'src',
+            'https://cdn.ampproject.org/v0/' . $component['component'] . '-' . $component['version'] . '.js'
+        ));
+
+        return $compScript;
     }
 }

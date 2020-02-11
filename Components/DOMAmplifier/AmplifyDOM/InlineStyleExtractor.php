@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
@@ -8,10 +8,6 @@ use HeptacomAmp\Components\DOMAmplifier\Helper\DOMNodeRecursiveIterator;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
-/**
- * Class InlineStyleExtractor
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
- */
 class InlineStyleExtractor implements IAmplifyDOM
 {
     const CLASS_ATTRIBUTE_KEY = 'class';
@@ -23,10 +19,6 @@ class InlineStyleExtractor implements IAmplifyDOM
      */
     private $styleStorage;
 
-    /**
-     * StyleExtractor constructor.
-     * @param StyleStorage $styleStorage
-     */
     public function __construct(StyleStorage $styleStorage)
     {
         $this->styleStorage = $styleStorage;
@@ -34,19 +26,21 @@ class InlineStyleExtractor implements IAmplifyDOM
 
     /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
-    function amplify(DOMNode $node)
+    public function amplify(DOMNode $node)
     {
         $cssIndex = 0;
 
         $nodes = new DOMNodeRecursiveIterator($node->childNodes);
         foreach ($nodes->getRecursiveIterator() as $subnode) {
-            if ($subnode instanceof DOMElement &&
-                $subnode->hasAttributes() &&
-                !empty($styleAttr = $subnode->getAttribute(self::STYLE_ATTRIBUTE_KEY))) {
-                $cssIndex++;
+            if ($subnode instanceof DOMElement
+                && $subnode->hasAttributes()
+                && !empty($styleAttr = $subnode->getAttribute(self::STYLE_ATTRIBUTE_KEY))) {
+                ++$cssIndex;
                 $key = "kskamp-inline-$cssIndex";
 
                 $this->styleStorage->addStyle(".$key{ $styleAttr }", 'inline');

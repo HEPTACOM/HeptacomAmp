@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle;
 
@@ -6,14 +6,32 @@ use HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\IAmplifyStyle;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 
-/**
- * Class HtmlEntitiesToUnicodeNotation
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM\AmplifyStyle
- */
 class HtmlEntitiesToUnicodeNotation implements IAmplifyStyle
 {
     /**
+     * Process and ⚡lifies the given node and style.
+     *
+     * @param Document $styleDocument the style to ⚡lify
+     */
+    public function amplify(Document &$styleDocument)
+    {
+        foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
+            /** @var DeclarationBlock $declarationBlock */
+            foreach ($declarationBlock->getRules() as $rule) {
+                if ($rule->getRule() == 'content') {
+                    $value = trim($rule->getValue(), '"');
+
+                    if (strlen($value) != mb_strlen($value)) {
+                        $rule->setValue('"\\' . base_convert(static::ord_utf8($value), 10, 16) . '"');
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * @param string $c
+     *
      * @return int
      */
     private static function ord_utf8($c)
@@ -29,25 +47,5 @@ class HtmlEntitiesToUnicodeNotation implements IAmplifyStyle
         }
 
         return (($b0 & 0x0F) << 12) + (($b1 & 0x3F) << 6) + (ord($c[2]) & 0x3F);
-    }
-
-    /**
-     * Process and ⚡lifies the given node and style.
-     * @param Document $styleDocument The style to ⚡lify.
-     */
-    function amplify(Document& $styleDocument)
-    {
-        foreach ($styleDocument->getAllDeclarationBlocks() as $declarationBlock) {
-            /** @var DeclarationBlock $declarationBlock */
-            foreach ($declarationBlock->getRules() as $rule) {
-                if ($rule->getRule() == 'content') {
-                    $value = trim($rule->getValue(), '"');
-
-                    if (strlen($value) != mb_strlen($value)) {
-                        $rule->setValue('"\\' . base_convert(static::ord_utf8($value), 10, 16) . '"');
-                    }
-                }
-            }
-        }
     }
 }

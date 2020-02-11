@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components;
 
@@ -7,10 +7,6 @@ use HeptacomAmp\Components\DOMAmplifier\Exceptions\HTMLLoadException;
 use HeptacomAmp\Components\DOMAmplifier\Exceptions\HTMLSaveException;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 
-/**
- * Class DOMAmplifier
- * @package HeptacomAmp\Components
- */
 class DOMAmplifier
 {
     /**
@@ -23,10 +19,6 @@ class DOMAmplifier
      */
     private $fileCache;
 
-    /**
-     * DOMAmplifier constructor.
-     * @param FileCache $fileCache
-     */
     public function __construct(FileCache $fileCache)
     {
         $this->fileCache = $fileCache;
@@ -34,7 +26,8 @@ class DOMAmplifier
 
     /**
      * Registers a ⚡lifier module.
-     * @param IAmplifyDOM $amplify The module to use.
+     *
+     * @param IAmplifyDOM $amplify the module to use
      */
     public function useAmplifier(IAmplifyDOM $amplify)
     {
@@ -45,16 +38,19 @@ class DOMAmplifier
 
     /**
      * ⚡lifies the given HTML.
-     * @param string $html The HTML code to ⚡lify.
-     * @return string The ⚡lified HTML code.
+     *
+     * @param string $html the HTML code to ⚡lify
+     *
      * @throws HTMLLoadException
      * @throws HTMLSaveException
+     *
+     * @return string the ⚡lified HTML code
      */
     public function amplifyHTML($html)
     {
         $amplifier = $this->amplifier;
 
-        return $this->fileCache->getCachedContents($html, 'amp_html', function ($htmlData) use($amplifier) {
+        return $this->fileCache->getCachedContents($html, 'amp_html', function ($htmlData) use ($amplifier) {
             $document = new DOMDocument();
 
             if (!$document->loadHTML(mb_convert_encoding($htmlData, 'HTML-ENTITIES', 'UTF-8'))) {
@@ -73,8 +69,10 @@ class DOMAmplifier
 
     /**
      * ⚡lifies the given DOM.
-     * @param DOMDocument $document The DOM to ⚡lify.
-     * @return DOMDocument The ⚡lified DOM.
+     *
+     * @param DOMDocument $document the DOM to ⚡lify
+     *
+     * @return DOMDocument the ⚡lified DOM
      */
     public function amplifyDOM(DOMDocument $document)
     {
@@ -83,9 +81,11 @@ class DOMAmplifier
 
     /**
      * ⚡lifies the given DOM.
-     * @param DOMDocument $document The DOM to ⚡lify.
-     * @param IAmplifyDOM[] $amplifier The filter.
-     * @return DOMDocument The ⚡lified DOM.
+     *
+     * @param DOMDocument   $document  the DOM to ⚡lify
+     * @param IAmplifyDOM[] $amplifier the filter
+     *
+     * @return DOMDocument the ⚡lified DOM
      */
     public static function amplifyDOMWithFilter(DOMDocument $document, array $amplifier)
     {

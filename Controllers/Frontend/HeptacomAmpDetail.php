@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controllers_Frontend_Detail
 {
@@ -9,7 +9,7 @@ class Shopware_Controllers_Frontend_HeptacomAmpDetail extends Shopware_Controlle
                 $this->redirect([
                     'controller' => 'detail',
                     'action' => 'index',
-                    'sArticle' => (int)$this->Request()->get('sArticle'),
+                    'sArticle' => (int) $this->Request()->get('sArticle'),
                     'amp' => 1,
                 ]);
             }

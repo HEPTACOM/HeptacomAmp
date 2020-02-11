@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Services\Searcher;
 
@@ -11,14 +11,10 @@ use Shopware\Bundle\SearchBundle\StoreFrontCriteriaFactoryInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Models\Category\Category;
-use Shopware\Models\Shop\Repository as ShopRepository;
 use Shopware\Models\Category\Repository as CategoryRepository;
+use Shopware\Models\Shop\Repository as ShopRepository;
 use Shopware\Models\Shop\Shop;
 
-/**
- * Class UrlSearcher
- * @package HeptacomAmp\Services\Searcher
- */
 class UrlSearcher
 {
     /**
@@ -61,17 +57,6 @@ class UrlSearcher
      */
     private $productSearchService;
 
-    /**
-     * UrlSearcher constructor.
-     * @param ConfigurationFactory $configurationFactory
-     * @param ConfigurationReader $configurationReader
-     * @param ShopRepository $shopRepository
-     * @param CategoryRepository $categoryRepository
-     * @param UrlFactory $urlFactory
-     * @param ContextServiceInterface $shopContextService
-     * @param StoreFrontCriteriaFactoryInterface $storeFrontCriteriaFactory
-     * @param ProductSearchInterface $productSearchService
-     */
     public function __construct(
         ConfigurationFactory $configurationFactory,
         ConfigurationReader $configurationReader,
@@ -100,6 +85,7 @@ class UrlSearcher
         /** @var Shop[] $shops */
         $shops = $this->shopRepository->getActiveShops();
         $shops = array_filter($shops, [$this, 'hasShopAmpEnabled']);
+
         return array_map([$this->urlFactory, 'hydrateFromShop'], $shops);
     }
 
@@ -122,6 +108,7 @@ class UrlSearcher
 
         $categoryIds = array_column($qb->getQuery()->getArrayResult(), 'categoriesId');
         $categories = array_map([$this->categoryRepository, 'find'], $categoryIds);
+
         return array_map(function (Category $category) use ($shop) {
             return $this->urlFactory->hydrateFromCategory($shop, $category);
         }, $categories);
@@ -134,13 +121,13 @@ class UrlSearcher
     {
         $context = $this->shopContextService->createShopContext($shop->getId());
         $criteria = $this->storeFrontCriteriaFactory->createBaseCriteria([$category->getId()], $context);
+
         return array_map(function (ListProduct $product) use ($shop) {
             return $this->urlFactory->hydrateFromProduct($shop, $product);
         }, array_values($this->productSearchService->search($criteria, $context)->getProducts()));
     }
 
     /**
-     * @param Shop $shop
      * @return bool
      */
     protected function hasShopAmpEnabled(Shop $shop)

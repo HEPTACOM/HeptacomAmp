@@ -1,19 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier;
 
 use DOMNode;
 
-/**
- * Interface IAmplifyDOM
- * @package HeptacomAmp\Components\DOMAmplifier
- */
 interface IAmplifyDOM
 {
     /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
-    function amplify(DOMNode $node);
+    public function amplify(DOMNode $node);
 }

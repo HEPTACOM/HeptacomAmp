@@ -1,16 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components;
 
 use HeptacomAmp\Components\PluginDependencies\Dependency;
 use Shopware\Models\Shop\Shop;
 
-/**
- * Class PluginDependencies
- * @package HeptacomAmp\Components
- */
 class PluginDependencies
 {
+    /**
+     * @var PluginDependencies
+     */
+    private static $instance;
+
+    /**
+     * @var Dependency[]
+     */
+    private $dependencies = [];
+
     private function __construct()
     {
         if (extension_loaded('dom')) {
@@ -28,13 +34,9 @@ class PluginDependencies
     }
 
     /**
-     * @var PluginDependencies
-     */
-    private static $instance;
-
-    /**
      * Returns the singleton.
-     * @return PluginDependencies The singleton.
+     *
+     * @return PluginDependencies the singleton
      */
     public static function instance()
     {
@@ -46,16 +48,12 @@ class PluginDependencies
     }
 
     /**
-     * @var Dependency[]
-     */
-    private $dependencies = [];
-
-    /**
      * Returns all dependencies.
+     *
      * @return PluginDependencies\Dependency[]
      */
     public function getDependencies()
     {
         return $this->dependencies;
     }
-};
+}

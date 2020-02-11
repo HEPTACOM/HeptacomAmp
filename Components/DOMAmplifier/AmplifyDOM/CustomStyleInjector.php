@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
@@ -12,10 +12,6 @@ use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\Parser;
 
-/**
- * Class CustomStyleInjector
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
- */
 class CustomStyleInjector implements IAmplifyDOM
 {
     /**
@@ -38,10 +34,6 @@ class CustomStyleInjector implements IAmplifyDOM
      */
     private $styleDOMAmplifier = [];
 
-    /**
-     * CSSMerge constructor.
-     * @param StyleStorage $styleStorage
-     */
     public function __construct(StyleStorage $styleStorage, FileCache $fileCache)
     {
         $this->styleStorage = $styleStorage;
@@ -50,7 +42,8 @@ class CustomStyleInjector implements IAmplifyDOM
 
     /**
      * Registers a ⚡lifier module.
-     * @param IAmplifyStyle|IAmplifyDOMStyle $amplify The module to use.
+     *
+     * @param IAmplifyStyle|IAmplifyDOMStyle $amplify the module to use
      */
     public function useAmplifier($amplify)
     {
@@ -67,8 +60,10 @@ class CustomStyleInjector implements IAmplifyDOM
 
     /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
     public function amplify(DOMNode $node)
     {
@@ -106,7 +101,6 @@ class CustomStyleInjector implements IAmplifyDOM
     }
 
     /**
-     * @param Document $styleDocument
      * @return string
      */
     public static function renderCss(Document $styleDocument)
@@ -115,7 +109,8 @@ class CustomStyleInjector implements IAmplifyDOM
     }
 
     /**
-     * @param $stylesheet
+     * @param mixed $stylesheet
+     *
      * @return Document
      */
     public static function parseCss($stylesheet)

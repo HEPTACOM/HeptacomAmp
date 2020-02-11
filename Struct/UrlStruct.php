@@ -1,11 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Struct;
 
-/**
- * Class UrlStruct
- * @package HeptacomAmp\Struct
- */
 class UrlStruct
 {
     /**
@@ -33,11 +29,13 @@ class UrlStruct
 
     /**
      * @param string[] $urls
+     *
      * @return UrlStruct
      */
     public function setUrls($urls)
     {
         $this->urls = $urls;
+
         return $this;
     }
 
@@ -51,11 +49,13 @@ class UrlStruct
 
     /**
      * @param string $name
+     *
      * @return UrlStruct
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -69,11 +69,13 @@ class UrlStruct
 
     /**
      * @param int $id
+     *
      * @return UrlStruct
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 }

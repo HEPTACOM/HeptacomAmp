@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Reader;
 
@@ -8,10 +8,6 @@ use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Shop\Repository as ShopRepository;
 use Shopware\Models\Shop\Shop;
 
-/**
- * Class ConfigurationReader
- * @package HeptacomAmp\Reader
- */
 class ConfigurationReader
 {
     /**
@@ -24,11 +20,6 @@ class ConfigurationReader
      */
     private $configReader;
 
-    /**
-     * ConfigurationReader constructor.
-     * @param ShopRepository $shopRepository
-     * @param ConfigReader $configReader
-     */
     public function __construct(ShopRepository $shopRepository, ConfigReader $configReader)
     {
         $this->shopRepository = $shopRepository;
@@ -37,6 +28,7 @@ class ConfigurationReader
 
     /**
      * @param int $shopId
+     *
      * @return array
      */
     public function read($shopId)

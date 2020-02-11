@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp;
 
@@ -14,25 +14,16 @@ class HeptacomAmp extends Plugin
 {
     const PLUGIN_NAME = 'HeptacomAmp';
 
-    /**
-     * @param ActivateContext $context
-     */
     public function activate(ActivateContext $context)
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 
-    /**
-     * @param DeactivateContext $context
-     */
     public function deactivate(DeactivateContext $context)
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 
-    /**
-     * @param UpdateContext $context
-     */
     public function update(UpdateContext $context)
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
@@ -48,9 +39,6 @@ class HeptacomAmp extends Plugin
         ];
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function autoloadComposer(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Request_Request $request */

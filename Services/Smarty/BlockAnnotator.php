@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Services\Smarty;
 
@@ -6,25 +6,11 @@ namespace HeptacomAmp\Services\Smarty;
  * BlockAnnotator annotates smarty block with HTML comments, so you can tell which content belongs to which block.
  *
  * @author Daniel Nögel <d.noegel@shopware.com>
+ *
  * @internal Taken from https://github.com/shyim/shopware-profiler/ and modified
  */
 class BlockAnnotator
 {
-    /**
-     * @var BlockSplitter
-     */
-    private $blockSplitter;
-
-    /**
-     * BlockAnnotator constructor.
-     *
-     * @param BlockSplitter $blockSplitter
-     */
-    public function __construct(BlockSplitter $blockSplitter)
-    {
-        $this->blockSplitter = $blockSplitter;
-    }
-
     /**
      * Do not append block info to blacklisted blocks (e.g. JS, CSS).
      *
@@ -38,21 +24,32 @@ class BlockAnnotator
         'frontend_robots_txt_allows',
         'frontend_robots_txt_sitemap',
         'frontend_robots_txt_sitemap_mobile',
-        'frontend_index_body_attributes'
+        'frontend_index_body_attributes',
     ];
 
     /**
-     * @param $source
-     * @param $template
+     * @var BlockSplitter
+     */
+    private $blockSplitter;
+
+    public function __construct(BlockSplitter $blockSplitter)
+    {
+        $this->blockSplitter = $blockSplitter;
+    }
+
+    /**
+     * @param mixed $source
+     * @param mixed $template
+     *
      * @return string
      */
     public function annotate($source, $template)
     {
         foreach ($this->blockSplitter->split($source) as $block) {
-            if (in_array($block['name'], $this->blacklist) ||
-                strpos($block['name'], '/attributes') !== false ||
-                strpos($block['name'], 'classes') !== false ||
-                strpos($block['name'], 'frontend_index_search_similar_results_') !== false) {
+            if (in_array($block['name'], $this->blacklist)
+                || strpos($block['name'], '/attributes') !== false
+                || strpos($block['name'], 'classes') !== false
+                || strpos($block['name'], 'frontend_index_search_similar_results_') !== false) {
                 continue;
             }
 
@@ -61,7 +58,7 @@ class BlockAnnotator
             $currentFile = $template->_current_file;
 
             // smarty eval
-            if (0 === strpos($templateResources[0], 'string:')) {
+            if (strpos($templateResources[0], 'string:') === 0) {
                 $templateResources = [];
             }
 

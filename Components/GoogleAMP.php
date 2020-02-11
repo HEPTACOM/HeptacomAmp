@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components;
 
@@ -6,13 +6,9 @@ use Google_Client;
 use Google_Service_Acceleratedmobilepageurl;
 use Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsRequest;
 use Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsResponse;
-use Shopware\Components\HttpClient\HttpClientInterface;
 use InvalidArgumentException;
+use Shopware\Components\HttpClient\HttpClientInterface;
 
-/**
- * Class GoogleAMP
- * @package HeptacomAmp\Components
- */
 class GoogleAMP
 {
     /**
@@ -26,8 +22,7 @@ class GoogleAMP
     private $guzzle;
 
     /**
-     * GoogleAMP constructor.
-     * @param string $googleApiKey The Google API key.
+     * @param string $googleApiKey the Google API key
      */
     public function __construct($googleApiKey)
     {
@@ -39,14 +34,15 @@ class GoogleAMP
 
     /**
      * Sends a request to Google to index the url.
-     * @param string $url The url to request an indexing.
+     *
+     * @param string $url the url to request an indexing
      */
     public function indexUrl($url)
     {
         if (stripos($url, 'https://') === 0) {
-            $url = 'https://cdn.ampproject.org/c/s/'.substr($url, 0, 8);
+            $url = 'https://cdn.ampproject.org/c/s/' . substr($url, 0, 8);
         } elseif (stripos($url, 'http://') === 0) {
-            $url = 'https://cdn.ampproject.org/c/'.substr($url, 0, 7);
+            $url = 'https://cdn.ampproject.org/c/' . substr($url, 0, 7);
         } else {
             throw new InvalidArgumentException();
         }
@@ -56,8 +52,10 @@ class GoogleAMP
 
     /**
      * Requests the AMP urls that correspond to the canonicals.
-     * @param string[] $urls The urls to check.
-     * @param boolean  $checkCache True, if the cache should be updated on request.
+     *
+     * @param string[] $urls       the urls to check
+     * @param bool     $checkCache true, if the cache should be updated on request
+     *
      * @return Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsResponse
      */
     public function ampUrlsDoBatchGet(array $urls, $checkCache)
@@ -66,6 +64,7 @@ class GoogleAMP
         $param = new Google_Service_Acceleratedmobilepageurl_BatchGetAmpUrlsRequest();
         $param->setLookupStrategy($checkCache ? 'FETCH_LIVE_DOC' : 'IN_INDEX_DOC');
         $param->setUrls($urls);
+
         return $batchGet->ampUrls->batchGet($param);
     }
 }

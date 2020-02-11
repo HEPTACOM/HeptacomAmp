@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Factory;
 
@@ -10,10 +10,6 @@ use Shopware\Models\Category\Category;
 use Shopware\Models\Shop\Shop;
 use Shopware_Components_Config;
 
-/**
- * Class UrlFactory
- * @package HeptacomAmp\Factory
- */
 class UrlFactory
 {
     const URL_MODE_CANONICAL = 'canonical';
@@ -34,11 +30,6 @@ class UrlFactory
      */
     private $config;
 
-    /**
-     * UrlFactory constructor.
-     * @param Router $router
-     * @param Shopware_Components_Config $config
-     */
     public function __construct(Router $router, Shopware_Components_Config $config)
     {
         $this->router = $router;
@@ -46,26 +37,6 @@ class UrlFactory
     }
 
     /**
-     * @param int $urlMode
-     * @param array $extra
-     * @return array
-     */
-    protected static function appendUrlMode($urlMode, $extra)
-    {
-        switch ($urlMode) {
-            /** @noinspection PhpMissingBreakStatementInspection */
-            case self::URL_MODE_RAW_AMP:
-                $extra['kskAmpRaw'] = 1;
-            case self::URL_MODE_AMP:
-                $extra['amp'] = 1;
-                break;
-        }
-
-        return $extra;
-    }
-
-    /**
-     * @param UrlStruct $urlStruct
      * @return array
      */
     public function dehydrate(UrlStruct $urlStruct)
@@ -73,12 +44,11 @@ class UrlFactory
         return [
             'id' => $urlStruct->getId(),
             'name' => $urlStruct->getName(),
-            'urls' => $urlStruct->getUrls()
+            'urls' => $urlStruct->getUrls(),
         ];
     }
 
     /**
-     * @param Shop $shop
      * @return UrlStruct
      */
     public function hydrateFromShop(Shop $shop)
@@ -92,17 +62,6 @@ class UrlFactory
     }
 
     /**
-     * @param Shop $shop
-     * @return string
-     */
-    protected function getShopUrl(Shop $shop)
-    {
-        return $this->getFrontendUrl($shop, 'index', self::DEFAULT_ACTION);
-    }
-
-    /**
-     * @param Shop $shop
-     * @param Category $category
      * @return UrlStruct
      */
     public function hydrateFromCategory(Shop $shop, Category $category)
@@ -118,23 +77,6 @@ class UrlFactory
     }
 
     /**
-     * @param Shop $shop
-     * @param Category $category
-     * @param int $urlMode
-     * @return string
-     */
-    protected function getCategoryUrl(Shop $shop, Category $category, $urlMode)
-    {
-        $extra = [
-            'sCategory' => $category->getId(),
-        ];
-
-        return $this->getFrontendUrl($shop, 'listing', self::DEFAULT_ACTION, self::appendUrlMode($urlMode, $extra));
-    }
-
-    /**
-     * @param Shop $shop
-     * @param ListProduct $listProduct
      * @return UrlStruct
      */
     public function hydrateFromProduct(Shop $shop, ListProduct $listProduct)
@@ -150,9 +92,70 @@ class UrlFactory
     }
 
     /**
-     * @param Shop $shop
-     * @param ListProduct $listProduct
+     * @param mixed $controller
+     * @param mixed $action
+     * @param array $params
+     *
+     * @return string
+     */
+    public function getFrontendUrl(Shop $shop, $controller, $action, $params = [])
+    {
+        return str_replace(
+            'http://',
+            'https://',
+            $this->createRouter($shop)->assemble(array_merge([
+                'module' => 'frontend',
+                'controller' => $controller,
+                'action' => $action,
+            ], $params)));
+    }
+
+    /**
+     * @param int   $urlMode
+     * @param array $extra
+     *
+     * @return array
+     */
+    protected static function appendUrlMode($urlMode, $extra)
+    {
+        switch ($urlMode) {
+            /* @noinspection PhpMissingBreakStatementInspection */
+            case self::URL_MODE_RAW_AMP:
+                $extra['kskAmpRaw'] = 1;
+                // no break
+            case self::URL_MODE_AMP:
+                $extra['amp'] = 1;
+                break;
+        }
+
+        return $extra;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getShopUrl(Shop $shop)
+    {
+        return $this->getFrontendUrl($shop, 'index', self::DEFAULT_ACTION);
+    }
+
+    /**
      * @param int $urlMode
+     *
+     * @return string
+     */
+    protected function getCategoryUrl(Shop $shop, Category $category, $urlMode)
+    {
+        $extra = [
+            'sCategory' => $category->getId(),
+        ];
+
+        return $this->getFrontendUrl($shop, 'listing', self::DEFAULT_ACTION, self::appendUrlMode($urlMode, $extra));
+    }
+
+    /**
+     * @param int $urlMode
+     *
      * @return string
      */
     protected function getProductUrl(Shop $shop, ListProduct $listProduct, $urlMode)
@@ -165,26 +168,6 @@ class UrlFactory
     }
 
     /**
-     * @param Shop $shop
-     * @param $controller
-     * @param $action
-     * @param array $params
-     * @return string
-     */
-    public function getFrontendUrl(Shop $shop, $controller, $action, $params = [])
-    {
-        return str_replace(
-            'http://',
-            'https://',
-            $this->createRouter($shop)->assemble(array_merge([
-                'module' => 'frontend',
-                'controller' => $controller,
-                'action' => $action
-            ], $params)));
-    }
-
-    /**
-     * @param Shop $shop
      * @return Router
      */
     protected function createRouter(Shop $shop)
@@ -209,6 +192,7 @@ class UrlFactory
             }
         }
         $this->router->setContext($newContext);
+
         return $this->router;
     }
 }

@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Subscriber;
 
+use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Controller_Plugins_ViewRenderer_Bootstrap;
 use Enlight_Event_EventArgs;
-use Enlight\Event\SubscriberInterface;
 use Enlight_Template_Manager;
 use Enlight_View_Default;
 use HeptacomAmp\Components\DOMAmplifier;
@@ -21,31 +21,8 @@ use Shopware\Components\Logger;
 use Shopware\Components\Theme\LessDefinition;
 use Shopware_Components_Config;
 
-/**
- * Class AMP
- * @package HeptacomAmp\Subscriber
- */
 class AMP implements SubscriberInterface
 {
-    /**
-     * @return string[]
-     */
-    public static function getSubscribedEvents()
-    {
-        $listeners = [
-            'Theme_Compiler_Collect_Plugin_Less' => 'addLessFiles',
-
-            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpDetail' => 'injectAmpTemplate',
-            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpCustom' => 'injectAmpTemplate',
-            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpListing' => 'injectAmpTemplate',
-            'Enlight_Controller_Action_PreDispatch_Widgets' => 'injectRawTemplate',
-        ];
-        if (extension_loaded('dom')) {
-            $listeners['Enlight_Plugins_ViewRenderer_FilterRender'] = 'filterRenderedView';
-        }
-        return $listeners;
-    }
-
     /**
      * @var bool
      */
@@ -87,14 +64,7 @@ class AMP implements SubscriberInterface
     private $blockAnnotator;
 
     /**
-     * Detail constructor.
-     * @param Logger $pluginLogger
-     * @param FileCache $fileCache
      * @param string $viewDirectory
-     * @param ConfigurationFactory $configurationFactory
-     * @param ConfigurationReader $configurationReader
-     * @param Shopware_Components_Config $config
-     * @param BlockAnnotator $blockAnnotator
      */
     public function __construct(
         Logger $pluginLogger,
@@ -115,7 +85,26 @@ class AMP implements SubscriberInterface
     }
 
     /**
-     * @param Enlight_Event_EventArgs $args
+     * @return string[]
+     */
+    public static function getSubscribedEvents()
+    {
+        $listeners = [
+            'Theme_Compiler_Collect_Plugin_Less' => 'addLessFiles',
+
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpDetail' => 'injectAmpTemplate',
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpCustom' => 'injectAmpTemplate',
+            'Enlight_Controller_Action_PreDispatch_Frontend_HeptacomAmpListing' => 'injectAmpTemplate',
+            'Enlight_Controller_Action_PreDispatch_Widgets' => 'injectRawTemplate',
+        ];
+        if (extension_loaded('dom')) {
+            $listeners['Enlight_Plugins_ViewRenderer_FilterRender'] = 'filterRenderedView';
+        }
+
+        return $listeners;
+    }
+
+    /**
      * @return LessDefinition
      */
     public function addLessFiles(Enlight_Event_EventArgs $args)
@@ -126,13 +115,10 @@ class AMP implements SubscriberInterface
             '_public',
             'src',
             'less',
-            'all.less'
+            'all.less',
         ])]);
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function injectAmpTemplate(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Action $controller */
@@ -140,16 +126,16 @@ class AMP implements SubscriberInterface
 
         $ampConfiguration = $this->configurationFactory->hydrate($this->configurationReader->read(Shopware()->Shop()->getId()));
 
-        $frontendThemeDirectory = Shopware()->DocPath('themes'.DIRECTORY_SEPARATOR.'Frontend');
+        $frontendThemeDirectory = Shopware()->DocPath('themes' . DIRECTORY_SEPARATOR . 'Frontend');
 
         $templateDirs = [
-            $frontendThemeDirectory.'Bare',
-            $frontendThemeDirectory.'Responsive',
+            $frontendThemeDirectory . 'Bare',
+            $frontendThemeDirectory . 'Responsive',
             $this->viewDirectory,
         ];
 
         if (!empty($ampConfiguration->getTheme())) {
-            $templateDirs[] = $frontendThemeDirectory.$ampConfiguration->getTheme();
+            $templateDirs[] = $frontendThemeDirectory . $ampConfiguration->getTheme();
         }
 
         $controller->View()->Engine()->template_class = HeptacomAmpTemplate::class;
@@ -166,9 +152,6 @@ class AMP implements SubscriberInterface
         }
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function injectRawTemplate(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Action $controller */
@@ -180,9 +163,6 @@ class AMP implements SubscriberInterface
         }
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function filterRenderedView(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap $bootstrap */
@@ -231,7 +211,6 @@ class AMP implements SubscriberInterface
             $domAmplifier->useAmplifier($styleInjector);
             $domAmplifier->useAmplifier(new AmplifyDOM\ComponentInjection());
 
-
             $args->setReturn($domAmplifier->amplifyHTML($args->getReturn()));
         } catch (\Exception $ex) {
             $this->pluginLogger->error('Error while amplifying output', [$ex]);
@@ -240,7 +219,7 @@ class AMP implements SubscriberInterface
 
     /**
      * @param Enlight_Controller_Action|Enlight_Controller_Plugins_ViewRenderer_Bootstrap $controller
-     * @param ConfigurationStruct $configuration
+     *
      * @return bool
      */
     protected static function shouldOutputDebugView($controller, ConfigurationStruct $configuration)
@@ -248,9 +227,6 @@ class AMP implements SubscriberInterface
         return $configuration->isDebug() && $controller->Front()->Request()->has('kskAmpRaw');
     }
 
-    /**
-     * @param Enlight_View_Default $view
-     */
     protected function showSmartyDebugBlocks(Enlight_View_Default $view)
     {
         // set own caching dirs
@@ -258,13 +234,13 @@ class AMP implements SubscriberInterface
 
         // configure shopware to not strip HTML comments
         $this->config->offsetSet('sSEOREMOVECOMMENTS', false);
-        $view->Engine()->registerFilter('pre', array($this->blockAnnotator, 'annotate'));
+        $view->Engine()->registerFilter('pre', [$this->blockAnnotator, 'annotate']);
     }
 
     /**
      * Set own template directory.
      *
-     * @param $templateManager
+     * @param mixed $templateManager
      */
     protected function reconfigureTemplateDirs(Enlight_Template_Manager $templateManager)
     {

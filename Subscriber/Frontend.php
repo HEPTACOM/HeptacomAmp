@@ -1,19 +1,44 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Subscriber;
 
+use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Controller_Front;
 use Enlight_Event_EventArgs;
-use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventManager;
 use HeptacomAmp\Factory\ConfigurationFactory;
 use HeptacomAmp\Reader\ConfigurationReader;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use ShopwarePlugins\SwagCustomProducts\Components\Services\TemplateServiceInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Frontend implements SubscriberInterface
 {
+    /**
+     * @var ConfigurationReader
+     */
+    private $configurationReader;
+
+    /**
+     * @var ConfigurationFactory
+     */
+    private $configurationFactory;
+
+    /**
+     * @var string
+     */
+    private $viewDirectory;
+
+    /**
+     * @param string $viewDirectory
+     */
+    public function __construct(ConfigurationReader $configurationReader, ConfigurationFactory $configurationFactory, $viewDirectory)
+    {
+        $this->configurationReader = $configurationReader;
+        $this->configurationFactory = $configurationFactory;
+        $this->viewDirectory = $viewDirectory;
+    }
+
     /**
      * @return array
      */
@@ -43,37 +68,6 @@ class Frontend implements SubscriberInterface
         ];
     }
 
-    /**
-     * @var ConfigurationReader
-     */
-    private $configurationReader;
-
-    /**
-     * @var ConfigurationFactory
-     */
-    private $configurationFactory;
-
-    /**
-     * @var string
-     */
-    private $viewDirectory;
-
-    /**
-     * Frontend constructor.
-     * @param ConfigurationReader $configurationReader
-     * @param ConfigurationFactory $configurationFactory
-     * @param string $viewDirectory
-     */
-    public function __construct(ConfigurationReader $configurationReader, ConfigurationFactory $configurationFactory, $viewDirectory)
-    {
-        $this->configurationReader = $configurationReader;
-        $this->configurationFactory = $configurationFactory;
-        $this->viewDirectory = $viewDirectory;
-    }
-
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function fakePostDispatch(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Event_EventManager $events */
@@ -115,9 +109,6 @@ class Frontend implements SubscriberInterface
         return __DIR__ . '/../Controllers/Backend/Overview.php';
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function handleAmp(Enlight_Event_EventArgs $args)
     {
         $config = $this->configurationFactory->hydrate($this->configurationReader->read(Shopware()->Shop()->getId()));
@@ -142,9 +133,6 @@ class Frontend implements SubscriberInterface
         }
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function onFrontendHeptacomAmpDetailPostDispatch(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Action $controller */
@@ -174,9 +162,6 @@ class Frontend implements SubscriberInterface
         $view->assign('sArticle', $assignedProduct);
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function legacyRedirect(Enlight_Event_EventArgs $args)
     {
         /** @var Enlight_Controller_Front $front */

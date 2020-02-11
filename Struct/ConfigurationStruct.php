@@ -1,11 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Struct;
 
-/**
- * Class ConfigurationStruct
- * @package HeptacomAmp\Struct
- */
 class ConfigurationStruct
 {
     /**
@@ -33,11 +29,13 @@ class ConfigurationStruct
 
     /**
      * @param bool $active
+     *
      * @return ConfigurationStruct
      */
     public function setActive($active)
     {
         $this->active = $active;
+
         return $this;
     }
 
@@ -51,11 +49,13 @@ class ConfigurationStruct
 
     /**
      * @param string $theme
+     *
      * @return ConfigurationStruct
      */
     public function setTheme($theme)
     {
         $this->theme = $theme;
+
         return $this;
     }
 
@@ -69,11 +69,13 @@ class ConfigurationStruct
 
     /**
      * @param bool $debug
+     *
      * @return ConfigurationStruct
      */
     public function setDebug($debug)
     {
         $this->debug = $debug;
+
         return $this;
     }
 }

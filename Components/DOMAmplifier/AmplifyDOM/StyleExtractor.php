@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\AmplifyDOM;
 
@@ -7,10 +7,6 @@ use DOMNode;
 use HeptacomAmp\Components\DOMAmplifier\IAmplifyDOM;
 use HeptacomAmp\Components\DOMAmplifier\StyleStorage;
 
-/**
- * Class StyleExtractor
- * @package HeptacomAmp\Components\DOMAmplifier\AmplifyDOM
- */
 class StyleExtractor implements IAmplifyDOM
 {
     /**
@@ -18,10 +14,6 @@ class StyleExtractor implements IAmplifyDOM
      */
     private $styleStorage;
 
-    /**
-     * StyleExtractor constructor.
-     * @param StyleStorage $styleStorage
-     */
     public function __construct(StyleStorage $styleStorage)
     {
         $this->styleStorage = $styleStorage;
@@ -29,10 +21,12 @@ class StyleExtractor implements IAmplifyDOM
 
     /**
      * Process and ⚡lifies the given node.
-     * @param DOMNode $node The node to ⚡lify.
-     * @return DOMNode The ⚡lified node.
+     *
+     * @param DOMNode $node the node to ⚡lify
+     *
+     * @return DOMNode the ⚡lified node
      */
-    function amplify(DOMNode $node)
+    public function amplify(DOMNode $node)
     {
         /** @var DOMDocument $document */
         $document = $node instanceof DOMDocument ? $node : $node->ownerDocument;

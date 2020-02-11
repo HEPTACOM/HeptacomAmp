@@ -4,9 +4,9 @@
     <label lang="en">AMP</label>
 
     <version>2.3.2</version>
-    <license>proprietary</license>
-    <link>https://www.ksk-agentur.de/</link>
-    <author>KSK-Agentur</author>
+    <license>GPLv3</license>
+    <link>https://www.heptacom.de/</link>
+    <author>HEPTACOM GmbH</author>
     <compatibility minVersion="5.2.0" />
 
     <changelog version="1.0.0">

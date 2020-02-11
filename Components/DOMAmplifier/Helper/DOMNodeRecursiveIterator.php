@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier\Helper;
 
@@ -7,19 +7,14 @@ use DOMNodeList;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
 
-/**
- * Class DOMNodeRecursiveIterator
- * @package HeptacomAmp\Components\DOMAmplifier\Helper
- */
 class DOMNodeRecursiveIterator extends ArrayIterator implements RecursiveIterator
 {
     /**
-     * DOMNodeRecursiveIterator constructor.
-     * @param DOMNodeList $node_list The nodelist to iterate over.
+     * @param DOMNodeList $node_list the nodelist to iterate over
      */
     public function __construct(DOMNodeList $node_list)
     {
-        $nodes = array();
+        $nodes = [];
 
         foreach ($node_list as $node) {
             $nodes[] = $node;
@@ -30,8 +25,11 @@ class DOMNodeRecursiveIterator extends ArrayIterator implements RecursiveIterato
 
     /**
      * Returns if an iterator can be created for the current entry.
-     * @link http://php.net/manual/en/recursiveiterator.haschildren.php
-     * @return bool true if the current entry can be iterated over, otherwise returns false.
+     *
+     * @see http://php.net/manual/en/recursiveiterator.haschildren.php
+     *
+     * @return bool true if the current entry can be iterated over, otherwise returns false
+     *
      * @since 5.1.0
      */
     public function hasChildren()
@@ -41,8 +39,11 @@ class DOMNodeRecursiveIterator extends ArrayIterator implements RecursiveIterato
 
     /**
      * Returns an iterator for the current entry.
-     * @link http://php.net/manual/en/recursiveiterator.getchildren.php
-     * @return RecursiveIterator An iterator for the current entry.
+     *
+     * @see http://php.net/manual/en/recursiveiterator.getchildren.php
+     *
+     * @return RecursiveIterator an iterator for the current entry
+     *
      * @since 5.1.0
      */
     public function getChildren()
@@ -52,7 +53,8 @@ class DOMNodeRecursiveIterator extends ArrayIterator implements RecursiveIterato
 
     /**
      * Returns an iterator for this iterator.
-     * @return RecursiveIteratorIterator An iterator for this iterator.
+     *
+     * @return RecursiveIteratorIterator an iterator for this iterator
      */
     public function getRecursiveIterator()
     {

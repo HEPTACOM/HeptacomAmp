@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Services;
 
@@ -6,10 +6,6 @@ use Shopware\Components\HttpClient\GuzzleFactory;
 use Shopware\Components\HttpClient\GuzzleHttpClient;
 use Shopware\Components\HttpClient\RequestException;
 
-/**
- * Class WebRequest
- * @package HeptacomAmp\Services
- */
 class WebRequest
 {
     /**
@@ -18,7 +14,6 @@ class WebRequest
     private $guzzleHttpClient;
 
     /**
-     * WebRequest constructor.
      * @param GuzzleHttpClient $guzzleFactory
      */
     public function __construct(GuzzleFactory $guzzleFactory)
@@ -28,6 +23,7 @@ class WebRequest
 
     /**
      * @param string $url
+     *
      * @return int
      */
     public function ping($url)
@@ -40,7 +36,8 @@ class WebRequest
     }
 
     /**
-     * @param $url
+     * @param mixed $url
+     *
      * @return string
      */
     public function get($url)
@@ -48,6 +45,7 @@ class WebRequest
         $request = $this->guzzleHttpClient->createRequest('GET', $url, [
             'verify' => false,
         ]);
+
         return $this->guzzleHttpClient->send($request)->getBody()->getContents();
     }
 }

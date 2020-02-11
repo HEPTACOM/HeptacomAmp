@@ -1,11 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Components\DOMAmplifier;
 
-/**
- * Class StyleStorage
- * @package HeptacomAmp\Components\DOMAmplifier
- */
 class StyleStorage
 {
     /**
@@ -15,21 +11,26 @@ class StyleStorage
 
     /**
      * Add a style to the storage.
+     *
      * @param string $style
+     *
      * @return $this
      */
     public function addStyle($style, $origin = null)
     {
         $this->styles[] = [
             'content' => $style,
-            'origin' => $origin
+            'origin' => $origin,
         ];
+
         return $this;
     }
 
     /**
      * Adds a stylesheet reference to the storage.
-     * @param $stylesheetUrl
+     *
+     * @param mixed $stylesheetUrl
+     *
      * @return $this
      */
     public function addStylesheet($stylesheetUrl)
@@ -39,7 +40,7 @@ class StyleStorage
         } else {
             $this->addStyle(file_get_contents(realpath(implode(DIRECTORY_SEPARATOR, [
                 Shopware()->DocPath(),
-                substr($stylesheetUrl, strlen(Shopware()->Front()->Request()->getBaseUrl()))
+                substr($stylesheetUrl, strlen(Shopware()->Front()->Request()->getBaseUrl())),
             ]))), 'externalStylesheet');
         }
 
@@ -48,6 +49,7 @@ class StyleStorage
 
     /**
      * Gets the content of the extract styles.
+     *
      * @return string
      */
     public function getContent()
@@ -68,7 +70,6 @@ class StyleStorage
     }
 
     /**
-     * @param array $origins
      * @return string
      */
     private function getContentByOrigin(array $origins = [])

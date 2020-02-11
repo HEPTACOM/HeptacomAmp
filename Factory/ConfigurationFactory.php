@@ -1,13 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HeptacomAmp\Factory;
 
 use HeptacomAmp\Struct\ConfigurationStruct;
 
-/**
- * Class ConfigurationFactory
- * @package HeptacomAmp\Factory
- */
 class ConfigurationFactory
 {
     const ACTIVE = 'active';
@@ -17,7 +13,6 @@ class ConfigurationFactory
     const DEBUG = 'debug';
 
     /**
-     * @param array $data
      * @return ConfigurationStruct
      */
     public function hydrate(array $data)

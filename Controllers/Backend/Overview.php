@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use HeptacomAmp\Components\PluginDependencies;
 use Shopware\Components\CSRFWhitelistAware;
@@ -25,7 +25,7 @@ class Shopware_Controllers_Backend_HeptacomAmpOverview extends Enlight_Controlle
      */
     public function preDispatch()
     {
-        $this->get('template')->addTemplateDir(join(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources' , 'views']));
+        $this->get('template')->addTemplateDir(join(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'views']));
     }
 
     /**
