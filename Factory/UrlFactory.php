@@ -92,8 +92,6 @@ class UrlFactory
     }
 
     /**
-     * @param mixed $controller
-     * @param mixed $action
      * @param array $params
      *
      * @return string

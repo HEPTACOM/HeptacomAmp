@@ -17,8 +17,6 @@ class BlockSplitter
     /**
      * Split $template into smary blocks and return an array with info about all the blocks.
      *
-     * @param mixed $template
-     *
      * @return array
      */
     public function split($template)
@@ -66,10 +64,6 @@ class BlockSplitter
     /**
      * Will to a substr() - and automatically takes care of transforming the absolute $end to a relative $length.
      *
-     * @param mixed $string
-     * @param mixed $start
-     * @param mixed $end
-     *
      * @return string
      */
     private function sliceString($string, $start, $end)
@@ -78,9 +72,6 @@ class BlockSplitter
     }
 
     /**
-     * @param mixed $a
-     * @param mixed $b
-     *
      * @return int
      */
     private function sortByChildren($a, $b)

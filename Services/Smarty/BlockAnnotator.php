@@ -38,9 +38,6 @@ class BlockAnnotator
     }
 
     /**
-     * @param mixed $source
-     * @param mixed $template
-     *
      * @return string
      */
     public function annotate($source, $template)

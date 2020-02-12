@@ -109,8 +109,6 @@ class CustomStyleInjector implements IAmplifyDOM
     }
 
     /**
-     * @param mixed $stylesheet
-     *
      * @return Document
      */
     public static function parseCss($stylesheet)
