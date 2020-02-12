@@ -83,8 +83,6 @@ class RemoveUnusedTagSelectors implements IAmplifyDOMStyle
     }
 
     /**
-     * @param mixed $selector
-     *
      * @return bool
      */
     private static function isWhitelisted($selector)

@@ -6,9 +6,6 @@ use Enlight_Template_Default;
 
 class HeptacomAmp extends Enlight_Template_Default
 {
-    /**
-     * @param mixed $templateName
-     */
     public function extendsTemplate($templateName)
     {
     }

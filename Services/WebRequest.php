@@ -36,8 +36,6 @@ class WebRequest
     }
 
     /**
-     * @param mixed $url
-     *
      * @return string
      */
     public function get($url)

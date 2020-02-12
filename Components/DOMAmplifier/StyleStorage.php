@@ -29,8 +29,6 @@ class StyleStorage
     /**
      * Adds a stylesheet reference to the storage.
      *
-     * @param mixed $stylesheetUrl
-     *
      * @return $this
      */
     public function addStylesheet($stylesheetUrl)
