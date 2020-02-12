@@ -21,7 +21,7 @@ pipelines:
                     name: Lint php
                     image: php:7.2
                     script:
-                        - apt-get update && apt-get install -y unzip
+                        - apt-get update && apt-get install -y unzip git
                         - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
                         - composer install
                         - composer run php-lint
